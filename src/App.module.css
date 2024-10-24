@@ -1,0 +1,13 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  background-color: #D3CFC8;
+  display: flex;
+  gap: 10%;
+  padding: 1%;
+  height: calc(100vh - 70px);;
+}

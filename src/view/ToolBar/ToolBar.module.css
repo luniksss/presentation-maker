@@ -1,0 +1,18 @@
+.toolBar {
+    background-color: #463F3A;
+    padding-left: 1%;
+    height: 70px;
+}
+
+.title {
+    background: none;
+    border: none;
+    color: #F4F3EE;
+    font-family: Unbounded;
+    font-size: large;
+    margin-top: 10px;
+}
+
+.toolButtons {
+    margin: 10px 0;
+}

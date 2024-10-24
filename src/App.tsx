@@ -1,25 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styles from './App.module.css';
+import { ToolBar } from './view/ToolBar/ToolBar';
+import { WorkSpace } from './view/WorkSpace/WorkSpace';
+import { SlideList } from './view/SlideList/SlideList';
+import { Editor } from './store/EditorType';
+import { SlideType } from './store/PresentationType';
 
-function App() {
+type AppProps = {
+  editor: Editor,
+}
+
+function App({editor}: AppProps) {
+  const selectedSlide = editor.presentation.slides.find(slide => slide.id === editor.selection.slideId) as SlideType;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <ToolBar title={editor.presentation.title}></ToolBar>
+      <div className={styles.container}>
+        <SlideList slides={editor.presentation.slides} selection={editor.selection}></SlideList>
+        <WorkSpace slide={selectedSlide}></WorkSpace>
+      </div>
+    </>
   );
 }
 

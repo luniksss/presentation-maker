@@ -1,0 +1,22 @@
+.slideContainer {
+    overflow-y: auto;
+    scrollbar-gutter: stable; 
+    scrollbar-width: thin; 
+    scrollbar-color: #888 #f1f1f1;
+}
+
+.slideList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.slideListItem {
+    box-sizing: border-box;
+    border: 3px solid transparent;
+    border-radius: 5px;
+}
+
+.slideListItem:hover {
+    border: 3px solid #8A817C; 
+}
