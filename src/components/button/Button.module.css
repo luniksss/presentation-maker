@@ -1,15 +1,17 @@
+@import '../theme/theme.css';
+
 .button {
     background: none;
-    color: #F4F3EE;
+    color: var(--text-color);
     border: none;
     border-radius: 3px;
-    font-family: Poppins;
+    font-family: Rubik;
     font-size: 11px;
     padding: 0 5px;
 }
 
 .button:hover {
-    background-color: #E0AFA0;
-    color: #463F3A;
+    background-color: var(--selection);
+    color: var(--toolbar-background);
     cursor: pointer;
 }

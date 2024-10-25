@@ -12,22 +12,24 @@ type SlideListProps = {
 
 function SlideList({slides, selection}: SlideListProps) {
 
-    function onSlideClick(slideId: number): void {
-        dispatch(setSelection, {slideId: slideId})
+    function onSlideClick(slideId: string): void {
+        dispatch(setSelection, {slideId: slideId, elementId: null})
     }
 
     return (
         <div className={styles.slideContainer}>
             <div className={styles.slideList}>
                 {slides.map(slide => 
-                    <Slide  
-                    key={slide.id}
-                    slide={slide}
-                    scale={0.2}
-                    isSelected= {slide.id === selection.slideId}
-                    className={styles.slideListItem}
-                    onClick={() => onSlideClick(slide.id)}
-                    ></Slide>
+                    <div onClick={() => onSlideClick(slide.id)}>
+                        <Slide  
+                        key={slide.id}
+                        slide={slide}
+                        scale={0.2}
+                        isSelected= {slide.id === selection.slideId}
+                        className={styles.slideListItem}
+                        selectedObjId={selection.elementId}
+                        ></Slide>
+                    </div>
                 )}
             </div>
         </div>

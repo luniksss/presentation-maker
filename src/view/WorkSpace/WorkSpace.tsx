@@ -1,24 +1,22 @@
 import { SlideType } from "../../store/PresentationType"
 import { Slide } from "../Slide/Slide"
-import { dispatch } from "../../store/editor"
-import { setSelection } from "../../store/setSelection"
+import styles from "./WorkSpace.module.css"
 
 type WorkSpaceProps = {
     slide: SlideType,
+    selectedElementId: string | null,
 }
 
-function WorkSpace({ slide }: WorkSpaceProps) {
-    const handleClick = () => {
-        dispatch(setSelection, { slideId: slide.id });
-    };
-
+function WorkSpace({ slide, selectedElementId }: WorkSpaceProps) {
     return (
-        <Slide
-            slide={slide}
-            scale={1}
-            isSelected={true}
-            onClick={handleClick}
-        ></Slide>
+        <div className={styles.workSpace}>
+            <Slide
+                slide={slide}
+                scale={0.9}
+                isSelected={true}
+                selectedObjId={selectedElementId}
+            ></Slide>
+        </div>
     )
 }
 

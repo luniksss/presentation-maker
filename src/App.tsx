@@ -11,12 +11,13 @@ type AppProps = {
 
 function App({editor}: AppProps) {
   const selectedSlide = editor.presentation.slides.find(slide => slide.id === editor.selection.slideId) as SlideType;
+  const selectedElementId = editor.selection.elementId;
   return (
     <>
       <ToolBar title={editor.presentation.title}></ToolBar>
       <div className={styles.container}>
         <SlideList slides={editor.presentation.slides} selection={editor.selection}></SlideList>
-        <WorkSpace slide={selectedSlide}></WorkSpace>
+        <WorkSpace slide={selectedSlide} selectedElementId={selectedElementId}></WorkSpace>
       </div>
     </>
   );

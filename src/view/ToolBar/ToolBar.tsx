@@ -6,7 +6,8 @@ import { removeSlide } from "../../store/removeSlide";
 import styles from './ToolBar.module.css';
 import { changeBackground } from "../../store/changeBackground";
 import { renamePresentation } from "../../store/renamePresentation";
-let count = 2;
+import { deleteElement } from "../../store/deleteElement";
+import Theme from "../../components/theme/Theme";
 
 type ToolBarProps = {
     title: string,
@@ -14,14 +15,20 @@ type ToolBarProps = {
 
 function ToolBar({title}: ToolBarProps) {
 
-    function generateId(): number {
-        const newId = count;
-        count += 1
-        return newId;
+    function generateRandomId(length: number = 5): string { 
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; 
+        let result = ''; 
+     
+        for (let i = 0; i < length; i++) { 
+            const randomIndex = Math.floor(Math.random() * characters.length); 
+            result += characters[randomIndex]; 
+        } 
+     
+        return result; 
     }
 
     function onAddSlide() {
-        dispatch(addSlide, { id: generateId(), background: "#fff", elements: [] });
+        dispatch(addSlide, { id: generateRandomId(), background: "#ffffff", elements: [] });
     }
 
     function onRemoveSlide() {
@@ -29,27 +36,50 @@ function ToolBar({title}: ToolBarProps) {
     }
 
     function onAddText() {
-        dispatch(addElement, { id: generateId(), size: {width: 600, height: 100}, position: {x: 10, y: 10}, type: 'text', content: "Your text", fontSize: 14, fontFamily: "Times New Roman"})
+        dispatch(addElement, { id: generateRandomId(), size: {width: 600, height: 100}, position: {x: 10, y: 10}, type: 'text', content: "Your text", fontSize: 14, fontFamily: "Times New Roman"})
     }
 
     function onAddImage() {
-        dispatch(addElement, {id: generateId(), size: {width: 200, height: 200}, position: {x: 15, y: 15}, type: 'image', src: "/assets/newTestImg.jpg"})
+        dispatch(addElement, {id: generateRandomId(), size: {width: 200, height: 200}, position: {x: 15, y: 15}, type: 'image', src: "/assets/newTestImg.jpg"})
     }
-
-    function onChangeBackground() {
-        dispatch(changeBackground, "#888")
-    }
-
+ 
     const onTitleChange: React.ChangeEventHandler = (event) => {
         dispatch(renamePresentation, (event.target as HTMLInputElement).value)
     }
-
-    function onRemoveText() {
-
+    
+    function onRemoveElement() {
+        dispatch(deleteElement)
+    }
+    
+    function onChangeBackgroundColor(selectedColor: string) {
+        dispatch(changeBackground, selectedColor);
+        hideBackgroundOptions();
     }
 
-    function onRemoveImage() {
+    function onChangeBackgroundImage(event: HTMLInputElement) {
+        const file = event.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                dispatch(changeBackground, reader.result as string);
+            };
+            reader.readAsDataURL(file);
+            hideBackgroundOptions();
+        }
+    }
 
+    function showBackgroundOptions() {
+        const optionsContainer = document.getElementById('background-options');
+        if (optionsContainer) {
+            optionsContainer.style.display = 'inline-block';
+        }
+    }
+
+    function hideBackgroundOptions() {
+        const optionsContainer = document.getElementById('background-options');
+        if (optionsContainer) {
+            optionsContainer.style.display = 'none';
+        }
     }
     
     return (
@@ -60,9 +90,33 @@ function ToolBar({title}: ToolBarProps) {
                 <Button className={styles.button} text={'Remove Slide'} onClick={onRemoveSlide}></Button>
                 <Button className={styles.button} text={'Add Text'} onClick={onAddText}></Button>
                 <Button className={styles.button} text={'Add Image'} onClick={onAddImage}></Button>
-                <Button className={styles.button} text={'Remove Text'} onClick={onRemoveText}></Button>
-                <Button className={styles.button} text={'Remove Image'} onClick={onRemoveImage}></Button>
-                <Button className={styles.button} text={'Change Background'} onClick={onChangeBackground}></Button>
+                <Button className={styles.button} text={'Remove Text'} onClick={onRemoveElement}></Button>
+                <Button className={styles.button} text={'Remove Image'} onClick={onRemoveElement}></Button>
+                <Button className={styles.button} text={'Change Background'} onClick={showBackgroundOptions}></Button>
+                <Theme></Theme>
+                <div className={styles.backgroundOptions} id="background-options">
+                    <Button className={styles.additionalButton} text={'Color'} onClick={() => {
+                        hideBackgroundOptions();
+                        const colorInput = document.createElement('input');
+                        colorInput.type = 'color';
+                        colorInput.defaultValue = "#888888";
+                        colorInput.onchange = (e) => onChangeBackgroundColor((e.target as HTMLInputElement).value);
+                        colorInput.click();
+                    }}></Button>
+                    <Button className={styles.additionalButton} text={'Image'}  onClick={() => {
+                        hideBackgroundOptions();
+                        const fileInput = document.createElement('input');
+                        fileInput.type = 'file';
+                        fileInput.accept = "image/*";
+                        fileInput.onchange = (event: Event) => {
+                            const target = event.target as HTMLInputElement;
+                            onChangeBackgroundImage(target);
+                        };
+                        fileInput.click();
+                    }}></Button>
+                    <button onClick={() => {
+                        hideBackgroundOptions()}}>x</button>
+                </div>
             </div>
         </div>
     )

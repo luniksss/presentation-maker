@@ -4,9 +4,10 @@ import { CSSProperties } from "react";
 type TextProps = {
     text: TextElement,
     scale?: number,
+    isSelected: boolean,
 }
 
-function TextObject({text, scale = 1}: TextProps) {
+function TextObject({text, scale = 1, isSelected}: TextProps) {
     const textStyles:CSSProperties = {
         fontFamily: text.fontFamily,
         fontSize: `${text.fontSize * scale}px`,
@@ -16,6 +17,14 @@ function TextObject({text, scale = 1}: TextProps) {
         top: `${text.position.y * scale}px`,
         left: `${text.position.x * scale}px`,
     }
+
+    if (isSelected) {
+        textStyles.border = '3px solid var(--selection)'
+    } else {
+        textStyles.border = '3px solid transparent'
+    }
+
+
     return (
         <p style={textStyles} key={text.id}>{text.content}</p>
     )

@@ -9,10 +9,10 @@ type Position = {
 }
 
 type Elem = {
-    id: number;
+    id: string;
     size: Size;
     position: Position;
-    isSelected?: boolean;
+    isSelected: boolean;
 }
 
 type TextElement = Elem & {
@@ -30,7 +30,7 @@ type ImageElement = Elem & {
 type Component = TextElement | ImageElement;
 
 type SlideType = {
-    id: number;
+    id: string;
     background: string;
     elements: Component[];
 }

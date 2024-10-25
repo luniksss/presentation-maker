@@ -1,0 +1,15 @@
+:root {
+    --background-color: #bcb8b1;
+    --text-color: #f4f3ee;
+    --toolbar-background: #463f3a;
+    --element-hover: #8a817c;
+    --selection: #e0afa0;
+}
+
+[data-theme='dark'] {
+    --background-color: #1b1a19;
+    --text-color: #b3a791;
+    --toolbar-background: #2c2724;
+    --element-hover: #635652;
+    --selection: #6f5249;
+}

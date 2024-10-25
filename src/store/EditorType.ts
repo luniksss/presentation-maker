@@ -2,8 +2,8 @@ import { Presentation } from "./PresentationType";
 
 
 type Selection = {
-    slideId: number;
-    elementId?: number;
+    slideId: string;
+    elementId: string | null;
 }
 
 type Editor = {

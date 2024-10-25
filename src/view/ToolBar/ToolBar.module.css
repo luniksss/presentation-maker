@@ -1,18 +1,26 @@
+@import '../../components/theme/theme.css';
+
 .toolBar {
-    background-color: #463F3A;
-    padding-left: 1%;
+    background-color: var(--toolbar-background);
+    padding: 0 10px;
     height: 70px;
 }
 
 .title {
-    background: none;
-    border: none;
-    color: #F4F3EE;
+    margin-top: 10px;
     font-family: Unbounded;
     font-size: large;
-    margin-top: 10px;
+    color: var(--text-color);
+    background: none;
+    border: none;
+    padding: 0 5px;
 }
 
 .toolButtons {
+    display: flex;
     margin: 10px 0;
+}
+
+.backgroundOptions {
+    display: none;
 }

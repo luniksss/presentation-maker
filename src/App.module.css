@@ -1,13 +1,15 @@
+@import './components/theme/theme.css';
+
 * {
+  box-sizing: border-box;
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
+  direction: ltr;
 }
 
 .container {
-  background-color: #D3CFC8;
   display: flex;
-  gap: 10%;
-  padding: 1%;
-  height: calc(100vh - 70px);;
+  height: calc(100vh - 70px);
+  padding: 10px 10px 10px 0;
+  background-color: var(--background-color);
 }
