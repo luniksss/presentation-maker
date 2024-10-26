@@ -1,17 +1,27 @@
 @import '../theme/theme.css';
 
 .button {
-    background: none;
-    color: var(--text-color);
-    border: none;
-    border-radius: 3px;
+    padding: 0 5px;
     font-family: Rubik;
     font-size: 11px;
-    padding: 0 5px;
+    color: var(--text-color);
+    background: none;
+    border: none;
+    border-radius: 3px;
 }
 
 .button:hover {
     background-color: var(--selection);
     color: var(--toolbar-background);
     cursor: pointer;
+}
+
+.additionalButton {
+    padding: 0 5px;
+    font-family: Rubik;
+    font-size: 11px;
+    color: var(--text-color);
+    background: var(--element-hover);
+    border: none;
+    border-radius: 3px;
 }

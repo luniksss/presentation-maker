@@ -18,7 +18,6 @@ function dispatch(modifyFn: Function, payload?: Object): void {
     if (_handler) {
         _handler()
     }
-    console.log(newEditor)
 }
 
 function addEditorChangeHandler(handler: () => void): void {

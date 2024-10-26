@@ -21,7 +21,6 @@ type SlideProps = {
 
 function Slide({ slide, scale = 1, isSelected, className, selectedObjId }: SlideProps) {
     function onObjectClick(object: Component): void {
-        console.log(object);
         if (object.isSelected === true) {
             object.isSelected = false;
             dispatch(setSelection, {slideId: slide.id, elementId: null})

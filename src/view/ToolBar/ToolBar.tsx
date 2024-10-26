@@ -95,7 +95,7 @@ function ToolBar({title}: ToolBarProps) {
                 <Button className={styles.button} text={'Change Background'} onClick={showBackgroundOptions}></Button>
                 <Theme></Theme>
                 <div className={styles.backgroundOptions} id="background-options">
-                    <Button className={styles.additionalButton} text={'Color'} onClick={() => {
+                    <Button className={styles.button} text={'Color'} onClick={() => {
                         hideBackgroundOptions();
                         const colorInput = document.createElement('input');
                         colorInput.type = 'color';
@@ -103,7 +103,7 @@ function ToolBar({title}: ToolBarProps) {
                         colorInput.onchange = (e) => onChangeBackgroundColor((e.target as HTMLInputElement).value);
                         colorInput.click();
                     }}></Button>
-                    <Button className={styles.additionalButton} text={'Image'}  onClick={() => {
+                    <Button className={styles.button} text={'Image'} onClick={() => {
                         hideBackgroundOptions();
                         const fileInput = document.createElement('input');
                         fileInput.type = 'file';
@@ -114,8 +114,7 @@ function ToolBar({title}: ToolBarProps) {
                         };
                         fileInput.click();
                     }}></Button>
-                    <button onClick={() => {
-                        hideBackgroundOptions()}}>x</button>
+                    <Button className={styles.button} text={'x'} onClick={() => {hideBackgroundOptions()}}></Button>
                 </div>
             </div>
         </div>

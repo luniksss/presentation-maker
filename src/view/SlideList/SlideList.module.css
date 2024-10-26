@@ -12,6 +12,7 @@
     flex-direction: column;
     padding: 0 10px;
     gap: 10px;
+    user-select: none;
 }
 
 .slideListItem {
