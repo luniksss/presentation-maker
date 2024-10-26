@@ -3,7 +3,7 @@ import { Presentation, SlideType } from "./PresentationType";
 
 let slide1: SlideType = {
     id: "ASusf",
-    background: "#000",
+    background: "#fff",
     elements: [
         {
             id: "d174k",

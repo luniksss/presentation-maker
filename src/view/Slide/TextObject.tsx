@@ -1,5 +1,6 @@
 import { TextElement } from "../../store/PresentationType";
-import { CSSProperties } from "react";
+import { CSSProperties, useMemo, useState, useRef } from "react";
+import { useDragAndDrop } from "../../store/useDragAndDrop";
 
 type TextProps = {
     text: TextElement,
@@ -8,26 +9,26 @@ type TextProps = {
 }
 
 function TextObject({text, scale = 1, isSelected}: TextProps) {
-    const textStyles:CSSProperties = {
-        fontFamily: text.fontFamily,
-        fontSize: `${text.fontSize * scale}px`,
-        width: `${text.size.width * scale}px`,
-        height: `${text.size.height * scale}px`,
-        position: "absolute",
-        top: `${text.position.y * scale}px`,
-        left: `${text.position.x * scale}px`,
-    }
+    const textStyles:CSSProperties = useMemo(() => {
+        return {
+            fontFamily: text.fontFamily,
+            fontSize: `${text.fontSize * scale}px`,
+            width: `${text.size.width * scale}px`,
+            height: `${text.size.height * scale}px`,
+            position: "absolute",
+            top: `${text.position.y * scale}px`,
+            left: `${text.position.x * scale}px`,
+            border: isSelected ? '3px solid var(--selection)' : '3px solid transparent',
+        };
+    }, [text, scale, isSelected]);
 
-    if (isSelected) {
-        textStyles.border = '3px solid var(--selection)'
-    } else {
-        textStyles.border = '3px solid transparent'
-    }
-
+    const ref = useRef<HTMLParagraphElement | null>(null);
+    const [position, setPosition] = useState(text.position);
+    useDragAndDrop(ref, position, setPosition);
 
     return (
-        <p style={textStyles} key={text.id}>{text.content}</p>
+        <p ref={ref} style={textStyles} key={text.id} draggable="true">{text.content} </p>
     )
 }
 
-export { TextObject, }
+export { TextObject }
