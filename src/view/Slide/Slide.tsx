@@ -12,8 +12,6 @@ const SLIDE_HEIGHT = 525
 type SlideProps = {
     slide: SlideType,
     scale?: number,
-    // width: string,
-    // height: string,
     isSelected: boolean,
     className?: string,
     selectedObjId: string | null,
@@ -45,13 +43,19 @@ function Slide({ slide, scale = 1, isSelected, className, selectedObjId }: Slide
     }
 
     return (
-        <div style={slideStyles} className={styles.slide + ' ' + className}>
+        <div style={slideStyles} className={styles.slide}>
             {slide.elements.map(element => {
                 switch (element.type) {
                     case "text":
-                        return <div onClick={() => onObjectClick(element)}><TextObject text={element} scale={scale} key={element.id} isSelected={element.id === selectedObjId}></TextObject></div>
+                        return (
+                        <div onClick={() => onObjectClick(element)} key={element.id}>
+                            <TextObject text={element} scale={scale} isSelected={element.id === selectedObjId}></TextObject>
+                        </div>)
                     case "image":
-                        return <div onClick={() => onObjectClick(element)}><ImageObject image={element} scale={scale} key={element.id} isSelected={element.id === selectedObjId}></ImageObject></div>
+                        return (
+                        <div onClick={() => onObjectClick(element)} key={element.id}>
+                            <ImageObject image={element} scale={scale} isSelected={element.id === selectedObjId}></ImageObject>
+                        </div>)
                     default:
                         throw new Error("Unknown type")
                 }
@@ -60,4 +64,4 @@ function Slide({ slide, scale = 1, isSelected, className, selectedObjId }: Slide
     )
 }
 
-export { Slide, }
+export { Slide }

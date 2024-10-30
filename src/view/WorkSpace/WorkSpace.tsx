@@ -9,7 +9,7 @@ type WorkSpaceProps = {
 
 function WorkSpace({ slide, selectedElementId }: WorkSpaceProps) {
     return (
-        <div className={styles.workSpace}>
+        <div className={styles.workSpace} key={slide.id}>
             <Slide
                 slide={slide}
                 scale={0.9}
@@ -20,4 +20,4 @@ function WorkSpace({ slide, selectedElementId }: WorkSpaceProps) {
     )
 }
 
-export { WorkSpace, }
+export { WorkSpace }

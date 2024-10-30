@@ -20,9 +20,8 @@ function SlideList({slides, selection}: SlideListProps) {
         <div className={styles.slideContainer}>
             <div className={styles.slideList}>
                 {slides.map(slide => 
-                    <div onClick={() => onSlideClick(slide.id)}>
+                    <div onClick={() => onSlideClick(slide.id)} key={slide.id}>
                         <Slide  
-                        key={slide.id}
                         slide={slide}
                         scale={0.2}
                         isSelected= {slide.id === selection.slideId}
@@ -36,4 +35,4 @@ function SlideList({slides, selection}: SlideListProps) {
     )
 }
 
-export { SlideList, }
+export { SlideList }

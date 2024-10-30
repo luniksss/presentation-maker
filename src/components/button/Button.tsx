@@ -11,4 +11,4 @@ function Button({text, onClick, className}: ButtonProps) {
         <button className={`${style.button} ${className}`} onClick={onClick}>{text}</button>
     )
 }
-export { Button, }
+export { Button }
