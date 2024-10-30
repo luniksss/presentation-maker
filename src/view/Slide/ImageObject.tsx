@@ -1,5 +1,5 @@
 import { ImageElement } from "../../store/PresentationType";
-import { CSSProperties } from "react";
+import { CSSProperties, useMemo } from "react";
 
 type ImageProps = {
     image: ImageElement,
@@ -8,19 +8,16 @@ type ImageProps = {
 }
 
 function ImageObject({image, scale = 1, isSelected}: ImageProps) {
-    let imageStyles:CSSProperties = {
-        width: `${image.size.width * scale}px`,
-        height: `${image.size.height * scale}px`,
-        position: "absolute",
-        top: `${image.position.y * scale}px`,
-        left: `${image.position.x * scale}px`,
-    }
-
-    if (isSelected) {
-        imageStyles.border = '3px solid var(--selection)'
-    } else {
-        imageStyles.border = '3px solid transparent'
-    }
+    let imageStyles:CSSProperties = useMemo(() => {
+        return {
+            width: `${image.size.width * scale}px`,
+            height: `${image.size.height * scale}px`,
+            position: "absolute",
+            top: `${image.position.y * scale}px`,
+            left: `${image.position.x * scale}px`,
+            border: isSelected ? '3px solid var(--selection)' : '3px solid transparent',
+        };
+    }, [image, scale, isSelected])
 
     return (
         <img style={imageStyles} key={image.id} src={image.src} alt="yours"></img>
