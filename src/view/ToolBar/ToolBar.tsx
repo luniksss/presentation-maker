@@ -36,7 +36,7 @@ function ToolBar({title}: ToolBarProps) {
     }
 
     function onAddText() {
-        dispatch(addElement, { id: generateRandomId(), size: {width: 600, height: 100}, position: {x: 10, y: 10}, type: 'text', content: "Your text", fontSize: 14, fontFamily: "Times New Roman"})
+        dispatch(addElement, { id: generateRandomId(), size: {width: "auto", height: "auto"}, position: {x: 10, y: 10}, type: 'text', content: "Your text", fontSize: 14, fontFamily: "Times New Roman"})
     }
 
     function onAddImage() {
@@ -93,6 +93,7 @@ function ToolBar({title}: ToolBarProps) {
                 <Button className={styles.button} text={'Remove Text'} onClick={onRemoveElement}></Button>
                 <Button className={styles.button} text={'Remove Image'} onClick={onRemoveElement}></Button>
                 <Button className={styles.button} text={'Change Background'} onClick={showBackgroundOptions}></Button>
+                <Theme></Theme>
                 <div className={styles.backgroundOptions} id="background-options">
                     <Button className={styles.additionalButton} text={'Color'} onClick={() => {
                         hideBackgroundOptions();
@@ -115,7 +116,6 @@ function ToolBar({title}: ToolBarProps) {
                     }}></Button>
                     <Button className={styles.button} text={'x'} onClick={() => {hideBackgroundOptions()}}></Button>
                 </div>
-                <Theme></Theme>
             </div>
         </div>
     )

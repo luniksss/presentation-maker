@@ -12,9 +12,10 @@ function WorkSpace({ slide, selectedElementId }: WorkSpaceProps) {
         <div className={styles.workSpace} key={slide.id}>
             <Slide
                 slide={slide}
-                scale={0.9}
+                scale={1}
                 isSelected={true}
                 selectedObjId={selectedElementId}
+                showSelectionBorder={true}
             ></Slide>
         </div>
     )

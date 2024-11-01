@@ -15,9 +15,10 @@ type SlideProps = {
     isSelected: boolean,
     className?: string,
     selectedObjId: string | null,
+    showSelectionBorder?: boolean,
 }
 
-function Slide({ slide, scale = 1, isSelected, className, selectedObjId }: SlideProps) {
+function Slide({ slide, scale = 1, isSelected, className, selectedObjId, showSelectionBorder }: SlideProps) {
     function onObjectClick(object: Component): void {
         if (object.isSelected === true) {
             object.isSelected = false;
@@ -49,12 +50,12 @@ function Slide({ slide, scale = 1, isSelected, className, selectedObjId }: Slide
                     case "text":
                         return (
                         <div onClick={() => onObjectClick(element)} key={element.id}>
-                            <TextObject text={element} scale={scale} isSelected={element.id === selectedObjId}></TextObject>
+                            <TextObject text={element} scale={scale} isSelected={element.id === selectedObjId} showSelectionBorder={showSelectionBorder} workspaceWidth={SLIDE_WIDTH} workspaceHeight={SLIDE_HEIGHT}></TextObject>
                         </div>)
                     case "image":
                         return (
                         <div onClick={() => onObjectClick(element)} key={element.id}>
-                            <ImageObject image={element} scale={scale} isSelected={element.id === selectedObjId}></ImageObject>
+                            <ImageObject image={element} scale={scale} isSelected={element.id === selectedObjId} showSelectionBorder={showSelectionBorder} workspaceWidth={SLIDE_WIDTH} workspaceHeight={SLIDE_HEIGHT}></ImageObject>
                         </div>)
                     default:
                         throw new Error("Unknown type")

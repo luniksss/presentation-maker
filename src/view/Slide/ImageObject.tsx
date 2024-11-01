@@ -1,27 +1,35 @@
-import { ImageElement } from "../../store/PresentationType";
-import { CSSProperties, useMemo } from "react";
+import { ImageElement, Position } from "../../store/PresentationType";
+import { CSSProperties, useMemo, useRef, useState } from "react";
+import { useDragAndDrop } from "../../store/useDragAndDrop";
 
 type ImageProps = {
     image: ImageElement,
     scale?: number,
     isSelected: boolean,
+    showSelectionBorder?: boolean,
+    workspaceWidth: number,
+    workspaceHeight: number,
 }
 
-function ImageObject({image, scale = 1, isSelected}: ImageProps) {
-    let imageStyles:CSSProperties = useMemo(() => {
-        return {
+const ImageObject = ({ image, scale = 1, isSelected, showSelectionBorder, workspaceWidth, workspaceHeight }: ImageProps) => {
+    const [position, setPosition] = useState<Position>({ x: image.position.x, y: image.position.y });
+    const ref = useRef<HTMLImageElement | null>(null);
+    useDragAndDrop(ref, position, setPosition, workspaceWidth, workspaceHeight);
+
+    const imageStyles: CSSProperties = useMemo(() => ({
             width: `${image.size.width * scale}px`,
             height: `${image.size.height * scale}px`,
             position: "absolute",
-            top: `${image.position.y * scale}px`,
-            left: `${image.position.x * scale}px`,
-            border: isSelected ? '3px solid var(--selection)' : '3px solid transparent',
-        };
-    }, [image, scale, isSelected])
+            top: `${position.y * scale}px`,
+            left: `${position.x * scale}px`,
+            border: (isSelected && showSelectionBorder) ? '3px solid var(--selection)' : '3px solid transparent',
+    }), [image, scale, isSelected, position]);
+
+    image.position = position;
 
     return (
-        <img style={imageStyles} key={image.id} src={image.src} alt="yours"></img>
-    )
-}
+        <img ref={ref} style={imageStyles} key={image.id} src={image.src} alt="yours" draggable="true"></img>
+    );
+};
 
-export { ImageObject, }
+export { ImageObject };

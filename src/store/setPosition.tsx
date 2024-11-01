@@ -1,31 +1,39 @@
-import { Editor } from "./EditorType"
+import { Editor } from "./EditorType";
+import { Position } from "./PresentationType";
 
-function setSelection(editor: Editor, position: {x: number, y: number}) {
+function setPosition(editor: Editor, newPosition: Position) {
+    if (!editor.selection) {
+        return editor;        
+    }
+    
+    const { slideId, elementId } = editor.selection;
+    const updatedSlides = editor.presentation.slides.map(slide => {
+        if (slide.id !== slideId) {
+            return slide;
+        }
+        const updatedElements = slide.elements.map(element => {
+            if (element.id !== elementId) {
+                return element;
+            }
+            return {
+                ...element,
+                position: newPosition,
+            };
+        });
 
-    const selectedSlideId = editor.selection.slideId;
-    const selectedObjectId = editor.selection.elementId;
+        return {
+            ...slide,
+            elements: updatedElements,
+        };
+    });
 
     return {
         ...editor,
         presentation: {
             ...editor.presentation,
-            slides: editor.presentation.slides.map(slide => 
-                slide.id === selectedSlideId ? {
-                    ...slide, 
-                    elements: slide.elements.map(element => 
-                        element.id === selectedObjectId ? {
-                            ...element,
-                            position: position
-                        } : element
-                    ),
-                } : slide
-            ),
-        },
-        selection: {
-            slideId: selectedSlideId,
-            elementId: selectedObjectId
+            slides: updatedSlides,
         },
     };
 }
 
-export { setSelection }
+export { setPosition };
