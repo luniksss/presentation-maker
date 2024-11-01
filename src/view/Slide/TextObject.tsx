@@ -1,8 +1,6 @@
 import { Position, TextElement } from "../../store/PresentationType";
 import { CSSProperties, useMemo, useState, useRef, useEffect } from "react";
 import { useDragAndDrop } from "../../store/useDragAndDrop";
-import { dispatch } from "../../store/editor";
-import { setPosition } from "../../store/setPosition";
 
 type TextProps = {
     text: TextElement,
