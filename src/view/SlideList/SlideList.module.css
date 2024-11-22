@@ -2,7 +2,8 @@
 
 .slideContainer {
     overflow-y: auto;
-    border-inline-end: 3px solid var(--element-hover);
+    padding: 10px 0;
+    background-color: var(--element-hover);
     scrollbar-gutter: stable; 
     scrollbar-width: thin; 
     scrollbar-color: var(--element-hover) var(--text-color);

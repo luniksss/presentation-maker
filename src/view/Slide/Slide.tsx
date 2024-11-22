@@ -1,10 +1,11 @@
-import { CSSProperties } from "react";
-import { Component, SlideType } from "../../store/PresentationType";
+import { CSSProperties, useRef, useState } from "react";
+import { Component, Position, SlideType } from "../../store/PresentationType";
 import styles from './Slide.module.css';
 import { TextObject } from "./TextObject";
 import { ImageObject } from "./ImageObject";
 import { dispatch } from "../../store/editor";
 import { setSelection } from "../../store/setSelection";
+import { useDragAndDrop } from "../../store/useDragAndDrop";
 
 const SLIDE_WIDTH = 850;
 const SLIDE_HEIGHT = 525
@@ -16,17 +17,15 @@ type SlideProps = {
     className?: string,
     selectedObjId: string | null,
     showSelectionBorder?: boolean,
+    departurePoint: string
 }
 
-function Slide({ slide, scale = 1, isSelected, className, selectedObjId, showSelectionBorder }: SlideProps) {
+function Slide({ slide, scale = 1, isSelected, className, selectedObjId, showSelectionBorder, departurePoint }: SlideProps) {
+    let borderIsShown = false;
+                
     function onObjectClick(object: Component): void {
-        if (object.isSelected === true) {
-            object.isSelected = false;
-            dispatch(setSelection, {slideId: slide.id, elementId: null})
-        } else {
-            object.isSelected = true;
-            dispatch(setSelection, {slideId: slide.id, elementId: object.id})
-        }
+        object.isSelected = true;
+        dispatch(setSelection, {slideId: slide.id, elementId: object.id})
     }
 
     const slideStyles: CSSProperties = {
@@ -41,6 +40,12 @@ function Slide({ slide, scale = 1, isSelected, className, selectedObjId, showSel
     
     if (isSelected) {
         slideStyles.border = '3px solid var(--selection)'
+    } else {
+        slideStyles.border = '3px solid transparent'
+    }
+
+    if (departurePoint === "WorkSpace") {
+        borderIsShown = true;
     }
 
     return (
@@ -49,20 +54,36 @@ function Slide({ slide, scale = 1, isSelected, className, selectedObjId, showSel
                 switch (element.type) {
                     case "text":
                         return (
-                        <div onClick={() => onObjectClick(element)} key={element.id}>
-                            <TextObject text={element} scale={scale} isSelected={element.id === selectedObjId} showSelectionBorder={showSelectionBorder} workspaceWidth={SLIDE_WIDTH} workspaceHeight={SLIDE_HEIGHT}></TextObject>
-                        </div>)
+                            <div onClick={() => onObjectClick(element)} key={element.id}>
+                                <TextObject 
+                                    text={element} 
+                                    scale={scale} 
+                                    isSelected={element.id === selectedObjId} 
+                                    showSelectionBorder={showSelectionBorder} 
+                                    borderIsShown = {borderIsShown}
+                                    departurePoint = {departurePoint}
+                                />
+                            </div>
+                        );
                     case "image":
                         return (
-                        <div onClick={() => onObjectClick(element)} key={element.id}>
-                            <ImageObject image={element} scale={scale} isSelected={element.id === selectedObjId} showSelectionBorder={showSelectionBorder} workspaceWidth={SLIDE_WIDTH} workspaceHeight={SLIDE_HEIGHT}></ImageObject>
-                        </div>)
+                            <div onClick={() => onObjectClick(element)} key={element.id}>
+                                <ImageObject 
+                                    image={element} 
+                                    scale={scale} 
+                                    isSelected={element.id === selectedObjId} 
+                                    showSelectionBorder={showSelectionBorder} 
+                                    borderIsShown = {borderIsShown}
+                                    departurePoint = {departurePoint}
+                                />
+                            </div>
+                        );
                     default:
-                        throw new Error("Unknown type")
+                        throw new Error("Unknown type");
                 }
             })}
         </div>
-    )
+    );
 }
 
 export { Slide }

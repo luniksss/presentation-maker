@@ -28,7 +28,7 @@ let slide1: SlideType = {
 
 let slide2: SlideType = {
     id: "kvhua",
-    background: "#8A817C",
+    background: "#fff",
     elements: [
         {
             id: "Koem7",

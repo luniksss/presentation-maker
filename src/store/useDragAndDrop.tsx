@@ -3,10 +3,7 @@ import { Position } from "./PresentationType";
 
 function useDragAndDrop(
     ref: MutableRefObject<HTMLElement | null>,
-    position: Position,
-    setPosition: (position: Position | ((prevPosition: Position) => Position)) => void,
-    workspaceWidth: number,
-    workspaceHeight: number
+    setPosition: (position: Position | ((prevPosition: Position) => Position)) => void
 ) {
     useEffect(() => {
         const element = ref.current;
@@ -14,29 +11,20 @@ function useDragAndDrop(
 
         const handleMouseDown = (event: MouseEvent) => {
             event.preventDefault();
-            const startX = event.clientX;
-            const startY = event.clientY;
+            let startX = event.clientX;
+            let startY = event.clientY;
 
             const handleMouseMove = (moveEvent: MouseEvent) => {
                 const dx = moveEvent.clientX - startX;
                 const dy = moveEvent.clientY - startY;
 
-                const newPosition = {
-                    x: position.x + dx,
-                    y: position.y + dy,
-                };
+                setPosition((prevPosition) => ({
+                    x: prevPosition.x + dx,
+                    y: prevPosition.y + dy,
+                }));
 
-                const constrainedX = Math.min(
-                    Math.max(newPosition.x, 0), // Prevent moving left
-                    workspaceWidth - element.offsetWidth // Prevent moving right
-                );
-
-                const constrainedY = Math.min(
-                    Math.max(newPosition.y, 0), // Prevent moving up
-                    workspaceHeight - element.offsetHeight // Prevent moving down
-                );
-
-                setPosition({ x: constrainedX, y: constrainedY });
+                startX = moveEvent.clientX;
+                startY = moveEvent.clientY;
             };
 
             const handleMouseUp = () => {
@@ -53,7 +41,7 @@ function useDragAndDrop(
         return () => {
             element.removeEventListener('mousedown', handleMouseDown);
         };
-    }, [ref, setPosition, position, workspaceWidth, workspaceHeight]);
+    }, [ref, setPosition]);
 }
 
 export { useDragAndDrop };

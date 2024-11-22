@@ -7,14 +7,16 @@ type TextProps = {
     scale?: number,
     isSelected: boolean,
     showSelectionBorder?: boolean,
-    workspaceWidth: number,
-    workspaceHeight: number,
+    borderIsShown: boolean,
+    departurePoint: string
 }
 
-const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, workspaceWidth, workspaceHeight }: TextProps) => {
-    const [position, setPositionState] = useState<Position>({ x: text.position.x, y: text.position.y });
+const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIsShown, departurePoint }: TextProps) => {
+    const [localPosition, setLocalPosition] = useState<Position>({ x: text.position.x, y: text.position.y });
     const ref = useRef<HTMLParagraphElement | null>(null);
-    useDragAndDrop(ref, position, setPositionState, workspaceWidth, workspaceHeight);
+
+    useDragAndDrop(ref, setLocalPosition);
+    text.position = departurePoint === "WorkSpace" ? localPosition : { x: text.position.x, y: text.position.y };
 
     const textStyles: CSSProperties = useMemo(() => ({
         fontFamily: text.fontFamily,
@@ -22,10 +24,10 @@ const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, workspac
         width: "auto",
         height: "auto",
         position: "absolute",
-        top: `${position.y * scale}px`,
-        left: `${position.x * scale}px`,
-        border: (isSelected && showSelectionBorder) ? '3px solid var(--selection)' : '3px solid transparent',
-    }), [text, scale, isSelected, position]);
+        top: `${text.position.y * scale}px`,
+        left: `${text.position.x * scale}px`,
+        border: (isSelected && showSelectionBorder && borderIsShown) ? '3px solid var(--selection)' : '3px solid transparent',
+    }), [text, scale, isSelected, text.position]);
 
     return (
         <p ref={ref} style={textStyles} key={text.id} draggable="true">

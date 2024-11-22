@@ -16,6 +16,7 @@ function WorkSpace({ slide, selectedElementId }: WorkSpaceProps) {
                 isSelected={true}
                 selectedObjId={selectedElementId}
                 showSelectionBorder={true}
+                departurePoint= {"WorkSpace"}
             ></Slide>
         </div>
     )

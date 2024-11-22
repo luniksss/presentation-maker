@@ -11,7 +11,6 @@ type SlideListProps = {
 }
 
 function SlideList({ slides, selection }: SlideListProps) {
-
     function onSlideClick(slideId: string): void {
         dispatch(setSelection, { slideId: slideId, elementId: null })
     }
@@ -21,14 +20,17 @@ function SlideList({ slides, selection }: SlideListProps) {
             <div className={styles.slideList}>
                 {slides.map(slide =>
                     <div onClick={() => onSlideClick(slide.id)} key={slide.id}>
-                        <Slide
-                            slide={slide}
-                            scale={0.2}
-                            isSelected={slide.id === selection.slideId}
-                            className={styles.slideListItem}
-                            selectedObjId={selection.elementId}
-                            showSelectionBorder={false}
-                        ></Slide>
+                        <ul>
+                            <Slide
+                                slide={slide}
+                                scale={0.2}
+                                isSelected={slide.id === selection.slideId}
+                                className={styles.slideListItem}
+                                selectedObjId={selection.elementId}
+                                showSelectionBorder={false}
+                                departurePoint= {"SlideList"}
+                            ></Slide>
+                        </ul>
                     </div>
                 )}
             </div>
