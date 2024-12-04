@@ -5,7 +5,6 @@ import { TextObject } from "./TextObject";
 import { ImageObject } from "./ImageObject";
 import { dispatch } from "../../store/editor";
 import { setSelection } from "../../store/setSelection";
-import { useDragAndDrop } from "../../store/useDragAndDrop";
 
 const SLIDE_WIDTH = 850;
 const SLIDE_HEIGHT = 525

@@ -18,9 +18,11 @@ function SlideList({ slides, selection }: SlideListProps) {
     return (
         <div className={styles.slideContainer}>
             <div className={styles.slideList}>
-                {slides.map(slide =>
-                    <div onClick={() => onSlideClick(slide.id)} key={slide.id}>
-                        <ul>
+                {slides.length === 0 ? (
+                    <p>Нет доступных слайдов</p>
+                ) : (
+                    slides.map(slide => (
+                        <ul onClick={() => onSlideClick(slide.id)} key={slide.id}>
                             <Slide
                                 slide={slide}
                                 scale={0.2}
@@ -28,10 +30,10 @@ function SlideList({ slides, selection }: SlideListProps) {
                                 className={styles.slideListItem}
                                 selectedObjId={selection.elementId}
                                 showSelectionBorder={false}
-                                departurePoint= {"SlideList"}
-                            ></Slide>
+                                departurePoint={"SlideList"}
+                            />
                         </ul>
-                    </div>
+                    ))
                 )}
             </div>
         </div>

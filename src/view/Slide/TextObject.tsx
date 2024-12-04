@@ -1,5 +1,5 @@
 import { Position, TextElement } from "../../store/PresentationType";
-import { CSSProperties, useMemo, useState, useRef, useEffect } from "react";
+import { CSSProperties, useMemo, useState, useRef } from "react";
 import { useDragAndDrop } from "../../store/useDragAndDrop";
 
 type TextProps = {
@@ -27,12 +27,11 @@ const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIs
         top: `${text.position.y * scale}px`,
         left: `${text.position.x * scale}px`,
         border: (isSelected && showSelectionBorder && borderIsShown) ? '3px solid var(--selection)' : '3px solid transparent',
-    }), [text, scale, isSelected, text.position]);
-
+        resize: "none"
+    }), [text, scale, isSelected, borderIsShown, showSelectionBorder]);
+    
     return (
-        <p ref={ref} style={textStyles} key={text.id} draggable="true">
-            {text.content}
-        </p>
+        <p ref={ref} style={textStyles} key={text.id} draggable="true">{text.content}</p> //TODO тег textarea, изменять блок, а не тег
     );
 };
 

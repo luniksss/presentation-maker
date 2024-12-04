@@ -9,17 +9,21 @@ type WorkSpaceProps = {
 
 function WorkSpace({ slide, selectedElementId }: WorkSpaceProps) {
     return (
-        <div className={styles.workSpace} key={slide.id}>
-            <Slide
-                slide={slide}
-                scale={1}
-                isSelected={true}
-                selectedObjId={selectedElementId}
-                showSelectionBorder={true}
-                departurePoint= {"WorkSpace"}
-            ></Slide>
+        <div className={styles.workSpace}>
+            {slide ? (
+                <Slide
+                    slide={slide}
+                    scale={1}
+                    isSelected={true}
+                    selectedObjId={selectedElementId}
+                    showSelectionBorder={true}
+                    departurePoint={"WorkSpace"}
+                />
+            ) : (
+                <p>Создайте и выберите слайд</p>
+            )}
         </div>
-    )
+    );
 }
 
 export { WorkSpace }
