@@ -1,5 +1,5 @@
-import { CSSProperties, useRef, useState } from "react";
-import { Component, Position, SlideType } from "../../store/PresentationType";
+import { CSSProperties } from "react";
+import { Component, SlideType } from "../../store/PresentationType";
 import styles from './Slide.module.css';
 import { TextObject } from "./TextObject";
 import { ImageObject } from "./ImageObject";

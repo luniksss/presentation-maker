@@ -8,6 +8,8 @@ import { changeBackground } from "../../store/changeBackground";
 import { renamePresentation } from "../../store/renamePresentation";
 import { deleteElement } from "../../store/deleteElement";
 import Theme from "../../components/theme/Theme";
+import { exportPresentationData } from "../../store/exportPresentationData";
+import { importPresentationData } from "../../store/importPresentationData";
 
 type ToolBarProps = {
     title: string,
@@ -81,6 +83,24 @@ function ToolBar({title}: ToolBarProps) {
             optionsContainer.style.display = 'none';
         }
     }
+
+    function exportData() {
+        dispatch(exportPresentationData);
+    }
+
+    function importData(target: HTMLInputElement) {
+        if (target.files && target.files[0]) {
+            const file = target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                const jsonData = JSON.parse(e.target?.result as string);
+                dispatch(importPresentationData, jsonData);
+            };
+
+            reader.readAsText(file);
+        }
+    }
     
     return (
         <div className={styles.toolBar}>
@@ -93,6 +113,17 @@ function ToolBar({title}: ToolBarProps) {
                 <Button className={styles.button} text={'Remove Text'} onClick={onRemoveElement}></Button>
                 <Button className={styles.button} text={'Remove Image'} onClick={onRemoveElement}></Button>
                 <Button className={styles.button} text={'Change Background'} onClick={showBackgroundOptions}></Button>
+                <Button className={styles.button} text={'Export Data'} onClick={exportData}></Button>
+                <Button className={styles.button} text={'Import Data'} onClick={() => {
+                        const fileInput = document.createElement('input');
+                        fileInput.type = 'file';
+                        fileInput.accept = ".json";
+                        fileInput.onchange = (event: Event) => {
+                            const target = event.target as HTMLInputElement;
+                            importData(target);
+                        };
+                        fileInput.click();
+                    }}></Button>
                 <Theme></Theme>
                 <div className={styles.backgroundOptions} id="background-options">
                     <Button className={styles.additionalButton} text={'Color'} onClick={() => {

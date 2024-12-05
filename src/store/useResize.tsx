@@ -29,7 +29,7 @@ export function useResize(
                         case 'bottom-right':
                             dx = moveEvent.clientX - startX - left ;
                             dy = moveEvent.clientY - startY;
-                            newWidth = startX + dx;
+                            newWidth = startX + dx + top;
                             newHeight = startY + dy;
                             break;
                         case 'top':
