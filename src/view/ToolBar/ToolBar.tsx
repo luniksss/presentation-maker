@@ -2,6 +2,7 @@ import styles from './ToolBar.module.css';
 import * as React from "react";
 import Theme from "../../components/theme/Theme";
 import { Button } from "../../components/button/Button";
+import { HistoryContext } from '../hooks/historyContext';
 import { useAppActions } from '../hooks/useAppActions';
 import { useAppSelector } from '../hooks/useAppSelector';
 
@@ -16,8 +17,23 @@ function ToolBar() {
         removeElement,
         changeBackground,
         exportData,
-        importData} = useAppActions()
+        importData, setEditor} = useAppActions();
+    const history = React.useContext(HistoryContext);
  
+    function onUndo() {
+        const newEditor = history.undo()
+        if (newEditor) {
+            setEditor(newEditor)
+        }
+    }
+
+    function onRedo() {
+        const newEditor = history.redo()
+        if (newEditor) {
+            setEditor(newEditor)
+        }
+    }
+
     const onTitleChange: React.ChangeEventHandler = (event) => {
        changeTitle((event.target as HTMLInputElement).value)
     }
@@ -71,6 +87,8 @@ function ToolBar() {
         <div className={styles.toolBar}>
             <input className={styles.title} type="text" defaultValue={title} onChange={onTitleChange}/>
             <div className={styles.toolButtons}>
+                <Button className={styles.button} text={'Undo'} onClick={onUndo}></Button>
+                <Button className={styles.button} text={'Redo'} onClick={onRedo}></Button>
                 <Button className={styles.button} text={'Add Slide'} onClick={addSlide}></Button>
                 <Button className={styles.button} text={'Remove Slide'} onClick={removeSlide}></Button>
                 <Button className={styles.button} text={'Add Text'} onClick={addTextElement}></Button>

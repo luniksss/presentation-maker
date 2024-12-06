@@ -11,7 +11,7 @@ function setEditor(newEditor: Editor) {
 function updateEditor(newEditor: Editor)
 {
     return {
-        type: 'UPDATE_EDITOR',
+        type: ActionType.UPDATE_EDITOR,
         payload: newEditor,
     };
 };

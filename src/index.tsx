@@ -4,13 +4,14 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import { store } from './store/redux/store';
+import { initHistory } from './utils/history';
 
 const root = createRoot(document.getElementById('root')!)
 
 root.render(
     <StrictMode>
       <Provider store={store}>
-        <App/>
+        <App history={initHistory(store)}/>
       </Provider>
     </StrictMode>
   )
