@@ -87,17 +87,17 @@ function ToolBar() {
         <div className={styles.toolBar}>
             <input className={styles.title} type="text" defaultValue={title} onChange={onTitleChange}/>
             <div className={styles.toolButtons}>
-                <Button className={styles.button} text={'Undo'} onClick={onUndo}></Button>
-                <Button className={styles.button} text={'Redo'} onClick={onRedo}></Button>
-                <Button className={styles.button} text={'Add Slide'} onClick={addSlide}></Button>
-                <Button className={styles.button} text={'Remove Slide'} onClick={removeSlide}></Button>
-                <Button className={styles.button} text={'Add Text'} onClick={addTextElement}></Button>
-                <Button className={styles.button} text={'Add Image'} onClick={addImageElement}></Button>
-                <Button className={styles.button} text={'Remove Text'} onClick={removeElement}></Button>
-                <Button className={styles.button} text={'Remove Image'} onClick={removeElement}></Button>
-                <Button className={styles.button} text={'Change Background'} onClick={showBackgroundOptions}></Button>
-                <Button className={styles.button} text={'Export Data'} onClick={exportData}></Button>
-                <Button className={styles.button} text={'Import Data'} onClick={() => {
+                <Button onClick={onUndo} className="undoButton"></Button>
+                <Button onClick={onRedo} className="redoButton"></Button>
+                <Button className="button" text={'Add Slide'} onClick={addSlide}></Button>
+                <Button className="button" text={'Remove Slide'} onClick={removeSlide}></Button>
+                <Button className="button" text={'Add Text'} onClick={addTextElement}></Button>
+                <Button className="button" text={'Add Image'} onClick={addImageElement}></Button>
+                <Button className="button" text={'Remove Text'} onClick={removeElement}></Button>
+                <Button className="button" text={'Remove Image'} onClick={removeElement}></Button>
+                <Button className="button" text={'Change Background'} onClick={showBackgroundOptions}></Button>
+                <Button className="button" text={'Export Data'} onClick={exportData}></Button>
+                <Button className="button" text={'Import Data'} onClick={() => {
                         const fileInput = document.createElement('input');
                         fileInput.type = 'file';
                         fileInput.accept = ".json";
@@ -109,7 +109,7 @@ function ToolBar() {
                     }}></Button>
                 <Theme></Theme>
                 <div className={styles.backgroundOptions} id="background-options">
-                    <Button className={styles.additionalButton} text={'Color'} onClick={() => {
+                    <Button className="additionalButton" text={'Color'} onClick={() => {
                         hideBackgroundOptions();
                         const colorInput = document.createElement('input');
                         colorInput.type = 'color';
@@ -117,7 +117,7 @@ function ToolBar() {
                         colorInput.onchange = (e) => onChangeBackgroundColor((e.target as HTMLInputElement).value);
                         colorInput.click();
                     }}></Button>
-                    <Button className={styles.additionalButton} text={'Image'} onClick={() => {
+                    <Button className="additionalButton" text={'Image'} onClick={() => {
                         hideBackgroundOptions();
                         const fileInput = document.createElement('input');
                         fileInput.type = 'file';
@@ -128,7 +128,7 @@ function ToolBar() {
                         };
                         fileInput.click();
                     }}></Button>
-                    <Button className={styles.button} text={'x'} onClick={() => {hideBackgroundOptions()}}></Button>
+                    <Button className="button" text={'x'} onClick={() => {hideBackgroundOptions()}}></Button>
                 </div>
             </div>
         </div>

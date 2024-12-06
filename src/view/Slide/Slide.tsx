@@ -18,7 +18,7 @@ type SlideProps = {
     departurePoint: string
 }
 
-function Slide({ slide, scale = 1, isSelected, showSelectionBorder, departurePoint }: SlideProps) {
+function Slide({ slide, scale = 0.9, isSelected, showSelectionBorder, departurePoint }: SlideProps) {
     let borderIsShown = false;
     const selection = useAppSelector((editor => editor.selection))
                 
@@ -44,7 +44,7 @@ function Slide({ slide, scale = 1, isSelected, showSelectionBorder, departurePoi
     if (isSelected) {
         slideStyles.border = '3px solid var(--selection)'
     } else {
-        slideStyles.border = '3px solid transparent'
+        slideStyles.border = '3px solid var(--element-hover)'
     }
 
     if (departurePoint === "WorkSpace") {

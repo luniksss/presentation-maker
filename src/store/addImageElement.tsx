@@ -6,7 +6,7 @@ function addImageElement(editor: Editor): Editor {
     const newElement : ImageElement = {
         id: generateRandomId(),
         size: {width: 200, height: 200}, 
-        position: {x: 15, y: 15}, 
+        position: {x: 0, y: 0}, 
         isSelected: true,
         type: 'image', 
         src: "/assets/newTestImg.jpg"

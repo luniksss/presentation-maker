@@ -7,6 +7,7 @@
     scrollbar-gutter: stable; 
     scrollbar-width: thin; 
     scrollbar-color: var(--element-hover) var(--text-color);
+    z-index: 1;
 }
 
 .slideList {

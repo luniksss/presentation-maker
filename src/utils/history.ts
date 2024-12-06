@@ -7,7 +7,6 @@ type HistoryType = {
 }
 
 function getLastItem(stack: Array<Editor>): Editor {
-    console.log(stack[stack.length], stack[stack.length - 1])
     return stack[stack.length - 1]
 } 
 

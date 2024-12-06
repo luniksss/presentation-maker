@@ -1,6 +1,7 @@
 @import '../theme/theme.css';
 
 .button {
+    margin: 0 5px;
     padding: 0 5px;
     font-family: Rubik;
     font-size: 11px;
@@ -24,4 +25,20 @@
     background: var(--element-hover);
     border: none;
     border-radius: 3px;
+}
+
+.undoButton {
+    width: 25px;
+    height: 25px;
+    border-radius: 15%;
+    background-image: url('/public/assets/undo.svg');
+    background-size: cover;
+}
+
+.redoButton {
+    width: 25px;
+    height: 25px;
+    border-radius: 15%;
+    background-image: url('/public/assets/redo.svg');
+    background-size: cover;
 }

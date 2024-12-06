@@ -9,7 +9,7 @@ const Theme: React.FC = () => {
     };
 
     return (
-            <Button className={styles.button} text={'Change Theme'} onClick={toggleTheme}></Button>
+            <Button className="button" text={'Change Theme'} onClick={toggleTheme}></Button>
     );
 };
 
