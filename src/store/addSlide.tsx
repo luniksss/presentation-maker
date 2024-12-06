@@ -1,16 +1,25 @@
+import { generateRandomId } from "./data";
 import { Editor } from "./EditorType";
 import { SlideType } from "./PresentationType";
 
-function addSlide(editor: Editor, newSlide: SlideType) {
-    const newSlides = [...editor.presentation.slides, newSlide];
-
-    return { 
-        ...editor, 
-        presentation: { 
-            ...editor.presentation, 
-            slides: newSlides 
-        }
+function addSlide(editor: Editor): Editor {
+    const newSlide : SlideType = {
+        id: generateRandomId(),
+        background: "#fff",
+        elements: [ ]
     };
+    const newSlideList = [...editor.presentation.slides, newSlide];
+
+    return { ...editor,
+        presentation: {
+            ...editor.presentation,
+            slides: newSlideList,
+        },
+        selection: {
+            slideId: newSlide.id,
+            elementId: null,
+        }
+    }
 }
 
 export { addSlide }

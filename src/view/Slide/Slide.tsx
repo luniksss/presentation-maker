@@ -3,8 +3,8 @@ import { Component, SlideType } from "../../store/PresentationType";
 import styles from './Slide.module.css';
 import { TextObject } from "./TextObject";
 import { ImageObject } from "./ImageObject";
-import { dispatch } from "../../store/editor";
-import { setSelection } from "../../store/setSelection";
+import { useAppSelector } from "../hooks/useAppSelector";
+import { useAppActions } from "../hooks/useAppActions";
 
 const SLIDE_WIDTH = 850;
 const SLIDE_HEIGHT = 525
@@ -14,17 +14,21 @@ type SlideProps = {
     scale?: number,
     isSelected: boolean,
     className?: string,
-    selectedObjId: string | null,
     showSelectionBorder?: boolean,
     departurePoint: string
 }
 
-function Slide({ slide, scale = 1, isSelected, className, selectedObjId, showSelectionBorder, departurePoint }: SlideProps) {
+function Slide({ slide, scale = 1, isSelected, showSelectionBorder, departurePoint }: SlideProps) {
     let borderIsShown = false;
+    const selection = useAppSelector((editor => editor.selection))
                 
+    const {setSelection} = useAppActions()
     function onObjectClick(object: Component): void {
         object.isSelected = true;
-        dispatch(setSelection, {slideId: slide.id, elementId: object.id})
+        setSelection({
+            slideId: selection.slideId,
+            elementId: object.id
+        })
     }
 
     const slideStyles: CSSProperties = {
@@ -57,7 +61,7 @@ function Slide({ slide, scale = 1, isSelected, className, selectedObjId, showSel
                                 <TextObject 
                                     text={element} 
                                     scale={scale} 
-                                    isSelected={element.id === selectedObjId} 
+                                    isSelected={element.id === selection.elementId} 
                                     showSelectionBorder={showSelectionBorder} 
                                     borderIsShown = {borderIsShown}
                                     departurePoint = {departurePoint}
@@ -70,7 +74,7 @@ function Slide({ slide, scale = 1, isSelected, className, selectedObjId, showSel
                                 <ImageObject 
                                     image={element} 
                                     scale={scale} 
-                                    isSelected={element.id === selectedObjId} 
+                                    isSelected={element.id === selection.elementId} 
                                     showSelectionBorder={showSelectionBorder} 
                                     borderIsShown = {borderIsShown}
                                     departurePoint = {departurePoint}

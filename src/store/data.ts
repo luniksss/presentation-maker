@@ -1,8 +1,20 @@
 import { Editor } from "./EditorType";
 import { Presentation, SlideType } from "./PresentationType";
 
-let slide1: SlideType = {
-    id: "ASusf",
+function generateRandomId(length: number = 8): string { 
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; 
+    let result = ''; 
+ 
+    for (let i = 0; i < length; i++) { 
+        const randomIndex = Math.floor(Math.random() * characters.length); 
+        result += characters[randomIndex]; 
+    } 
+ 
+    return result; 
+}
+
+let startSlide: SlideType = {
+    id: generateRandomId(),
     background: "#fff",
     elements: [ ]
 }
@@ -10,7 +22,7 @@ let slide1: SlideType = {
 const defaultPresentation: Presentation = {
     title: "New Presentation",
     slides: [
-        slide1,
+        startSlide,
     ]
 };
 
@@ -99,7 +111,7 @@ let startPresentation: Editor = {
     presentation: defaultPresentation,
     selection: {
         slideId: defaultPresentation.slides[0].id,
-        elementId: "0"
+        elementId: null
     }
 };
 if (savedEditorData !== null) {
@@ -109,4 +121,4 @@ if (savedEditorData !== null) {
 const editor = { editorData: startPresentation };
 const handler = {}
 
-export { editor, handler, schema, defaultPresentation }
+export { editor, handler, schema, defaultPresentation, startPresentation, startSlide, generateRandomId }

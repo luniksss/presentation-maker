@@ -1,6 +1,6 @@
 import { Editor } from "./EditorType";
 
-function removeSlide(editor: Editor) {
+function removeSlide(editor: Editor): Editor {
     if (!editor.selection) {
         return editor        
     }
@@ -9,6 +9,7 @@ function removeSlide(editor: Editor) {
     const removeSlideIndex = editor.presentation.slides.findIndex(slide => slide.id === removeSlideId)
 
     const newSlides = editor.presentation.slides.filter(slide => slide.id !== removeSlideId)
+    
     let newSelectedSlideId = null
     if (newSlides.length > 0) {
         if (removeSlideIndex < newSlides.length) {
@@ -21,7 +22,6 @@ function removeSlide(editor: Editor) {
     }
 
     return {
-        ...editor,
         presentation: {
             ...editor.presentation,
             slides: newSlides,

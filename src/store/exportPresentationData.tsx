@@ -1,6 +1,6 @@
 import { Editor } from "./EditorType";
 
-function exportPresentationData(editor: Editor) {
+function exportPresentationData(editor: Editor): Editor {
     const editorData = JSON.stringify(editor);
     const blob = new Blob([editorData], { type: 'application/json' });
     const url = URL.createObjectURL(blob);

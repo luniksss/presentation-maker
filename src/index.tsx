@@ -2,18 +2,15 @@ import {StrictMode} from 'react';
 import { createRoot} from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { addEditorChangeHandler, getEditor } from './store/editor';
+import { Provider } from 'react-redux';
+import { store } from './store/redux/store';
 
-const container = document.getElementById('root')!;
-const root = createRoot(container);
+const root = createRoot(document.getElementById('root')!)
 
-function render() {
-  root.render(
+root.render(
     <StrictMode>
-      <App editor={getEditor()}/>
+      <Provider store={store}>
+        <App/>
+      </Provider>
     </StrictMode>
   )
-}
-
-addEditorChangeHandler(render)
-render()

@@ -1,60 +1,29 @@
-import { Button } from "../../components/button/Button";
-import { addSlide } from "../../store/addSlide";
-import { addElement } from "../../store/addElement";
-import { dispatch } from "../../store/editor";
-import { removeSlide } from "../../store/removeSlide";
 import styles from './ToolBar.module.css';
-import { changeBackground } from "../../store/changeBackground";
-import { renamePresentation } from "../../store/renamePresentation";
-import { deleteElement } from "../../store/deleteElement";
+import * as React from "react";
 import Theme from "../../components/theme/Theme";
-import { exportPresentationData } from "../../store/exportPresentationData";
-import { importPresentationData } from "../../store/importPresentationData";
+import { Button } from "../../components/button/Button";
+import { useAppActions } from '../hooks/useAppActions';
+import { useAppSelector } from '../hooks/useAppSelector';
 
-type ToolBarProps = {
-    title: string,
-}
+function ToolBar() {
+    const title = useAppSelector((editor => editor.presentation.title))
 
-function ToolBar({title}: ToolBarProps) {
-
-    function generateRandomId(length: number = 5): string { 
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; 
-        let result = ''; 
-     
-        for (let i = 0; i < length; i++) { 
-            const randomIndex = Math.floor(Math.random() * characters.length); 
-            result += characters[randomIndex]; 
-        } 
-     
-        return result; 
-    }
-
-    function onAddSlide() {
-        dispatch(addSlide, { id: generateRandomId(), background: "#ffffff", elements: [] });
-    }
-
-    function onRemoveSlide() {
-        dispatch(removeSlide)
-    }
-
-    function onAddText() {
-        dispatch(addElement, { id: generateRandomId(), size: {width: "auto", height: "auto"}, position: {x: 10, y: 10}, type: 'text', content: "Your text", fontSize: 14, fontFamily: "Times New Roman"})
-    }
-
-    function onAddImage() {
-        dispatch(addElement, {id: generateRandomId(), size: {width: 200, height: 200}, position: {x: 15, y: 15}, type: 'image', src: "/assets/newTestImg.jpg"})
-    }
+    const {addSlide, 
+        removeSlide, 
+        addTextElement, 
+        addImageElement,
+        changeTitle,
+        removeElement,
+        changeBackground,
+        exportData,
+        importData} = useAppActions()
  
     const onTitleChange: React.ChangeEventHandler = (event) => {
-        dispatch(renamePresentation, (event.target as HTMLInputElement).value)
-    }
-    
-    function onRemoveElement() {
-        dispatch(deleteElement)
+       changeTitle((event.target as HTMLInputElement).value)
     }
     
     function onChangeBackgroundColor(selectedColor: string) {
-        dispatch(changeBackground, selectedColor);
+        changeBackground(selectedColor);
         hideBackgroundOptions();
     }
 
@@ -63,7 +32,7 @@ function ToolBar({title}: ToolBarProps) {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                dispatch(changeBackground, reader.result as string);
+                changeBackground(reader.result as string);
             };
             reader.readAsDataURL(file);
             hideBackgroundOptions();
@@ -84,18 +53,14 @@ function ToolBar({title}: ToolBarProps) {
         }
     }
 
-    function exportData() {
-        dispatch(exportPresentationData);
-    }
-
-    function importData(target: HTMLInputElement) {
+    function uploadData(target: HTMLInputElement) {
         if (target.files && target.files[0]) {
             const file = target.files[0];
             const reader = new FileReader();
 
             reader.onload = (e) => {
                 const jsonData = JSON.parse(e.target?.result as string);
-                dispatch(importPresentationData, jsonData);
+                importData(jsonData);
             };
 
             reader.readAsText(file);
@@ -106,12 +71,12 @@ function ToolBar({title}: ToolBarProps) {
         <div className={styles.toolBar}>
             <input className={styles.title} type="text" defaultValue={title} onChange={onTitleChange}/>
             <div className={styles.toolButtons}>
-                <Button className={styles.button} text={'Add Slide'} onClick={onAddSlide}></Button>
-                <Button className={styles.button} text={'Remove Slide'} onClick={onRemoveSlide}></Button>
-                <Button className={styles.button} text={'Add Text'} onClick={onAddText}></Button>
-                <Button className={styles.button} text={'Add Image'} onClick={onAddImage}></Button>
-                <Button className={styles.button} text={'Remove Text'} onClick={onRemoveElement}></Button>
-                <Button className={styles.button} text={'Remove Image'} onClick={onRemoveElement}></Button>
+                <Button className={styles.button} text={'Add Slide'} onClick={addSlide}></Button>
+                <Button className={styles.button} text={'Remove Slide'} onClick={removeSlide}></Button>
+                <Button className={styles.button} text={'Add Text'} onClick={addTextElement}></Button>
+                <Button className={styles.button} text={'Add Image'} onClick={addImageElement}></Button>
+                <Button className={styles.button} text={'Remove Text'} onClick={removeElement}></Button>
+                <Button className={styles.button} text={'Remove Image'} onClick={removeElement}></Button>
                 <Button className={styles.button} text={'Change Background'} onClick={showBackgroundOptions}></Button>
                 <Button className={styles.button} text={'Export Data'} onClick={exportData}></Button>
                 <Button className={styles.button} text={'Import Data'} onClick={() => {
@@ -120,7 +85,7 @@ function ToolBar({title}: ToolBarProps) {
                         fileInput.accept = ".json";
                         fileInput.onchange = (event: Event) => {
                             const target = event.target as HTMLInputElement;
-                            importData(target);
+                            uploadData(target);
                         };
                         fileInput.click();
                     }}></Button>

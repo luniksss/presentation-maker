@@ -1,13 +1,14 @@
 import { SlideType } from "../../store/PresentationType"
 import { Slide } from "../Slide/Slide"
 import styles from "./WorkSpace.module.css"
+import { useAppSelector } from '../hooks/useAppSelector';
 
-type WorkSpaceProps = {
-    slide: SlideType,
-    selectedElementId: string | null,
-}
+function WorkSpace() {
+    const presentation = useAppSelector((editor => editor.presentation))
+    const selection = useAppSelector((editor => editor.selection))
+    const slides = presentation.slides
+    const slide: SlideType = slides.find(slide => slide.id === selection?.slideId) || slides[0]
 
-function WorkSpace({ slide, selectedElementId }: WorkSpaceProps) {
     return (
         <div className={styles.workSpace}>
             {slide ? (
@@ -15,7 +16,6 @@ function WorkSpace({ slide, selectedElementId }: WorkSpaceProps) {
                     slide={slide}
                     scale={1}
                     isSelected={true}
-                    selectedObjId={selectedElementId}
                     showSelectionBorder={true}
                     departurePoint={"WorkSpace"}
                 />

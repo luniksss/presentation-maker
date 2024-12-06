@@ -1,6 +1,6 @@
 import { Editor } from "./EditorType";
 
-function renamePresentation(editor: Editor, newTitle: string) {
+function renamePresentation(editor: Editor, newTitle: string): Editor {
     return {
         ...editor,
         presentation: {

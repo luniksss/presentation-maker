@@ -1,7 +1,7 @@
 import { MutableRefObject, useEffect } from "react";
-import { Position } from "./PresentationType";
+import { Position } from "../../store/PresentationType";
 
-export function useDragAndDrop(
+function useDragAndDrop(
     ref: MutableRefObject<HTMLElement | null>,
     setPosition: (position: Position | ((prevPosition: Position) => Position)) => void) {
     useEffect(() => {
@@ -42,3 +42,5 @@ export function useDragAndDrop(
         };
     }, [ref, setPosition]);
 }
+
+export {useDragAndDrop}

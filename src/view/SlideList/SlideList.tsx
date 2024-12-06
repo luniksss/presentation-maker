@@ -1,18 +1,21 @@
-import { SlideType } from "../../store/PresentationType";
 import { Slide } from "../Slide/Slide";
 import styles from './SlideList.module.css'
-import { Selection } from "../../store/EditorType";
-import { dispatch } from "../../store/editor";
-import { setSelection } from "../../store/setSelection";
+import { useAppActions } from '../hooks/useAppActions';
+import { useAppSelector } from '../hooks/useAppSelector';
 
-type SlideListProps = {
-    slides: Array<SlideType>,
-    selection: Selection,
-}
+const SLIDE_PREVIEW_SCALE = 0.2
 
-function SlideList({ slides, selection }: SlideListProps) {
+function SlideList() {
+    const presentation = useAppSelector((editor => editor.presentation))
+    const selection = useAppSelector((editor => editor.selection))
+    const slides = presentation.slides
+
+    const {setSelection} = useAppActions()
     function onSlideClick(slideId: string): void {
-        dispatch(setSelection, { slideId: slideId, elementId: null })
+        setSelection({
+            slideId: slideId,
+            elementId: null
+        })
     }
 
     return (
@@ -25,10 +28,9 @@ function SlideList({ slides, selection }: SlideListProps) {
                         <ul onClick={() => onSlideClick(slide.id)} key={slide.id}>
                             <Slide
                                 slide={slide}
-                                scale={0.2}
+                                scale={SLIDE_PREVIEW_SCALE}
                                 isSelected={slide.id === selection.slideId}
                                 className={styles.slideListItem}
-                                selectedObjId={selection.elementId}
                                 showSelectionBorder={false}
                                 departurePoint={"SlideList"}
                             />

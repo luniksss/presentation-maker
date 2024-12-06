@@ -1,6 +1,6 @@
 import { Editor } from "./EditorType";
 
-function deleteElement(editor: Editor) {
+function deleteElement(editor: Editor): Editor {
     if (!editor.selection) {
         return editor        
     }
@@ -9,7 +9,7 @@ function deleteElement(editor: Editor) {
     const removedObjectId = editor.selection.elementId;
     const selectedSlide = editor.presentation.slides.find(slide => slide.id === selectedSlideId);
 
-    const newElements = selectedSlide?.elements.filter(slide => slide.id !== removedObjectId)
+    const newElements = selectedSlide?.elements.filter(slide => slide.id !== removedObjectId) || []
     let newSelectedObjectId = null;
 
     return {
