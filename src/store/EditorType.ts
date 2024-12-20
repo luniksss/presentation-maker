@@ -1,6 +1,5 @@
 import { Presentation } from "./PresentationType";
 
-
 type Selection = {
     slideId: string | null;
     elementId: string | null;

@@ -28,6 +28,11 @@ function addTextElement(editor: Editor): Editor {
                 { ...currentSlide, elements: newElements },
                 ...editor.presentation.slides.slice(selectedSlideIndex + 1)
             ]
+        },
+        selection: {
+            ...editor.selection,
+            slideId: selectedSlideId,
+            elementId: newElement.id
         }
     }
 }

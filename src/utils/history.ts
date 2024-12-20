@@ -18,11 +18,11 @@ function initHistory(store: Store<Editor>): HistoryType {
 
     store.subscribe(() => {
         const editor = store.getState()
-        if (!undoStack.length || previousEditor.presentation != editor.presentation) {
-            if (editor == getLastItem(undoStack)) {
+        if (!undoStack.length || previousEditor.presentation !== editor.presentation) {
+            if (editor === getLastItem(undoStack)) {
                 undoStack.pop()
                 redoStack.push(previousEditor)
-            } else if (editor == getLastItem(redoStack)) {
+            } else if (editor === getLastItem(redoStack)) {
                 redoStack.pop()
                 undoStack.push(previousEditor)
             } else {
@@ -33,7 +33,7 @@ function initHistory(store: Store<Editor>): HistoryType {
         previousEditor = editor
     })
 
-    function undo() {
+    function undo() {   
         return getLastItem(undoStack)
     }
 
