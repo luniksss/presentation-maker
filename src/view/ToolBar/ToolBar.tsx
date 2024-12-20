@@ -6,7 +6,12 @@ import { useAppActions } from '../hooks/useAppActions';
 import { useAppSelector } from '../hooks/useAppSelector';
 
 function ToolBar() {
-    const title = useAppSelector((editor => editor.presentation.title))
+    let title = useAppSelector((editor => editor.presentation.title))
+    const [inputValue, setInputValue] = React.useState(title);
+
+    React.useEffect(() => {
+        setInputValue(title);
+    }, [title]);
 
     const {addSlide, 
         removeSlide, 
@@ -19,7 +24,9 @@ function ToolBar() {
         importData} = useAppActions()
  
     const onTitleChange: React.ChangeEventHandler = (event) => {
-       changeTitle((event.target as HTMLInputElement).value)
+       let newTitle = (event.target as HTMLInputElement).value
+       setInputValue(newTitle);
+       changeTitle(newTitle);
     }
     
     function onChangeBackgroundColor(selectedColor: string) {
@@ -69,7 +76,7 @@ function ToolBar() {
     
     return (
         <div className={styles.toolBar}>
-            <input className={styles.title} type="text" defaultValue={title} onChange={onTitleChange}/>
+            <input className={styles.title} type="text" value={title} onChange={onTitleChange}/>
             <div className={styles.toolButtons}>
                 <Button className={styles.button} text={'Add Slide'} onClick={addSlide}></Button>
                 <Button className={styles.button} text={'Remove Slide'} onClick={removeSlide}></Button>
