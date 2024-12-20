@@ -81,8 +81,7 @@ const schema = {
                     }
                 }
             },
-            required: ["title", "slides"],
-            additionalProperties: false
+            additionalProperties: true
         },
         selection: {
             type: "object",
