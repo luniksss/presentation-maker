@@ -1,6 +1,6 @@
 import { Editor } from "../EditorType";
 import { setSelection } from "../setSelection";
-import { ActionType, EditorAction, PresentationAction } from "./actions";
+import { ActionType, EditorAction, ElementAction, PresentationAction } from "./actions";
 import { startPresentation } from "../data";
 import { removeSlide } from "../removeSlide";
 import { addSlide } from "../addSlide";
@@ -9,10 +9,11 @@ import { addImageElement } from "../addImageElement";
 import { renamePresentation } from "../renamePresentation";
 import { deleteElement } from "../deleteElement";
 import { changeBackground } from "../changeBackground";
+import { setPosition } from "../setPosition";
 import { exportPresentationData } from "../exportPresentationData";
 import { importPresentationData } from "../importPresentationData";
 
-function editorReducer(editor: Editor = startPresentation, action: EditorAction | PresentationAction): Editor {
+function editorReducer(editor: Editor = startPresentation, action: EditorAction | PresentationAction | ElementAction): Editor {
     switch (action.type) {
         case ActionType.ADD_SLIDE:
             return addSlide(editor)
@@ -28,6 +29,8 @@ function editorReducer(editor: Editor = startPresentation, action: EditorAction 
             return changeBackground(editor, action.payload)
         case ActionType.SET_SELECTION: 
             return setSelection(editor, action)
+        case ActionType.SET_POSITION:
+            return setPosition(editor, action.payload)
         case ActionType.SET_EDITOR:
             return action.payload
         case ActionType.UPDATE_EDITOR:

@@ -1,6 +1,7 @@
 import { Position, TextElement } from "../../store/PresentationType";
 import { CSSProperties, useMemo, useState, useRef } from "react";
 import { useDragAndDrop } from "../hooks/useDragAndDrop";
+import { useAppActions } from "../hooks/useAppActions";
 
 type TextProps = {
     text: TextElement,
@@ -8,15 +9,14 @@ type TextProps = {
     isSelected: boolean,
     showSelectionBorder?: boolean,
     borderIsShown: boolean,
-    departurePoint: string
 }
 
-const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIsShown, departurePoint }: TextProps) => {
+const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIsShown }: TextProps) => {
     const [localPosition, setLocalPosition] = useState<Position>({ x: text.position.x, y: text.position.y });
     const ref = useRef<HTMLParagraphElement | null>(null);
+    const { setPosition } = useAppActions()
 
-    useDragAndDrop(ref, setLocalPosition);
-    text.position = departurePoint === "WorkSpace" ? localPosition : { x: text.position.x, y: text.position.y };
+    useDragAndDrop(ref, setLocalPosition, (newPos) => setPosition(newPos));
 
     const textStyles: CSSProperties = useMemo(() => ({
         fontFamily: text.fontFamily,

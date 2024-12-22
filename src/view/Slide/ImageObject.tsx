@@ -2,6 +2,7 @@ import { ImageElement, Position } from "../../store/PresentationType";
 import { CSSProperties, useMemo, useRef, useState } from "react";
 import { useDragAndDrop } from "../hooks/useDragAndDrop";
 import { useResize } from "../hooks/useResize";
+import { useAppActions } from "../hooks/useAppActions";
 
 type ImageProps = {
     image: ImageElement,
@@ -9,13 +10,14 @@ type ImageProps = {
     isSelected: boolean,
     showSelectionBorder?: boolean,
     borderIsShown: boolean,
-    departurePoint: string
 }
 
-const ImageObject = ({ image, scale = 1, isSelected, showSelectionBorder, borderIsShown, departurePoint }: ImageProps) => {
+const ImageObject = ({ image, scale = 1, isSelected, showSelectionBorder, borderIsShown }: ImageProps) => {
     const [localPosition, setLocalPosition] = useState<Position>({ x: image.position.x, y: image.position.y });
     const [resize, setResize] = useState({ width: image.size.width, height: image.size.height, x: image.position.x, y: image.position.y});
     const ref = useRef<HTMLImageElement | null>(null);
+    const { setPosition } = useAppActions()
+
     const resizeRefs = [
         useRef<HTMLDivElement | null>(null), // top-left
         useRef<HTMLDivElement | null>(null), // top-right
@@ -27,7 +29,7 @@ const ImageObject = ({ image, scale = 1, isSelected, showSelectionBorder, border
         useRef<HTMLDivElement | null>(null), // left
     ];
 
-    useDragAndDrop(ref, setLocalPosition);
+    useDragAndDrop(ref, setLocalPosition, (newPos) => setPosition(newPos));
     const handleResize = (width: number, height: number, x: number, y: number) => {
         setResize({ width, height, x, y });
     };
@@ -40,8 +42,6 @@ const ImageObject = ({ image, scale = 1, isSelected, showSelectionBorder, border
     useResize(resizeRefs[5], ref, 'right', handleResize);
     useResize(resizeRefs[6], ref, 'bottom', handleResize);
     useResize(resizeRefs[7], ref, 'left', handleResize);
-    image.position = departurePoint === "WorkSpace" ? localPosition : { x: image.position.x, y: image.position.y };
-    image.size = departurePoint === "WorkSpace" ? resize : { width: resize.width, height: resize.height }
 
     const imageStyles: CSSProperties = useMemo(() => ({
         width: `${image.size.width * scale}px`,
