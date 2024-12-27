@@ -13,6 +13,12 @@ function exportData() {
     }
 }
 
+function downloadPDF() {
+    return {
+        type: ActionType.DOWNLOAD_PDF,
+    }
+}
+
 function importData(inputEditor: object) {
     return {
         type: ActionType.IMPORT_DATA,
@@ -23,5 +29,6 @@ function importData(inputEditor: object) {
 export {
     changeTitle,
     exportData,
+    downloadPDF,
     importData,
 }

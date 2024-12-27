@@ -15,6 +15,7 @@ enum ActionType {
     
     CHANGE_TITLE = 'changeTitle',
     EXPORT_DATA = 'exportPresentation',
+    DOWNLOAD_PDF = 'downloadPDF',
     IMPORT_DATA = 'importPresentation',
 }
 
@@ -67,13 +68,17 @@ type ExportDataAction = {
     type: ActionType.EXPORT_DATA,
 }
 
+type DownloadPresentation = {
+    type: ActionType.DOWNLOAD_PDF,
+}
+
 type ImportDataAction = {
     type: ActionType.IMPORT_DATA,
     payload: object,
 }
 
 type EditorAction = AddSlideAction | RemoveSlideAction | AddTextAction | AddImageAction | RemoveElementAction | ChangeBackgroundAction | SetSelectionAction | SetEditorAction | UpdateEditorAction
-type PresentationAction = ChangeTitleAction | ExportDataAction | ImportDataAction
+type PresentationAction = ChangeTitleAction | ExportDataAction | DownloadPresentation | ImportDataAction
 export {
     ActionType,
     type SetSelectionAction,

@@ -11,6 +11,7 @@ import { deleteElement } from "../deleteElement";
 import { changeBackground } from "../changeBackground";
 import { exportPresentationData } from "../exportPresentationData";
 import { importPresentationData } from "../importPresentationData";
+import { exportPresentation } from "../downloadPDF";
 
 function editorReducer(editor: Editor = startPresentation, action: EditorAction | PresentationAction): Editor {
     switch (action.type) {
@@ -38,6 +39,8 @@ function editorReducer(editor: Editor = startPresentation, action: EditorAction 
             return exportPresentationData(editor)
         case ActionType.IMPORT_DATA:
             return importPresentationData(editor, action.payload)
+        case ActionType.DOWNLOAD_PDF:
+            return exportPresentation(editor)
         default:
             return editor
     }

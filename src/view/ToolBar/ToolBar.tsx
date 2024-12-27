@@ -22,7 +22,9 @@ function ToolBar() {
         removeElement,
         changeBackground,
         exportData,
-        importData, setEditor} = useAppActions();
+        downloadPDF,
+        importData, 
+        setEditor} = useAppActions();
     const history = React.useContext(HistoryContext);
  
     function onUndo() {
@@ -114,6 +116,7 @@ function ToolBar() {
                         };
                         fileInput.click();
                     }}></Button>
+                <Button className="button" text={'Download PDF'} onClick={downloadPDF}></Button>
                 <Theme></Theme>
                 <div className={styles.backgroundOptions} id="background-options">
                     <Button className="additionalButton" text={'Color'} onClick={() => {
