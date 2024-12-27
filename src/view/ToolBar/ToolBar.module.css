@@ -32,3 +32,26 @@
     border: none;
     border-radius: 3px;
 }
+
+.slideShowButton {
+    background-color: transparent;
+    border: none;
+}
+
+a {
+    margin: 0 5px;
+    padding: 0 5px;
+    font-family: Rubik;
+    font-size: 11px;
+    text-decoration: none;
+    border: none;
+    border-radius: 3px;
+    background-color: var(--toolbar-background);
+    color: var(--text-color);
+}
+
+a:hover {
+    background-color: var(--selection);
+    color: var(--text-selection);
+    cursor: pointer;
+}

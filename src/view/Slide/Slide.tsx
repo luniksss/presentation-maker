@@ -7,7 +7,9 @@ import { useAppSelector } from "../hooks/useAppSelector";
 import { useAppActions } from "../hooks/useAppActions";
 
 const SLIDE_WIDTH = 850;
-const SLIDE_HEIGHT = 525
+const SLIDE_HEIGHT = 525;
+const PLAYER_SLIDE_WIDTH = 1112;
+const PLAYER_SLIDE_HEIGHT = 617;
 
 type SlideProps = {
     slide: SlideType,
@@ -18,7 +20,7 @@ type SlideProps = {
     departurePoint: string
 }
 
-function Slide({ slide, scale = 0.9, isSelected, showSelectionBorder, departurePoint }: SlideProps) {
+function Slide({ slide, scale = 0.9, isSelected, className, showSelectionBorder, departurePoint }: SlideProps) {
     let borderIsShown = false;
     const selection = useAppSelector((editor => editor.selection))
                 
@@ -31,19 +33,32 @@ function Slide({ slide, scale = 0.9, isSelected, showSelectionBorder, departureP
         })
     }
 
-    const slideStyles: CSSProperties = {
+    let slideStyles: CSSProperties = {
         backgroundColor: typeof slide.background === 'string' && slide.background.startsWith('#') ? slide.background : undefined,
         backgroundImage: typeof slide.background === 'string' && !slide.background.startsWith('#') ? `url(${slide.background})` : undefined,
         backgroundSize: 'cover',
         position: 'relative',
-        width: `${SLIDE_WIDTH * scale}px`,
-        height: `${SLIDE_HEIGHT * scale}px`,
-        cursor: 'pointer',
+        width: `${PLAYER_SLIDE_WIDTH * scale}px`,
+        height: `${PLAYER_SLIDE_HEIGHT * scale}px`,
+        cursor: 'unset',
     }
+
+    if (className !== "playingSlide") {
+        slideStyles = {
+            ...slideStyles,
+            width: `${SLIDE_WIDTH * scale}px`,
+            height: `${SLIDE_HEIGHT * scale}px`,
+            cursor: 'pointer',
+        };
+    }
+
     
     if (isSelected) {
         slideStyles.border = '3px solid var(--selection)'
-    } else {
+    } else if (className === "playingSlide") {
+        slideStyles.border = 'none'
+    }
+    else {
         slideStyles.border = '3px solid var(--element-hover)'
     }
 

@@ -1,0 +1,55 @@
+.playerViewPage {
+    background-color: #000000;
+}
+
+.playerViewSlide {
+    display: flex;
+    justify-content: center;
+}
+
+.exitButton {
+    position: fixed;
+    top: 1%;
+    z-index: 2;
+    background-color: transparent;
+    opacity: 0.5;
+    border: none;
+}
+
+.exitButton:hover {
+    background-color: transparent;
+    color: aliceblue;
+    opacity: 1;
+}
+
+.flippingSlides {
+    z-index: 2;
+}
+
+.flipButton {
+    position: fixed;
+    bottom: 1%;
+    margin: 5px;
+    padding: 5px;
+    font-family: Rubik;
+    font-size: 14px;
+    filter: invert(0.5);
+    background: none;
+    border: none;
+    border-radius: 3px;
+}
+
+#left {
+    left: 1%;
+}
+
+#right {
+    right: 1%;
+}
+
+.flipButton:hover {
+    background-color: var(--selection);
+    color: var(--text-selection);
+    filter: invert(0);
+    cursor: pointer;
+}

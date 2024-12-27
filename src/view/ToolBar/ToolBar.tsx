@@ -5,6 +5,7 @@ import { Button } from "../../components/button/Button";
 import { HistoryContext } from '../hooks/historyContext';
 import { useAppActions } from '../hooks/useAppActions';
 import { useAppSelector } from '../hooks/useAppSelector';
+import { Link } from 'react-router';
 
 function ToolBar() {
     let title = useAppSelector((editor => editor.presentation.title))
@@ -91,6 +92,13 @@ function ToolBar() {
             reader.readAsText(file);
         }
     }
+
+    const enterFullScreen = () => {
+        const element = document.documentElement; 
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        }
+    };
     
     return (
         <div className={styles.toolBar}>
@@ -98,6 +106,7 @@ function ToolBar() {
             <div className={styles.toolButtons}>
                 <Button onClick={onUndo} className="undoButton"></Button>
                 <Button onClick={onRedo} className="redoButton"></Button>
+                <button onClick={enterFullScreen} className={styles.slideShowButton}><Link className="slideShow" to="/player">Слайд-шоу</Link></button>
                 <Button className="button" text={'Add Slide'} onClick={addSlide}></Button>
                 <Button className="button" text={'Remove Slide'} onClick={removeSlide}></Button>
                 <Button className="button" text={'Add Text'} onClick={addTextElement}></Button>

@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
-import styles from './App.module.css';
-import { ToolBar } from './view/ToolBar/ToolBar';
-import { WorkSpace } from './view/WorkSpace/WorkSpace';
-import { SlideList } from './view/SlideList/SlideList';
+import { useEffect } from 'react';
 import { HistoryType } from './utils/history';
 import { HistoryContext } from './view/hooks/historyContext';
 import { useAppActions } from './view/hooks/useAppActions';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import EditorView from './components/Editor';
+import PlayerView from './components/PlayerView';
 
 type AppProps = {
   history: HistoryType,
@@ -13,7 +12,7 @@ type AppProps = {
 
 function App({ history }: AppProps) {
   const { setEditor } = useAppActions();
-  
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -49,13 +48,15 @@ function App({ history }: AppProps) {
   }, [history, setEditor]);
 
   return (
-    <HistoryContext.Provider value={history}>
-      <ToolBar />
-      <div className={styles.container}>
-        <SlideList />
-        <WorkSpace />
-      </div>
-    </HistoryContext.Provider>
+    <BrowserRouter>
+      <HistoryContext.Provider value={history}>
+        <Routes>
+          <Route path="/" element={<EditorView />} />
+
+          <Route path="/player" element={<PlayerView />} />
+        </Routes>
+      </HistoryContext.Provider>
+    </BrowserRouter>
   );
 }
 
