@@ -1,3 +1,4 @@
+import { SlideType } from "../PresentationType"
 import { ActionType } from "./actions"
 
 function addSlide() {
@@ -37,6 +38,13 @@ function changeBackground(newBackground: string) {
     }
 }
 
+function setSlidesOrder(newSlides: SlideType[]) {
+    return {
+        type: ActionType.SET_SLIDES_ORDER,
+        payload: newSlides,
+    }
+}
+
 export {
     addSlide,
     removeSlide,
@@ -44,4 +52,5 @@ export {
     addImageElement,
     removeElement,
     changeBackground,
+    setSlidesOrder
 }

@@ -1,41 +1,30 @@
+import React, { useRef } from "react";
 import { Slide } from "../Slide/Slide";
-import styles from './SlideList.module.css'
+import styles from './SlideList.module.css';
 import { useAppActions } from '../hooks/useAppActions';
 import { useAppSelector } from '../hooks/useAppSelector';
-import React, { useRef } from "react";
+import useSlideDragAndDrop from '../hooks/useSlideDragAndDrop';
 
-const SLIDE_PREVIEW_SCALE = 0.2
+const SLIDE_PREVIEW_SCALE = 0.2;
 
 function SlideList() {
-    const presentation = useAppSelector((editor => editor.presentation))
-    const selection = useAppSelector((editor => editor.selection))
-    const slides = presentation.slides
+    const presentation = useAppSelector(editor => editor.presentation);
+    const selection = useAppSelector(editor => editor.selection);
+    const slides = presentation.slides;
 
-    const {setSelection} = useAppActions();
+    const { setSelection, setSlidesOrder } = useAppActions();
     const slideListRef = useRef<HTMLDivElement | null>(null);
-    
+
+    const { onMouseDown, onMouseMove, onMouseUp, draggedSlideId, dragOverIndex } = useSlideDragAndDrop(slides, (newSlides) => {
+        setSlidesOrder(newSlides);
+    });
+
     function onSlideClick(slideId: string): void {
         setSelection({
             slideId: slideId,
             elementId: null
-        })
+        });
     }
-
-    const scrollToSelectedSlide = (slideId: string) => {
-        const slideElement = document.getElementById(slideId);
-        if (slideElement && slideListRef.current) {
-            slideElement.scrollIntoView({
-                behavior: 'smooth',
-                block: 'center',
-            });
-        }
-    };
-
-    React.useEffect(() => {
-        if (selection && selection.slideId) {
-            scrollToSelectedSlide(selection.slideId);
-        }
-    }, [selection]);
 
     return (
         <div className={styles.slideContainer} ref={slideListRef}>
@@ -43,8 +32,31 @@ function SlideList() {
                 {slides.length === 0 ? (
                     <p>Нет доступных слайдов</p>
                 ) : (
-                    slides.map(slide => (
-                        <ul onClick={() => onSlideClick(slide.id)} key={slide.id} id={slide.id}> {/* Добавляем id для прокрутки */}
+                    slides.map((slide, index) => (
+                        <ul
+                            key={slide.id}
+                            id={slide.id}
+                            onClick={() => onSlideClick(slide.id)}
+                            onMouseDown={() => {
+                                if (slide.id === selection.slideId) {
+                                    onMouseDown(slide.id);
+                                }
+                            }}
+                            onMouseMove={() => {
+                                if (draggedSlideId === selection.slideId) {
+                                    onMouseMove(index);
+                                }
+                            }}
+                            onMouseUp={() => {
+                                if (draggedSlideId === selection.slideId) {
+                                    onMouseUp();
+                                }
+                            }}
+                            style={{
+                                opacity: draggedSlideId === slide.id ? 0.5 : 1,
+                                border: dragOverIndex === index ? '2px dashed blue' : 'none', // Указываем стиль для перетаскиваемого элемента
+                            }}
+                        >
                             <Slide
                                 slide={slide}
                                 scale={SLIDE_PREVIEW_SCALE}
@@ -61,4 +73,4 @@ function SlideList() {
     );
 }
 
-export { SlideList }
+export { SlideList };
