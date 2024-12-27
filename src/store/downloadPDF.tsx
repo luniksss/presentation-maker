@@ -1,78 +1,87 @@
-import { PDFDocument, rgb } from 'pdf-lib';
+import { jsPDF } from "jspdf";
 import { Editor } from "./EditorType";
+import { SlideType } from "./PresentationType";
 
-function exportPresentationToPDF(editor: Editor): Editor {
-    const pdfDocPromise = PDFDocument.create();
+async function exportPresentationToPDF(editor: Editor): Promise<Editor> {
+    const width = 850 * 0.264583; 
+    const height = 525 * 0.264583; 
 
-    pdfDocPromise.then(async (pdfDoc) => {
-        const slidePromises = editor.presentation.slides.map(async (slide) => {
-            const page = pdfDoc.addPage([850, 525]);
-
-            if (slide.background.startsWith('#')) {
-                page.drawRectangle({
-                    x: 0,
-                    y: 0,
-                    width: 850,
-                    height: 525,
-                    color: rgb(
-                        parseInt(slide.background.slice(1, 3), 16) / 255,
-                        parseInt(slide.background.slice(3, 5), 16) / 255,
-                        parseInt(slide.background.slice(5, 7), 16) / 255
-                    ),
-                });
-            } else {
-                const imgBytes = await fetch(slide.background).then(res => res.arrayBuffer());
-                const image = await pdfDoc.embedPng(imgBytes);
-                page.drawImage(image, {
-                    x: 0,
-                    y: 0,
-                    width: page.getWidth(),
-                    height: page.getHeight(),
-                });
-            }
-
-            slide.elements.forEach(async (element) => {
-                if (element.type === 'text') {
-                    const font = await pdfDoc.embedFont('Helvetica');
-                    page.drawText(element.content, {
-                        x: element.position.x,
-                        y: element.position.y,
-                        size: element.fontSize,
-                        color: rgb(0, 0, 0),
-                        font: font,
-                    });
-                }
-                if (element.type === 'image') {
-                    const imgBytes = await fetch(element.src).then(res => res.arrayBuffer());
-                    let pdfImage = await pdfDoc.embedJpg(imgBytes);
-
-                    page.drawImage(pdfImage, {
-                        x: element.position.x,
-                        y: element.position.y,
-                        width: element.size.width,
-                        height: element.size.height,
-                    });
-                }
-            });
-        });
-
-        // Wait for all slides to be processed
-        await Promise.all(slidePromises);
-
-        const pdfBytes = await pdfDoc.save();
-        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = "presentation.pdf";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-
+    const doc = new jsPDF({
+        orientation: "landscape",
+        unit: "mm",             
+        format: [width, height]
     });
-    return { ...editor }; // Return the editor object
+
+    doc.setFontSize(22);
+    doc.text(editor.presentation.title, 400, 230);
+
+    for (const slide of editor.presentation.slides) {
+        await addSlideToPDF(doc, slide, width, height);
+    }
+
+    doc.save("presentation.pdf");
+    return { ...editor };
 }
 
-export { exportPresentationToPDF };
+async function addSlideToPDF(doc: jsPDF, slide: SlideType, width: number, height: number) {
+    doc.addPage();
+    const background = slide.background;
+
+    if (background) {
+        if (background.startsWith("#")) {
+            doc.setFillColor(background);
+            doc.rect(0, 0, width, height, 'F');
+        } else {
+            await new Promise<void>((resolve) => {
+                const img = new Image();
+                img.src = background;
+
+                img.onload = () => {
+                    doc.addImage(img, 'JPEG', 0, 0, width, height);
+                    resolve();
+                };
+            });
+        }
+    }
+
+    await addSlideContent(doc, slide);
+}
+
+async function addSlideContent(doc: jsPDF, slide: SlideType) {
+    let currentX = 10;
+    let currentY = 10;
+
+    for (const element of slide.elements) {
+        if (element.type === "text") {
+            doc.setFontSize(14);
+            currentX = element.position.x * 0.264583 ;
+            currentY = element.position.y * 0.264583;
+            doc.text(element.content, currentX, currentY);
+
+        } else if (element.type === "image") {
+            await new Promise<void>((resolve) => {
+                const img = new Image();
+                img.src = element.src;
+                currentX = element.position.x * 0.264583;
+                currentY = element.position.y * 0.264583;
+
+                img.onload = () => {
+                    doc.addImage(img, 'JPEG', currentX, currentY,
+                        element.size.width * 0.264583,
+                        element.size.height * 0.264583);
+                    resolve();
+                };
+            });
+        }
+    }
+}
+
+function exportPresentation(editor: Editor): Editor {
+    exportPresentationToPDF(editor).then(() => {
+    }).catch((error) => {
+        console.error("Error generating PDF:", error);
+    });
+    return { ...editor };
+}
+
+export { exportPresentation };
