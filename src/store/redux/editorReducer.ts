@@ -12,6 +12,7 @@ import { changeBackground } from "../changeBackground";
 import { setPosition } from "../setPosition";
 import { exportPresentationData } from "../exportPresentationData";
 import { importPresentationData } from "../importPresentationData";
+import { setSize } from "../setSize";
 
 function editorReducer(editor: Editor = startPresentation, action: EditorAction | PresentationAction | ElementAction): Editor {
     switch (action.type) {
@@ -29,6 +30,8 @@ function editorReducer(editor: Editor = startPresentation, action: EditorAction 
             return changeBackground(editor, action.payload)
         case ActionType.SET_SELECTION: 
             return setSelection(editor, action)
+        case ActionType.SET_SIZE:
+            return setSize(editor, action.payload)
         case ActionType.SET_POSITION:
             return setPosition(editor, action.payload)
         case ActionType.SET_EDITOR:

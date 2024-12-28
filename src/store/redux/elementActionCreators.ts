@@ -1,4 +1,4 @@
-import { Position } from "../PresentationType"
+import { Position, Size } from "../PresentationType"
 import { ActionType } from "./actions"
 
 function setPosition(newPosition: Position) {
@@ -8,6 +8,14 @@ function setPosition(newPosition: Position) {
     }
 }
 
+function setSize(newSize: Size) {
+    return {
+        type: ActionType.SET_SIZE,
+        payload: newSize,
+    }
+}
+
 export {
     setPosition,
+    setSize,
 }

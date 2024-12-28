@@ -1,7 +1,8 @@
 import { Position, TextElement } from "../../store/PresentationType";
-import { CSSProperties, useMemo, useState, useRef } from "react";
+import { CSSProperties, useMemo, useState, useRef, useEffect } from "react";
 import { useDragAndDrop } from "../hooks/useDragAndDrop";
 import { useAppActions } from "../hooks/useAppActions";
+import { useAppSelector } from "../hooks/useAppSelector";
 
 type TextProps = {
     text: TextElement,
@@ -12,11 +13,20 @@ type TextProps = {
 }
 
 const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIsShown }: TextProps) => {
-    const [localPosition, setLocalPosition] = useState<Position>({ x: text.position.x, y: text.position.y });
-    const ref = useRef<HTMLParagraphElement | null>(null);
-    const { setPosition } = useAppActions()
+    const editor = useAppSelector((editor => editor))
+    const { setSelection } = useAppActions()
 
-    useDragAndDrop(ref, setLocalPosition, (newPos) => setPosition(newPos));
+    const { localPosition, handleMouseDown, setLocalPosition } = useDragAndDrop(
+        text.position,
+        text.size,
+        isSelected,
+        () => {setSelection({slideId: editor.selection.slideId, elementId: text.id})},
+        editor,
+    );
+
+    useEffect(() => {
+        return(setLocalPosition(text.position))
+    }, [text]);
 
     const textStyles: CSSProperties = useMemo(() => ({
         fontFamily: text.fontFamily,
@@ -30,7 +40,9 @@ const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIs
     }), [text, scale, isSelected, text.position, borderIsShown, showSelectionBorder]);
     
     return (
-        <p ref={ref} style={textStyles} key={text.id} draggable="true">{text.content}</p> //TODO тег textarea, изменять блок, а не тег
+        <div  onMouseDown={scale === 1 ? handleMouseDown : undefined}>
+            <p style={textStyles} key={text.id} draggable="true">{text.content}</p>
+        </div>
     );
 };
 
