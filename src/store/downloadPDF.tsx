@@ -3,28 +3,25 @@ import { Editor } from "./EditorType";
 import { SlideType } from "./PresentationType";
 
 async function exportPresentationToPDF(editor: Editor): Promise<Editor> {
-    const width = 850 * 0.264583; 
-    const height = 525 * 0.264583; 
+    const width = 850; 
+    const height = 525; 
 
     const doc = new jsPDF({
         orientation: "landscape",
-        unit: "mm",             
+        unit: "px",             
         format: [width, height]
     });
 
-    doc.setFontSize(22);
-    doc.text(editor.presentation.title, 400, 230);
-
     for (const slide of editor.presentation.slides) {
-        await addSlideToPDF(doc, slide, width, height);
+        await addSlideToPDF(doc, slide, width, height, editor);
     }
 
     doc.save("presentation.pdf");
     return { ...editor };
 }
 
-async function addSlideToPDF(doc: jsPDF, slide: SlideType, width: number, height: number) {
-    doc.addPage();
+async function addSlideToPDF(doc: jsPDF, slide: SlideType, width: number, height: number, editor: Editor) {
+    if (slide  !== editor.presentation.slides[0]) doc.addPage();
     const background = slide.background;
 
     if (background) {
@@ -54,21 +51,21 @@ async function addSlideContent(doc: jsPDF, slide: SlideType) {
     for (const element of slide.elements) {
         if (element.type === "text") {
             doc.setFontSize(14);
-            currentX = element.position.x * 0.264583 ;
-            currentY = element.position.y * 0.264583;
+            currentX = element.position.x;
+            currentY = element.position.y;
             doc.text(element.content, currentX, currentY);
 
         } else if (element.type === "image") {
             await new Promise<void>((resolve) => {
                 const img = new Image();
                 img.src = element.src;
-                currentX = element.position.x * 0.264583;
-                currentY = element.position.y * 0.264583;
+                currentX = element.position.x;
+                currentY = element.position.y;
 
                 img.onload = () => {
                     doc.addImage(img, 'JPEG', currentX, currentY,
-                        element.size.width * 0.264583,
-                        element.size.height * 0.264583);
+                        element.size.width,
+                        element.size.height);
                     resolve();
                 };
             });
