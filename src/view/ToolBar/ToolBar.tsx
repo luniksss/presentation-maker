@@ -106,7 +106,7 @@ function ToolBar() {
             <div className={styles.toolButtons}>
                 <Button onClick={onUndo} className="undoButton"></Button>
                 <Button onClick={onRedo} className="redoButton"></Button>
-                <button onClick={enterFullScreen} className={styles.slideShowButton}><Link className="slideShow" to="/player">Слайд-шоу</Link></button>
+                <button onClick={enterFullScreen} className={styles.slideShowButton}><Link className="slideShow" to="/player">Slideshow</Link></button>
                 <Button className="button" text={'Add Slide'} onClick={addSlide}></Button>
                 <Button className="button" text={'Remove Slide'} onClick={removeSlide}></Button>
                 <Button className="button" text={'Add Text'} onClick={addTextElement}></Button>
