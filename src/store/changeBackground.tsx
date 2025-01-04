@@ -1,7 +1,6 @@
 import { Editor } from "./EditorType";
 
 function changeBackground(editor: Editor, newBackground: string): Editor {
-    
     const selectedSlideId = editor.selection.slideId
     const selectedSlideIndex = editor.presentation.slides.findIndex(slide => slide.id === selectedSlideId)    
     const updatedSlides = editor.presentation.slides.map((slide, index) => {

@@ -23,7 +23,7 @@ function editorReducer(editor: Editor = startPresentation, action: EditorAction 
         case ActionType.ADD_TEXT:
             return addTextElement(editor)
         case ActionType.ADD_IMAGE:
-            return addImageElement(editor)
+            return addImageElement(editor, action.payload)
         case ActionType.REMOVE_ELEMENT:
             return deleteElement(editor)
         case ActionType.CHANGE_BACKGROUND:

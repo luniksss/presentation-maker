@@ -35,6 +35,7 @@ type AddTextAction = {
 
 type AddImageAction = {
     type: ActionType.ADD_IMAGE,
+    payload: string,
 }
 
 type RemoveElementAction = {

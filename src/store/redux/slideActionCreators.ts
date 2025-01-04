@@ -19,9 +19,10 @@ function addTextElement() {
     }
 }
 
-function addImageElement() {
+function addImageElement(newImage: string) {
     return {
         type: ActionType.ADD_IMAGE,
+        payload: newImage
     }
 }
 

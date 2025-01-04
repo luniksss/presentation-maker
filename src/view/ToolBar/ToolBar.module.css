@@ -77,3 +77,31 @@ a:hover {
     margin-top: 10px;
     gap: 5px;
 }
+
+.unsplashMenu {
+    width: 100%;
+    max-width: 80vh;
+    max-height: 70vh;
+    margin-top: 10px;
+    overflow: auto;
+}
+
+.unsplashSearch {
+    display: flex;
+    align-items: center;
+}
+
+.searchInput {
+    width: 60%;
+    margin-left: 10px;
+    padding: 2px 4px;
+    border: none;
+    outline: none;
+    color: var(--text-color);
+    background-color: var(--toolbar-background);
+    border-radius: 3px;
+}
+
+.imageGrid {
+    margin: 5px 10px;
+}

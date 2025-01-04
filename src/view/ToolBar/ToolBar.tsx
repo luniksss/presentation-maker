@@ -7,10 +7,25 @@ import { useAppActions } from '../hooks/useAppActions';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { Link } from 'react-router';
 
+interface UnsplashImage {
+    id: string;
+    urls: {
+        small: string;
+        full: string;
+    };
+    alt_description: string;
+}
+
+interface UnsplashResponse {
+    results: UnsplashImage[];
+}
+
 function ToolBar() {
     let title = useAppSelector((editor => editor.presentation.title))
     const [inputValue, setInputValue] = React.useState(title);
     const [openMenu, setOpenMenu] = React.useState(null);
+    const [images, setImages] = React.useState<UnsplashImage[]>([]);
+    const [searchTerm, setSearchTerm] = React.useState('');
 
     let gradientColor1 = '#ffffff';
     let gradientColor2 = '#000000'
@@ -94,6 +109,44 @@ function ToolBar() {
         }
     }
 
+    function onImageAdd(event: HTMLInputElement) {
+        const file = event.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                addImageElement(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    const fetchImages = async (query: string) => {
+        if (!query) {
+            console.error('Query parameter is required');
+            return;
+        }
+
+        const accessKey = 'J5T8HbG2s9h2Pq050okm_dekP6b0jI_0FdGe3YlHKOU';
+        const response = await fetch(`https://api.unsplash.com/search/photos?query=${query}&client_id=${accessKey}`);
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data: UnsplashResponse = await response.json();
+        setImages(data.results);
+    };
+
+    const handleImageSelect = (url: string) => {
+        addImageElement(url);
+        setOpenMenu(null);
+    };
+
+    const handleBackgroundImageSelect = (url: string) => {
+        changeBackground(url);
+        setOpenMenu(null);
+    };
+
     function uploadData(target: HTMLInputElement) {
         if (target.files && target.files[0]) {
             const file = target.files[0];
@@ -133,7 +186,7 @@ function ToolBar() {
                     )} </Button>
 
                 <Button className="button" text="Background" onClick={() => toggleMenu('background')}>
-                    {(openMenu === 'background' || openMenu === 'gradient') && (
+                    {(openMenu === 'background' || openMenu === 'gradient' || openMenu === 'background-unsplash') && (
                         <div className={styles.submenu} id="background-options">
                             <Button className="button" text="Color" onClick={() => {
                                 const colorInput = document.createElement('input');
@@ -142,7 +195,7 @@ function ToolBar() {
                                 colorInput.onchange = (e) => onChangeBackgroundColor((e.target as HTMLInputElement).value);
                                 colorInput.click();
                             }} />
-                            <Button className="button" text="Image" onClick={() => {
+                            <Button className="button" text="Image from computer" onClick={() => {
                                 const fileInput = document.createElement('input');
                                 fileInput.type = 'file';
                                 fileInput.accept = "image/*";
@@ -152,6 +205,20 @@ function ToolBar() {
                                 };
                                 fileInput.click();
                             }} />
+                            <Button className="button" text="Image from Unsplash" onClick={() => toggleMenu('background-unsplash')}>
+                                {openMenu === 'background-unsplash' && (
+                                    <div className={styles.unsplashMenu}>
+                                        <div className={styles.unsplashSearch}>
+                                            <input className={styles.searchInput} type="text" placeholder="Search images..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                                            <Button className='acceptButton' text="Search" onClick={() => fetchImages(searchTerm)} />
+                                        </div>
+                                        <div className={styles.imageGrid}>
+                                            {images.map((image) => (
+                                                <img key={image.id} src={image.urls.small} alt={image.alt_description} onClick={() => handleBackgroundImageSelect(image.urls.full)} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )} </Button>
                             <Button className="button" text="Gradient" onClick={() => toggleMenu('gradient')}>
                                 {openMenu === 'gradient' && (
                                     <div className={styles.gradientSubmenu}>
@@ -193,9 +260,32 @@ function ToolBar() {
                     )} </Button>
 
                 <Button className="button" text="Image" onClick={() => toggleMenu('image')}>
-                    {openMenu === 'image' && (
+                    {(openMenu === 'image' || openMenu === 'unsplash') && (
                         <div className={styles.submenu}>
-                            <Button className="button" text="Add Image" onClick={addImageElement} />
+                            <Button className="button" text="Add from computer" onClick={() => {
+                                const fileInput = document.createElement('input');
+                                fileInput.type = 'file';
+                                fileInput.accept = "image/*";
+                                fileInput.onchange = (event: Event) => {
+                                    const target = event.target as HTMLInputElement;
+                                    onImageAdd(target);
+                                };
+                                fileInput.click();
+                            }} />
+                            <Button className="button" text="Add from Unsplash" onClick={() => toggleMenu('unsplash')}>
+                                {openMenu === 'unsplash' && (
+                                    <div className={styles.unsplashMenu}>
+                                        <div className={styles.unsplashSearch}>
+                                            <input className={styles.searchInput} type="text" placeholder="Search images..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                                            <Button className='acceptButton' text="Search" onClick={() => fetchImages(searchTerm)} />
+                                        </div>
+                                        <div className={styles.imageGrid}>
+                                            {images.map((image) => (
+                                                <img key={image.id} src={image.urls.small} alt={image.alt_description} onClick={() => handleImageSelect(image.urls.full)} />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )} </Button>
                             <Button className="button" text="Remove Image" onClick={removeElement} />
                         </div>
                     )} </Button>
