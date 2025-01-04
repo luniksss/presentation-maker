@@ -4,11 +4,18 @@ type ButtonProps = {
     text?: string,
     onClick: () => void,
     className: string,
+    children?: React.ReactNode,
 }
 
-function Button({text, onClick, className}: ButtonProps) {
+function Button({ text, onClick, className, children }: ButtonProps) {
     return (
-        <button className={style[className]} onClick={onClick}>{text}</button>
-    )
+        <div className={style.toolBarBlock}>
+            <button className={style[className]} onClick={onClick}>
+                {text}
+            </button>
+            {children}
+        </div>
+    );
 }
-export { Button }
+
+export { Button };

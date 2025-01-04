@@ -1,10 +1,16 @@
 @import '../theme/theme.css';
 
+.toolBarBlock {
+    display: flex;
+    flex-direction: column;
+}
+
 .button {
+    position: relative;
     margin: 0 5px;
     padding: 0 5px;
     font-family: Rubik;
-    font-size: 11px;
+    font-size: 14px;
     color: var(--text-color);
     background: none;
     border: none;
@@ -20,7 +26,7 @@
 .additionalButton {
     padding: 0 5px;
     font-family: Rubik;
-    font-size: 11px;
+    font-size: 14px;
     color: var(--text-color);
     background: var(--element-hover);
     border: none;
@@ -41,4 +47,21 @@
     border-radius: 15%;
     background-image: url('/public/assets/redo.svg');
     background-size: cover;
+}
+
+.acceptButton {
+    position: relative;
+    margin: 0 5px;
+    padding: 0 5px;
+    font-family: Rubik;
+    font-size: 14px;
+    color: var(--text-color);
+    background-color: darkolivegreen;
+    border: none;
+    border-radius: 3px;
+}
+
+.acceptButton:hover {
+    background-color: chartreuse;
+    color: black;
 }

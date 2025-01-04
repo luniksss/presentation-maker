@@ -42,7 +42,7 @@ a {
     margin: 0 5px;
     padding: 0 5px;
     font-family: Rubik;
-    font-size: 11px;
+    font-size: 14px;
     text-decoration: none;
     border: none;
     border-radius: 3px;
@@ -54,4 +54,26 @@ a:hover {
     background-color: var(--selection);
     color: var(--text-selection);
     cursor: pointer;
+}
+
+.submenu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 5px 0;
+    margin: 20px 0;
+    gap: 5px;
+    background-color: var(--element-hover);
+    border: 2px solid var(--selection);
+    border-radius: 5px;
+    z-index: 1000;
+}
+
+.gradientSubmenu {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-top: 10px;
+    gap: 5px;
 }
