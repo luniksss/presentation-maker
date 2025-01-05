@@ -5,6 +5,7 @@ import { useAppActions } from './view/hooks/useAppActions';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import EditorView from './components/Editor';
 import PlayerView from './components/PlayerView';
+import MainPage from './view/MainPage/MainPage';
 
 type AppProps = {
   history: HistoryType,
@@ -51,8 +52,8 @@ function App({ history }: AppProps) {
     <BrowserRouter>
       <HistoryContext.Provider value={history}>
         <Routes>
-          <Route path="/" element={<EditorView />} />
-
+          <Route path="/" element={<MainPage />} />
+          <Route path="/editor" element={<EditorView />} />
           <Route path="/player" element={<PlayerView />} />
         </Routes>
       </HistoryContext.Provider>

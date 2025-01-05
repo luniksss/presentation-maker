@@ -47,7 +47,7 @@ const PlayerView: React.FC = () => {
 
     return (
         <div className={styles.playerViewPage}>
-            <Link to="/" className={styles.exitButton} onClick={exitFullScreen}>↩ Exit</Link>
+            <Link to="/editor" className={styles.exitButton} onClick={exitFullScreen}>↩ Exit</Link>
             <div className={styles.playerViewSlide}>
                 <Slide
                     slide={slides[currentSlideIndex]}

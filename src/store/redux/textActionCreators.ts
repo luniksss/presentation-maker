@@ -14,7 +14,15 @@ function editTextColor(newColor: string) {
     }
 }
 
+function updateTextContent(newContent: string) {
+    return {
+        type: ActionType.EDIT_TEXT,
+        payload: newContent
+    }
+}
+
 export {
     editTextFontSize,
     editTextColor,
+    updateTextContent,
 }

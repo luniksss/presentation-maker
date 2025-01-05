@@ -17,6 +17,7 @@ import { editTextFontSize } from "../editTextFontSize";
 import { editTextColor } from "../editTextColor";
 import { setPosition } from "../setPosition";
 import { setSize } from "../setSize";
+import { updateTextContent } from "../updateTextContent";
 
 function editorReducer(editor: Editor = startPresentation, action: EditorAction | PresentationAction | TextElementAction): Editor {
     switch (action.type) {
@@ -30,6 +31,8 @@ function editorReducer(editor: Editor = startPresentation, action: EditorAction 
             return editTextFontSize(editor, action.payload)
         case ActionType.EDIT_FONT_COLOR:
             return editTextColor(editor, action.payload)
+        case ActionType.EDIT_TEXT:
+            return updateTextContent(editor, action.payload)
         case ActionType.ADD_IMAGE:
             return addImageElement(editor, action.payload)
         case ActionType.REMOVE_ELEMENT:

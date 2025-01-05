@@ -11,6 +11,7 @@ enum ActionType {
     ADD_TEXT = 'addTextElement',
     EDIT_FONTSIZE = 'editTextFontSize',
     EDIT_FONT_COLOR = 'editTextColor',
+    EDIT_TEXT = 'updateTextContent',
 
     SET_SELECTION = 'setSelection',
     SET_SLIDES_ORDER = 'setSlides',
@@ -45,6 +46,11 @@ type EditTextFontSize = {
 
 type EditTextColor = {
     type: ActionType.EDIT_FONT_COLOR,
+    payload: string,
+}
+
+type UpdateTextContent = {
+    type: ActionType.EDIT_TEXT,
     payload: string,
 }
 
@@ -110,9 +116,27 @@ type ImportDataAction = {
     payload: object,
 }
 
-type EditorAction = AddSlideAction | RemoveSlideAction | AddTextAction | AddImageAction | RemoveElementAction | ChangeBackgroundAction | SetSelectionAction | SetSlidesOrderAction | SetPositionAction | SetSizeAction | SetEditorAction | UpdateEditorAction
-type PresentationAction = ChangeTitleAction | ExportDataAction | DownloadPresentation | ImportDataAction
-type TextElementAction = EditTextFontSize | EditTextColor
+type EditorAction = AddSlideAction | 
+                    RemoveSlideAction | 
+                    AddTextAction | 
+                    AddImageAction | 
+                    RemoveElementAction | 
+                    ChangeBackgroundAction | 
+                    SetSelectionAction | 
+                    SetSlidesOrderAction | 
+                    SetPositionAction | 
+                    SetSizeAction | 
+                    SetEditorAction | 
+                    UpdateEditorAction
+
+type PresentationAction = ChangeTitleAction | 
+                          ExportDataAction | 
+                          DownloadPresentation | 
+                          ImportDataAction
+
+type TextElementAction = EditTextFontSize | 
+                         EditTextColor | 
+                         UpdateTextContent
 export {
     ActionType,
     type SetSelectionAction,
