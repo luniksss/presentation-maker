@@ -5,6 +5,7 @@ import { SlideType } from "./PresentationType";
 async function exportPresentationToPDF(editor: Editor): Promise<Editor> {
     const width = 850; 
     const height = 525; 
+    const presentationName = editor.presentation.title
 
     const doc = new jsPDF({
         orientation: "landscape",
@@ -16,7 +17,7 @@ async function exportPresentationToPDF(editor: Editor): Promise<Editor> {
         await addSlideToPDF(doc, slide, width, height, editor);
     }
 
-    doc.save("presentation.pdf");
+    presentationName !== '' ? doc.save(`${presentationName}.pdf`) : doc.save("presentation.pdf") 
     return { ...editor };
 }
 
@@ -28,6 +29,9 @@ async function addSlideToPDF(doc: jsPDF, slide: SlideType, width: number, height
         if (background.startsWith("#")) {
             doc.setFillColor(background);
             doc.rect(0, 0, width, height, 'F');
+        } else if (background.startsWith("linear-gradient")) {
+            const gradientImage = await createGradientImage(background, width, height);
+            doc.addImage(gradientImage, 'JPEG', 0, 0, width, height);
         } else {
             await new Promise<void>((resolve) => {
                 const img = new Image();
@@ -50,11 +54,14 @@ async function addSlideContent(doc: jsPDF, slide: SlideType) {
 
     for (const element of slide.elements) {
         if (element.type === "text") {
-            doc.setFontSize(14);
+            doc.setFontSize(element.fontSize);
+            doc.setTextColor(element.color);
+            if (element.fontFamily) {
+                doc.setFont(element.fontFamily);
+            }
             currentX = element.position.x;
             currentY = element.position.y;
             doc.text(element.content, currentX, currentY);
-
         } else if (element.type === "image") {
             await new Promise<void>((resolve) => {
                 const img = new Image();
@@ -71,6 +78,43 @@ async function addSlideContent(doc: jsPDF, slide: SlideType) {
             });
         }
     }
+}
+
+function createGradientImage(gradientString: string, width: number, height: number): Promise<string> {
+    return new Promise((resolve) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error("Failed to get canvas context");
+
+        const gradient = ctx.createLinearGradient(0, 0, 0, height);
+        const colors = parseGradientColors(gradientString);
+        colors.forEach((colorStop) => {
+            gradient.addColorStop(colorStop.position, colorStop.color);
+        });
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, width, height);
+        const imageDataUrl = canvas.toDataURL('image/jpeg');
+        resolve(imageDataUrl);
+    });
+}
+
+function parseGradientColors(gradientString: string) {
+    const regex = /linear-gradient\(([^)]+)\)/;
+    const match = gradientString.match(regex);
+    
+    if (!match) return [];
+
+    const colorStopsString = match[1];
+    const colors = colorStopsString.split(',').map(color => color.trim());
+
+    return colors.map((color, index) => ({
+        position: index / (colors.length - 1),
+        color: color,
+    }));
 }
 
 function exportPresentation(editor: Editor): Editor {
