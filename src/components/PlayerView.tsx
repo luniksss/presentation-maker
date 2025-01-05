@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './PlayerView.module.css';
 import { Link } from 'react-router-dom';
 import { Slide } from '../view/Slide/Slide';
@@ -29,6 +29,21 @@ const PlayerView: React.FC = () => {
             });
         }
     };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'ArrowRight') {
+            goToNextSlide();
+        } else if (event.key === 'ArrowLeft') {
+            goToPreviousSlide();
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [currentSlideIndex]);
 
     return (
         <div className={styles.playerViewPage}>
