@@ -1,5 +1,5 @@
 import { Editor, Selection } from "../EditorType"
-import { SlideType } from "../PresentationType"
+import { Position, SlideType } from "../PresentationType"
 
 enum ActionType {
     ADD_SLIDE = 'addSlide',
@@ -14,6 +14,7 @@ enum ActionType {
 
     SET_SELECTION = 'setSelection',
     SET_SLIDES_ORDER = 'setSlides',
+    SET_POSITION = 'setPosition',
 
     SET_EDITOR = 'setEditor',
     UPDATE_EDITOR = 'updateEditor',
@@ -70,6 +71,11 @@ type SetSlidesOrderAction = {
     payload: SlideType[],
 }
 
+type SetPositionAction = {
+    type: ActionType.SET_POSITION,
+    payload: Position,
+}
+
 type SetEditorAction = {
     type: ActionType.SET_EDITOR,
     payload: Editor,
@@ -98,7 +104,7 @@ type ImportDataAction = {
     payload: object,
 }
 
-type EditorAction = AddSlideAction | RemoveSlideAction | AddTextAction | AddImageAction | RemoveElementAction | ChangeBackgroundAction | SetSelectionAction | SetSlidesOrderAction | SetEditorAction | UpdateEditorAction
+type EditorAction = AddSlideAction | RemoveSlideAction | AddTextAction | AddImageAction | RemoveElementAction | ChangeBackgroundAction | SetSelectionAction | SetSlidesOrderAction | SetPositionAction | SetEditorAction | UpdateEditorAction
 type PresentationAction = ChangeTitleAction | ExportDataAction | DownloadPresentation | ImportDataAction
 type TextElementAction = EditTextFontSize | EditTextColor
 export {

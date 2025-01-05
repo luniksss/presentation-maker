@@ -1,4 +1,5 @@
 import { Selection } from "../EditorType";
+import { Position } from "../PresentationType";
 import { ActionType } from "./actions";
 
 function setSelection(newSelection: Selection) {
@@ -8,6 +9,14 @@ function setSelection(newSelection: Selection) {
     }
 }
 
+function setPosition(newPosition: Position) {
+    return {
+        type: ActionType.SET_POSITION,
+        payload: newPosition,
+    }
+}
+
 export {
     setSelection,
+    setPosition
 }
