@@ -26,6 +26,7 @@ const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIs
         position: "absolute",
         top: `${text.position.y * scale}px`,
         left: `${text.position.x * scale}px`,
+        color: `${text.color}`,
         border: (isSelected && showSelectionBorder && borderIsShown) ? '3px solid var(--selection)' : '3px solid transparent',
     }), [text, scale, isSelected, text.position, borderIsShown, showSelectionBorder]);
     

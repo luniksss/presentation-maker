@@ -11,7 +11,8 @@ function addTextElement(editor: Editor): Editor {
         type: 'text', 
         content: "Your text", 
         fontSize: 14, 
-        fontFamily: "Times New Roman"
+        fontFamily: "Times New Roman",
+        color: "#000000"
     }
 
     const selectedSlideId = editor.selection.slideId

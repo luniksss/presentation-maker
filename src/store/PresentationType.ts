@@ -16,10 +16,11 @@ type Elem = {
 }
 
 type TextElement = Elem & {
-    type: 'text',
+    type: 'text';
     content: string;
     fontSize: number;
     fontFamily: string;
+    color: string;
 }
 
 type ImageElement = Elem & {

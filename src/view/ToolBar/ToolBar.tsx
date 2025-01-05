@@ -26,6 +26,8 @@ function ToolBar() {
     const [openMenu, setOpenMenu] = React.useState(null);
     const [images, setImages] = React.useState<UnsplashImage[]>([]);
     const [searchTerm, setSearchTerm] = React.useState('');
+    const [fontSize, setFontSize] = React.useState<number | ''>('');
+    const [fontColor, setFontColor] = React.useState<string>('#000000');
 
     let gradientColor1 = '#ffffff';
     let gradientColor2 = '#000000'
@@ -45,7 +47,9 @@ function ToolBar() {
         exportData,
         downloadPDF,
         importData,
-        setEditor } = useAppActions();
+        setEditor,
+        editTextFontSize,
+        editTextColor } = useAppActions();
     const history = React.useContext(HistoryContext);
 
     const toggleMenu = (menu: any) => {
@@ -146,6 +150,14 @@ function ToolBar() {
         changeBackground(url);
         setOpenMenu(null);
     };
+
+    const onChangeFontSize = (size: number) => {
+        editTextFontSize(size);
+    };
+
+    const onChangeTextColor = (color: string) => {
+        editTextColor(color)
+    }
 
     function uploadData(target: HTMLInputElement) {
         if (target.files && target.files[0]) {
@@ -256,6 +268,31 @@ function ToolBar() {
                         <div className={styles.submenu}>
                             <Button className="button" text="Add Text" onClick={addTextElement} />
                             <Button className="button" text="Remove Text" onClick={removeElement} />
+                            <input
+                                className={styles.searchInput}
+                                type="number"
+                                value={fontSize}
+                                onChange={(e) => setFontSize(Number(e.target.value))}
+                                placeholder="font size"
+                            />
+                            <input
+                                className={styles.searchInput}
+                                type="color"
+                                value={fontColor}
+                                onChange={(e) => setFontColor(e.target.value)}
+                            />
+                            <Button
+                                className="acceptButton"
+                                text="Edit Size"
+                                onClick={() => {
+                                    if (fontSize) {
+                                        onChangeFontSize(fontSize);
+                                    }
+                                    if (fontColor) {
+                                        onChangeTextColor(fontColor)
+                                    }
+                                }}
+                            />
                         </div>
                     )} </Button>
 

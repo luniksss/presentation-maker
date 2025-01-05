@@ -1,6 +1,6 @@
 import { Editor } from "../EditorType";
 import { setSelection } from "../setSelection";
-import { ActionType, EditorAction, PresentationAction } from "./actions";
+import { ActionType, EditorAction, PresentationAction, TextElementAction } from "./actions";
 import { startPresentation } from "../data";
 import { removeSlide } from "../removeSlide";
 import { addSlide } from "../addSlide";
@@ -13,8 +13,10 @@ import { exportPresentationData } from "../exportPresentationData";
 import { importPresentationData } from "../importPresentationData";
 import { exportPresentation } from "../downloadPDF";
 import { setSlides } from "../setSlides";
+import { editTextFontSize } from "../editTextFontSize";
+import { editTextColor } from "../editTextColor";
 
-function editorReducer(editor: Editor = startPresentation, action: EditorAction | PresentationAction): Editor {
+function editorReducer(editor: Editor = startPresentation, action: EditorAction | PresentationAction | TextElementAction): Editor {
     switch (action.type) {
         case ActionType.ADD_SLIDE:
             return addSlide(editor)
@@ -22,6 +24,10 @@ function editorReducer(editor: Editor = startPresentation, action: EditorAction 
             return removeSlide(editor)
         case ActionType.ADD_TEXT:
             return addTextElement(editor)
+        case ActionType.EDIT_FONTSIZE:
+            return editTextFontSize(editor, action.payload)
+        case ActionType.EDIT_FONT_COLOR:
+            return editTextColor(editor, action.payload)
         case ActionType.ADD_IMAGE:
             return addImageElement(editor, action.payload)
         case ActionType.REMOVE_ELEMENT:

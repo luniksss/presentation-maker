@@ -4,10 +4,13 @@ import { SlideType } from "../PresentationType"
 enum ActionType {
     ADD_SLIDE = 'addSlide',
     REMOVE_SLIDE = 'removeSlide',
-    ADD_TEXT = 'addTextElement',
     ADD_IMAGE = 'addImageElement',
     REMOVE_ELEMENT = 'removeElement',
     CHANGE_BACKGROUND = 'changeBackground',
+
+    ADD_TEXT = 'addTextElement',
+    EDIT_FONTSIZE = 'editTextFontSize',
+    EDIT_FONT_COLOR = 'editTextColor',
 
     SET_SELECTION = 'setSelection',
     SET_SLIDES_ORDER = 'setSlides',
@@ -31,6 +34,16 @@ type RemoveSlideAction = {
 
 type AddTextAction = {
     type: ActionType.ADD_TEXT,
+}
+
+type EditTextFontSize = {
+    type: ActionType.EDIT_FONTSIZE,
+    payload: number,
+}
+
+type EditTextColor = {
+    type: ActionType.EDIT_FONT_COLOR,
+    payload: string,
 }
 
 type AddImageAction = {
@@ -87,9 +100,11 @@ type ImportDataAction = {
 
 type EditorAction = AddSlideAction | RemoveSlideAction | AddTextAction | AddImageAction | RemoveElementAction | ChangeBackgroundAction | SetSelectionAction | SetSlidesOrderAction | SetEditorAction | UpdateEditorAction
 type PresentationAction = ChangeTitleAction | ExportDataAction | DownloadPresentation | ImportDataAction
+type TextElementAction = EditTextFontSize | EditTextColor
 export {
     ActionType,
     type SetSelectionAction,
     type EditorAction,
     type PresentationAction,
+    type TextElementAction
 }
