@@ -79,7 +79,6 @@ function Slide({ slide, scale = 0.9, isSelected, className, showSelectionBorder,
                                     isSelected={element.id === selection.elementId}
                                     showSelectionBorder={showSelectionBorder}
                                     borderIsShown={borderIsShown}
-                                    departurePoint={departurePoint}
                                 />
                             </div>
                         );
@@ -92,7 +91,6 @@ function Slide({ slide, scale = 0.9, isSelected, className, showSelectionBorder,
                                     isSelected={element.id === selection.elementId}
                                     showSelectionBorder={showSelectionBorder}
                                     borderIsShown={borderIsShown}
-                                    departurePoint={departurePoint}
                                 />
                             </div>
                         );

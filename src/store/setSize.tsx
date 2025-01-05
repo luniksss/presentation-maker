@@ -1,7 +1,7 @@
 import { Editor } from "./EditorType";
-import { Position } from "./PresentationType";
+import { Size } from "./PresentationType";
 
-function setPosition(editor: Editor, newPosition: Position) {
+const setSize = (editor: Editor, newSize: Size): Editor => {
     if (!editor.selection) {
         return editor;        
     }
@@ -14,14 +14,17 @@ function setPosition(editor: Editor, newPosition: Position) {
                 ...slide,
                 elements: slide.elements.map(element => {
                     if (element.id === elementId) {
-                        return { ...element, position: newPosition };
+                        return {
+                            ...element,
+                            size: newSize
+                        };
                     }
                     return element;
-                })
+                }),
             };
         }
         return slide;
-    })
+    });
 
     return {
         ...editor,
@@ -29,7 +32,7 @@ function setPosition(editor: Editor, newPosition: Position) {
             ...editor.presentation,
             slides: newSlides,
         }
-    };
+    }
 }
 
-export { setPosition };
+export { setSize }

@@ -15,6 +15,8 @@ import { exportPresentation } from "../downloadPDF";
 import { setSlides } from "../setSlides";
 import { editTextFontSize } from "../editTextFontSize";
 import { editTextColor } from "../editTextColor";
+import { setPosition } from "../setPosition";
+import { setSize } from "../setSize";
 
 function editorReducer(editor: Editor = startPresentation, action: EditorAction | PresentationAction | TextElementAction): Editor {
     switch (action.type) {
@@ -36,6 +38,10 @@ function editorReducer(editor: Editor = startPresentation, action: EditorAction 
             return changeBackground(editor, action.payload)
         case ActionType.SET_SELECTION: 
             return setSelection(editor, action)
+        case ActionType.SET_POSITION:
+            return setPosition(editor, action.payload)
+        case ActionType.SET_SIZE:
+            return setSize(editor, action.payload)
         case ActionType.SET_SLIDES_ORDER: 
             return setSlides(editor, action.payload)
         case ActionType.SET_EDITOR:

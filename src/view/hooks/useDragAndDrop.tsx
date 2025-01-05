@@ -1,46 +1,53 @@
-import { MutableRefObject, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Position } from "../../store/PresentationType";
+import { useAppActions } from "./useAppActions";
 
-function useDragAndDrop(
-    ref: MutableRefObject<HTMLElement | null>,
-    setPosition: (position: Position | ((prevPosition: Position) => Position)) => void) {
+const useDragAndDrop = (
+    initialPosition: Position,
+) => {
+    const {setPosition} = useAppActions()
+    const [localPosition, setLocalPosition] = useState(initialPosition);
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragStart, setDragStart] = useState({x: 0, y: 0});
+
+    const handleMouseMove = (e: MouseEvent) => {
+        if(isDragging){
+            const newX = localPosition.x + (e.clientX - dragStart.x);
+            const newY = localPosition.y + (e.clientY - dragStart.y);
+            setLocalPosition({x: newX, y: newY})
+        }
+    }
+
+    const handleMouseUp = (e: MouseEvent) => {
+        if(isDragging){
+            const newX = localPosition.x + (e.clientX - dragStart.x);
+            const newY = localPosition.y + (e.clientY - dragStart.y);
+            setPosition({ x: newX, y: newY });
+            setIsDragging(false);
+        }
+    }
+
+    const handleMouseDown = (e: React.MouseEvent) => {
+        e.preventDefault();
+        setIsDragging(true);
+        setDragStart({x: e.clientX, y: e.clientY})
+    }
+
     useEffect(() => {
-        const element = ref.current;
-        if (!element) return;
-
-        const handleMouseDown = (event: MouseEvent) => {
-            event.preventDefault();
-            let startX = event.clientX;
-            let startY = event.clientY;
-
-            const handleMouseMove = (moveEvent: MouseEvent) => {
-                const dx = moveEvent.clientX - startX;
-                const dy = moveEvent.clientY - startY;
-
-                setPosition((prevPosition) => ({
-                    x: prevPosition.x + dx,
-                    y: prevPosition.y + dy,
-                }));
-
-                startX = moveEvent.clientX;
-                startY = moveEvent.clientY;
-            };
-
-            const handleMouseUp = () => {
-                document.removeEventListener('mousemove', handleMouseMove);
-                document.removeEventListener('mouseup', handleMouseUp);
-            };
-
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('mouseup', handleMouseUp);
-        };
-
-        element.addEventListener('mousedown', handleMouseDown);
+        if (isDragging) {
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('mouseup', handleMouseUp);
+        }
 
         return () => {
-            element.removeEventListener('mousedown', handleMouseDown);
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
         };
-    }, [ref, setPosition]);
-}
+    }, [isDragging]);
 
-export {useDragAndDrop}
+    return { localPosition, handleMouseDown, setLocalPosition };
+};
+
+export {
+    useDragAndDrop,
+}

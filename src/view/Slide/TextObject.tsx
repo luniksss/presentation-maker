@@ -1,6 +1,8 @@
 import { Position, TextElement } from "../../store/PresentationType";
-import { CSSProperties, useMemo, useState, useRef } from "react";
+import { CSSProperties, useMemo, useEffect } from "react";
 import { useDragAndDrop } from "../hooks/useDragAndDrop";
+import { useAppActions } from "../hooks/useAppActions";
+import { useAppSelector } from "../hooks/useAppSelector";
 
 type TextProps = {
     text: TextElement,
@@ -8,15 +10,14 @@ type TextProps = {
     isSelected: boolean,
     showSelectionBorder?: boolean,
     borderIsShown: boolean,
-    departurePoint: string
 }
 
-const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIsShown, departurePoint }: TextProps) => {
-    const [localPosition, setLocalPosition] = useState<Position>({ x: text.position.x, y: text.position.y });
-    const ref = useRef<HTMLParagraphElement | null>(null);
+const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIsShown }: TextProps) => {
+    const { localPosition, handleMouseDown, setLocalPosition } = useDragAndDrop(text.position);
 
-    useDragAndDrop(ref, setLocalPosition);
-    text.position = departurePoint === "WorkSpace" ? localPosition : { x: text.position.x, y: text.position.y };
+    useEffect(() => {
+        setLocalPosition(text.position);
+    }, [text]);
 
     const textStyles: CSSProperties = useMemo(() => ({
         fontFamily: text.fontFamily,
@@ -24,14 +25,16 @@ const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIs
         width: "auto",
         height: "auto",
         position: "absolute",
-        top: `${text.position.y * scale}px`,
-        left: `${text.position.x * scale}px`,
+        top: `${localPosition.y * scale}px`,
+        left: `${localPosition.x * scale}px`,
         color: `${text.color}`,
         border: (isSelected && showSelectionBorder && borderIsShown) ? '3px solid var(--selection)' : '3px solid transparent',
-    }), [text, scale, isSelected, text.position, borderIsShown, showSelectionBorder]);
-    
+    }), [text, scale, isSelected, borderIsShown, showSelectionBorder, localPosition]);
+
     return (
-        <p ref={ref} style={textStyles} key={text.id} draggable="true">{text.content}</p> //TODO тег textarea, изменять блок, а не тег
+        <div onMouseDown={scale === 1 ? handleMouseDown : undefined}>
+            <p style={textStyles} key={text.id} draggable="true">{text.content}</p>
+        </div>
     );
 };
 

@@ -3,6 +3,16 @@ type Size = {
     height: number;
 }
 
+type UpdateSize = 
+    | 'horizontal-right' 
+    | 'horizontal-left' 
+    | 'diagonal-right-bottom' 
+    | 'diagonal-right-top' 
+    | 'diagonal-left-bottom' 
+    | 'diagonal-left-top' 
+    | 'vertical-top' 
+    | 'vertical-bottom';
+
 type Position = {
     x: number;
     y: number;
@@ -41,4 +51,4 @@ type Presentation = {
     slides: SlideType[];
 }
 
-export type { Presentation, SlideType, Component, TextElement, ImageElement, Position, Size};
+export type { Presentation, SlideType, Component, TextElement, ImageElement, Position, Size, UpdateSize};

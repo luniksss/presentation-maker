@@ -1,5 +1,5 @@
 import { Selection } from "../EditorType";
-import { Position } from "../PresentationType";
+import { Position, Size } from "../PresentationType";
 import { ActionType } from "./actions";
 
 function setSelection(newSelection: Selection) {
@@ -16,7 +16,15 @@ function setPosition(newPosition: Position) {
     }
 }
 
+function setSize(newSize: Size) {
+    return {
+        type: ActionType.SET_SIZE,
+        payload: newSize,
+    }
+}
+
 export {
     setSelection,
-    setPosition
+    setPosition,
+    setSize,
 }
