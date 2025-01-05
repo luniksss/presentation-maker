@@ -1,7 +1,6 @@
-import { Position, TextElement } from "../../store/PresentationType";
+import { TextElement } from "../../store/PresentationType";
 import { CSSProperties, useMemo, useEffect } from "react";
 import { useDragAndDrop } from "../hooks/useDragAndDrop";
-import { useAppActions } from "../hooks/useAppActions";
 import { useAppSelector } from "../hooks/useAppSelector";
 
 type TextProps = {
@@ -13,7 +12,8 @@ type TextProps = {
 }
 
 const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIsShown }: TextProps) => {
-    const { localPosition, handleMouseDown, setLocalPosition } = useDragAndDrop(text.position);
+    const selection = useAppSelector((editor) => editor.selection)
+    const { localPosition, handleMouseDown, setLocalPosition } = useDragAndDrop(text.position, text.id, selection, isSelected);
 
     useEffect(() => {
         setLocalPosition(text.position);

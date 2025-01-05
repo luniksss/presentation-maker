@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { Position } from "../../store/PresentationType";
 import { useAppActions } from "./useAppActions";
+import { Selection } from "../../store/EditorType";
 
 const useDragAndDrop = (
     initialPosition: Position,
+    elementId: string,
+    selection: Selection,
+    isSelected: boolean,
 ) => {
-    const {setPosition} = useAppActions()
-    const [localPosition, setLocalPosition] = useState(initialPosition);
+    const {setPosition, setSelection} = useAppActions()
+    const [localPosition, setLocalPosition] = useState({...initialPosition});
     const [isDragging, setIsDragging] = useState(false);
     const [dragStart, setDragStart] = useState({x: 0, y: 0});
 
@@ -30,6 +34,9 @@ const useDragAndDrop = (
     const handleMouseDown = (e: React.MouseEvent) => {
         e.preventDefault();
         setIsDragging(true);
+        if (!isSelected) {
+            setSelection({slideId: selection.slideId, elementId: elementId})
+        }
         setDragStart({x: e.clientX, y: e.clientY})
     }
 
