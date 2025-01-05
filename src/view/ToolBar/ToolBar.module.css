@@ -105,3 +105,27 @@ a:hover {
 .imageGrid {
     margin: 5px 10px;
 }
+
+.downloadPreview {
+    position: fixed;
+    top: 12%;
+    left: 30%;
+    width: 100%;
+    max-width: 100vh;
+    max-height: 85vh;
+    padding: 15px;
+    background-color: var(--selection);
+    border: 2px solid var(--toolbar-background);
+    border-radius: 5px;
+    overflow: auto;
+    scrollbar-gutter: stable; 
+    scrollbar-width: thin; 
+    scrollbar-color: var(--element-hover) var(--text-color);
+    z-index: 1000;
+}
+
+.previewAccept {
+    display: flex;
+    align-items: center;
+    padding: 2px 5px;
+}

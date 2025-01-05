@@ -6,6 +6,7 @@ import { HistoryContext } from '../hooks/historyContext';
 import { useAppActions } from '../hooks/useAppActions';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { Link } from 'react-router';
+import { Preview } from '../Preview/Preview';
 
 interface UnsplashImage {
     id: string;
@@ -172,6 +173,10 @@ function ToolBar() {
             reader.readAsText(file);
         }
     }
+
+    const handleDownloadPDF = () => {
+        downloadPDF();
+    };
 
     const enterFullScreen = () => {
         const element = document.documentElement;
@@ -341,12 +346,22 @@ function ToolBar() {
                                 };
                                 fileInput.click();
                             }} />
-                            <Button className="button" text="Download PDF" onClick={downloadPDF} />
+                            <Button className="button" text="Download PDF" onClick={() => toggleMenu('preview')} />
                         </div>
-                    )} </Button>
-
+                    )}
+                </Button>
                 <Theme></Theme>
             </div>
+            {openMenu === 'preview' && (
+                <div className={styles.downloadPreview}>
+                    <div className={styles.previewAccept}>
+                        <p>Are you sure you want to download the PDF?</p>
+                        <Button className="button" text="Yes, download" onClick={handleDownloadPDF} />
+                        <Button className="button" text="No, cancel" onClick={() => toggleMenu(null)} />
+                    </div>
+                    <Preview></Preview>
+                </div>
+            )}
         </div>
     );
 };

@@ -49,9 +49,6 @@ async function addSlideToPDF(doc: jsPDF, slide: SlideType, width: number, height
 }
 
 async function addSlideContent(doc: jsPDF, slide: SlideType) {
-    let currentX = 10;
-    let currentY = 10;
-
     for (const element of slide.elements) {
         if (element.type === "text") {
             doc.setFontSize(element.fontSize);
@@ -59,18 +56,13 @@ async function addSlideContent(doc: jsPDF, slide: SlideType) {
             if (element.fontFamily) {
                 doc.setFont(element.fontFamily);
             }
-            currentX = element.position.x;
-            currentY = element.position.y;
-            doc.text(element.content, currentX, currentY);
+            doc.text(element.content, element.position.x, element.position.y);
         } else if (element.type === "image") {
             await new Promise<void>((resolve) => {
                 const img = new Image();
                 img.src = element.src;
-                currentX = element.position.x;
-                currentY = element.position.y;
-
                 img.onload = () => {
-                    doc.addImage(img, 'JPEG', currentX, currentY,
+                    doc.addImage(img, 'JPEG', element.position.x, element.position.y,
                         element.size.width,
                         element.size.height);
                     resolve();
