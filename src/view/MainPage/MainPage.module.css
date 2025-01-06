@@ -1,5 +1,17 @@
 @import '../../components/theme/theme.css';
 
+@keyframes wave {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 .mainPage {
     width: 100%;
     height: 100vh;
@@ -7,13 +19,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--element-hover);
+    background: linear-gradient(var(--toolbar-background), var(--element-hover))
 }
 
 .appName {
     font-family: "Unbounded";
     font-size: 64px;
-    color: var(--text-color);
+    background: linear-gradient(90deg, var(--selection), var(--text-color), var(--selection));
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: wave 5s ease infinite;
+    transform: translate3d(0, 0, 0);
 }
 
 .appOptions {
