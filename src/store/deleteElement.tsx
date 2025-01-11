@@ -5,7 +5,11 @@ function deleteElement(editor: Editor): Editor {
         return editor        
     }
 
-    const selectedSlideId = editor.selection.slideId;
+    const selectedSlideId = editor.selection.slideIds?.[0];
+    if (!selectedSlideId) {
+        return editor;
+    }
+
     const removedObjectId = editor.selection.elementId;
     const selectedSlide = editor.presentation.slides.find(slide => slide.id === selectedSlideId);
 
@@ -24,7 +28,7 @@ function deleteElement(editor: Editor): Editor {
             ),
         },
         selection: {
-            slideId: selectedSlideId,
+            slideIds: [selectedSlideId],
             elementId: newSelectedObjectId
         },
     };

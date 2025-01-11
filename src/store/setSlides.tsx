@@ -8,10 +8,6 @@ function setSlides(editor: Editor, newSlides: SlideType[]): Editor {
             ...editor.presentation,
             slides: newSlides
         },
-        selection: {
-            ...editor.selection,
-            
-        }
     };
 }
 

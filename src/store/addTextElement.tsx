@@ -15,7 +15,11 @@ function addTextElement(editor: Editor): Editor {
         color: "#000000"
     }
 
-    const selectedSlideId = editor.selection.slideId
+    const selectedSlideId = editor.selection.slideIds?.[0];
+    if (!selectedSlideId) {
+        return editor;
+    }
+
     const selectedSlideIndex = editor.presentation.slides.findIndex(slide => slide.id === selectedSlideId)
     const newElements = [...editor.presentation.slides[selectedSlideIndex].elements, newElement]
     const currentSlide = editor.presentation.slides[selectedSlideIndex]
@@ -32,7 +36,7 @@ function addTextElement(editor: Editor): Editor {
         },
         selection: {
             ...editor.selection,
-            slideId: selectedSlideId,
+            slideIds: [selectedSlideId],
             elementId: newElement.id
         }
     }

@@ -27,10 +27,13 @@ function Slide({ slide, scale = 0.9, isSelected, className, showSelectionBorder,
     const { setSelection } = useAppActions()
     function onObjectClick(object: Component): void {
         object.isSelected = true;
-        setSelection({
-            slideId: selection.slideId,
-            elementId: object.id
-        })
+        const firstSelectedSlideId = selection.slideIds && selection.slideIds.length > 0 ? selection.slideIds[0] : null;
+        if (firstSelectedSlideId !== null) {
+            setSelection({
+                slideIds: [firstSelectedSlideId],
+                elementId: object.id
+            })
+        }
     }
 
     let slideStyles: CSSProperties = {
@@ -57,8 +60,7 @@ function Slide({ slide, scale = 0.9, isSelected, className, showSelectionBorder,
         slideStyles.border = '3px solid var(--selection)'
     } else if (className === "playingSlide") {
         slideStyles.border = 'none'
-    }
-    else {
+    } else {
         slideStyles.border = '3px solid var(--element-hover)'
     }
 

@@ -5,7 +5,8 @@ const updateTextContent = (editor: Editor, newContent: string): Editor => {
         return editor;        
     }
     
-    const { slideId, elementId } = editor.selection;
+    const slideId = editor.selection.slideIds?.[0];
+    const elementId = editor.selection.elementId;
 
     const newSlides = editor.presentation.slides.map(slide => {
         if (slide.id === slideId) {

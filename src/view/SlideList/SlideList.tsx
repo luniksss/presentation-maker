@@ -11,6 +11,7 @@ function SlideList() {
     const presentation = useAppSelector(editor => editor.presentation);
     const selection = useAppSelector(editor => editor.selection);
     const slides = presentation.slides;
+    const slideIdSet = new Set(selection.slideIds || []);
 
     const { setSelection, setSlidesOrder } = useAppActions();
     const slideListRef = useRef<HTMLDivElement | null>(null);
@@ -20,10 +21,17 @@ function SlideList() {
     });
 
     function onSlideClick(slideId: string): void {
-        setSelection({
-            slideId: slideId,
-            elementId: null
-        });
+        if (selection.slideIds?.includes(slideId)) {
+            setSelection({
+                slideIds: selection.slideIds.filter(id => id !== slideId),
+                elementId: null
+            });
+        } else {
+            setSelection({
+                slideIds: [...(selection.slideIds || []), slideId],
+                elementId: null
+            });
+        }
     }
 
     return (
@@ -38,29 +46,29 @@ function SlideList() {
                             id={slide.id}
                             onClick={() => onSlideClick(slide.id)}
                             onMouseDown={() => {
-                                if (slide.id === selection.slideId) {
+                                if (slide.id === selection.slideIds?.[0]) {
                                     onMouseDown(slide.id);
                                 }
                             }}
                             onMouseMove={() => {
-                                if (draggedSlideId === selection.slideId) {
+                                if (draggedSlideId === selection.slideIds?.[0]) {
                                     onMouseMove(index);
                                 }
                             }}
                             onMouseUp={() => {
-                                if (draggedSlideId === selection.slideId) {
+                                if (draggedSlideId === selection.slideIds?.[0]) {
                                     onMouseUp();
                                 }
                             }}
                             style={{
                                 opacity: draggedSlideId === slide.id ? 0.5 : 1,
-                                border: dragOverIndex === index ? '2px dashed blue' : 'none', // Указываем стиль для перетаскиваемого элемента
+                                border: dragOverIndex === index ? '2px dashed blue' : 'none',
                             }}
                         >
                             <Slide
                                 slide={slide}
                                 scale={SLIDE_PREVIEW_SCALE}
-                                isSelected={slide.id === selection.slideId}
+                                isSelected={slideIdSet.has(slide.id)}
                                 className={styles.slideListItem}
                                 showSelectionBorder={false}
                                 departurePoint={"SlideList"}

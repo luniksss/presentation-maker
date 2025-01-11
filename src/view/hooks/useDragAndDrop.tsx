@@ -35,7 +35,10 @@ const useDragAndDrop = (
         e.preventDefault();
         setIsDragging(true);
         if (!isSelected) {
-            setSelection({slideId: selection.slideId, elementId: elementId})
+            const firstSelectedSlideId = selection.slideIds && selection.slideIds.length > 0 ? selection.slideIds[0] : null;
+            if (firstSelectedSlideId !== null) {
+                setSelection({slideIds: [firstSelectedSlideId], elementId: elementId})
+            }
         }
         setDragStart({x: e.clientX, y: e.clientY})
     }

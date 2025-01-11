@@ -11,7 +11,12 @@ function addImageElement(editor: Editor, newImage: string): Editor {
         type: 'image',
         src: newImage
     }
-    const selectedSlideId = editor.selection.slideId
+
+    const selectedSlideId = editor.selection.slideIds?.[0];
+    if (!selectedSlideId) {
+        return editor;
+    }
+
     const selectedSlideIndex = editor.presentation.slides.findIndex(slide => slide.id === selectedSlideId)
     const newElements = [...editor.presentation.slides[selectedSlideIndex].elements, newElement]
     const currentSlide = editor.presentation.slides[selectedSlideIndex]
@@ -28,7 +33,7 @@ function addImageElement(editor: Editor, newImage: string): Editor {
         },
         selection: {
             ...editor.selection,
-            slideId: selectedSlideId,
+            slideIds: [selectedSlideId],
             elementId: newElement.id
         }
     }

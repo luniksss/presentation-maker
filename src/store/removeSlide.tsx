@@ -5,17 +5,20 @@ function removeSlide(editor: Editor): Editor {
         return editor        
     }
 
-    const removeSlideId = editor.selection.slideId
-    const removeSlideIndex = editor.presentation.slides.findIndex(slide => slide.id === removeSlideId)
+    const removeSlideIds = editor.selection.slideIds;
+    if (!removeSlideIds) {
+        return editor;
+    }
 
-    const newSlides = editor.presentation.slides.filter(slide => slide.id !== removeSlideId)
+    const removeSlideIndex = editor.presentation.slides.findIndex(slide => slide.id === removeSlideIds[0])
+    const newSlides = editor.presentation.slides.filter(slide => !removeSlideIds.includes(slide.id));
     
     let newSelectedSlideId = null
     if (newSlides.length > 0) {
         if (removeSlideIndex < newSlides.length) {
-            newSelectedSlideId = newSlides[removeSlideIndex].id;
+            newSelectedSlideId = [newSlides[removeSlideIndex].id];
         } else {
-            newSelectedSlideId = newSlides[newSlides.length - 1].id;
+            newSelectedSlideId = [newSlides[newSlides.length - 1].id];
         }
     } else {
         newSelectedSlideId = null; 
@@ -28,7 +31,7 @@ function removeSlide(editor: Editor): Editor {
         },
         selection: {
             ...editor.selection,
-            slideId: newSelectedSlideId,
+            slideIds: newSelectedSlideId,
         },
     };
 }

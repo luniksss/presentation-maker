@@ -86,10 +86,10 @@ const schema = {
         selection: {
             type: "object",
             properties: {
-                slideId: { type: "string" },
+                slideIds: { type: "array", items: { type: ["string", "null"]} },
                 elementId: { type: ["string", "null"] }
             },
-            required: ["slideId"],
+            required: ["slideIds"],
             additionalProperties: false
         }
     },
@@ -109,7 +109,7 @@ const savedEditorData = loadFromLocalStorage();
 let startPresentation: Editor = {
     presentation: defaultPresentation,
     selection: {
-        slideId: defaultPresentation.slides[0].id,
+        slideIds: [defaultPresentation.slides[0].id],
         elementId: null
     }
 };

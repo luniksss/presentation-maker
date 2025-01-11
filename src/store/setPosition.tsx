@@ -6,7 +6,8 @@ function setPosition(editor: Editor, newPosition: Position) {
         return editor;        
     }
     
-    const { slideId, elementId } = editor.selection;
+    const slideId = editor.selection.slideIds?.[0];
+    const elementId = editor.selection.elementId;
 
     const newSlides = editor.presentation.slides.map(slide => {
         if (slide.id === slideId) {

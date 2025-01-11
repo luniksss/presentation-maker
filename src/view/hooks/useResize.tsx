@@ -7,7 +7,7 @@ const useResize = (
     initialSize: Size,
     initialPosition: Position
 ) => {
-    const selectedSlideId = useAppSelector((editor) => editor.selection.slideId);
+    const selectedSlideId = useAppSelector((editor) => editor.selection.slideIds?.[0]);
     const { setSize } = useAppActions();
     const [sizeElement, setSizeElement] = useState(initialSize);
     const [resizePosition, setResizePosition] = useState(initialPosition);

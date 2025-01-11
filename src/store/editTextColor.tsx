@@ -2,10 +2,10 @@ import { Editor } from "./EditorType";
 import { TextElement } from "./PresentationType";
 
 function editTextColor(editor: Editor, newColor: string): Editor {
-    const selectedSlideId = editor.selection.slideId;
+    const selectedSlideId = editor.selection.slideIds?.[0];
     const selectedElementId = editor.selection.elementId;
 
-    if (selectedSlideId === null || selectedElementId === null) {
+    if (selectedSlideId === null || selectedElementId === null || !selectedSlideId) {
         return editor;
     }
 

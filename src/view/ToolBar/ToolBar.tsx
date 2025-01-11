@@ -33,7 +33,6 @@ function ToolBar() {
     let gradientColor1 = '#ffffff';
     let gradientColor2 = '#000000'
 
-
     React.useEffect(() => {
         setInputValue(title);
     }, [title]);

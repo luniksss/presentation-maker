@@ -7,7 +7,7 @@ function WorkSpace() {
     const presentation = useAppSelector((editor => editor.presentation))
     const selection = useAppSelector((editor => editor.selection))
     const slides = presentation.slides
-    const slide: SlideType = slides.find(slide => slide.id === selection?.slideId) || slides[0]
+    const slide: SlideType = slides.find(slide => slide.id === selection?.slideIds?.[0]) || slides[0]
 
     return (
         <div className={styles.workSpace}>

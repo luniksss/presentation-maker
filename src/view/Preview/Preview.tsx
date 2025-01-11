@@ -23,7 +23,7 @@ function Preview() {
                             <Slide
                                 slide={slide}
                                 scale={SLIDE_PREVIEW_SCALE}
-                                isSelected={slide.id === selection.slideId}
+                                isSelected={slide.id === selection.slideIds?.[0]}
                                 className={styles.slideListItem}
                                 showSelectionBorder={false}
                                 departurePoint={"SlideList"}

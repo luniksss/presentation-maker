@@ -16,7 +16,7 @@ function addSlide(editor: Editor): Editor {
             slides: newSlideList,
         },
         selection: {
-            slideId: newSlide.id,
+            slideIds: [newSlide.id],
             elementId: null,
         }
     }
