@@ -1,40 +1,94 @@
 import { useEffect, useRef, useState } from "react";
 import { useAppActions } from "./useAppActions";
-import { Size, UpdateSize } from "../../store/PresentationType";
+import { Position, Size, UpdateSize } from "../../store/PresentationType";
 import { useAppSelector } from "./useAppSelector";
 
 const useResize = (
     initialSize: Size,
-    scale: number
+    initialPosition: Position
 ) => {
     const selectedSlideId = useAppSelector((editor) => editor.selection.slideId);
     const { setSize } = useAppActions();
     const [sizeElement, setSizeElement] = useState(initialSize);
+    const [resizePosition, setResizePosition] = useState(initialPosition);
     const [resizeType, setResizeType] = useState<UpdateSize | null>(null);
     const ref = useRef<HTMLDivElement | null>(null);
+    let newX = initialPosition.x;
+    let newY = initialPosition.y;
+    let startBottom = initialPosition.y + initialSize.height
+    let startRight = initialPosition.x + initialSize.width
 
     const handleMouseMove = (event: MouseEvent) => {
         if (resizeType && ref.current) {
             const currentElement = ref.current.getBoundingClientRect();
             let newWidth = sizeElement.width;
             let newHeight = sizeElement.height;
-
+            let deltaY, deltaX = 0
             switch (resizeType) {
                 case 'diagonal-right-bottom':
-                    newWidth = event.clientX - currentElement.left;
-                    newHeight = event.clientY - currentElement.top;
-                    break;    
+                    newWidth = Math.max(event.clientX - currentElement.left, 50);
+                    newHeight = Math.max(event.clientY - currentElement.top, 50);
+                    break;
                 case 'horizontal-right':
-                    newWidth = event.clientX - currentElement.left;
+                    newWidth = Math.max(event.clientX - currentElement.left, 50);
                     break;
                 case 'vertical-bottom':
-                    newHeight = event.clientY - currentElement.top;
+                    newHeight =  Math.max(event.clientY - currentElement.top, 50);
+                    break;
+                case 'diagonal-left-top':
+                    deltaX = event.clientX - startRight;
+                    deltaY = event.clientY - startBottom;
+                    newWidth =  Math.max(sizeElement.width - deltaX, 50);
+                    if (sizeElement.height - deltaY < 0) {
+                        newHeight = Math.max(-(sizeElement.height - deltaY), 50);
+                    } else {
+                        newHeight = Math.max(sizeElement.height - deltaY, 50);
+                    }
+                    newX = startRight - newWidth;
+                    newY = startBottom - newHeight;
+                    break;
+                case 'horizontal-left':
+                    deltaX = event.clientX - startRight;
+                    newWidth =  Math.max(sizeElement.width - deltaX, 50);
+                    newX = startRight - newWidth;
+                    break;
+                case 'diagonal-right-top':
+                    deltaX = currentElement.left - event.clientX;
+                    deltaY = event.clientY - startBottom;
+                    newWidth =  Math.max(sizeElement.width - deltaX, 50);
+                    if (sizeElement.height - deltaY < 0) {
+                        newHeight = Math.max(-(sizeElement.height - deltaY), 50);
+                    } else {
+                        newHeight = Math.max(sizeElement.height - deltaY, 50);
+                    }
+                    newY = startBottom - newHeight;
+                    break;
+                case 'vertical-top':
+                    deltaY = event.clientY - startBottom;
+                    if (sizeElement.height - deltaY < 0) {
+                        newHeight = Math.max(-(sizeElement.height - deltaY), 50);
+                    } else {
+                        newHeight = Math.max(sizeElement.height - deltaY, 50);
+                    }
+                    newY = startBottom - newHeight;
+                    break;
+                case 'diagonal-left-bottom':
+                    deltaX = event.clientX - startRight;
+                    deltaY = startBottom - event.clientY;
+                    newWidth =  Math.max(sizeElement.width - deltaX, 50);
+                    newHeight = Math.max(sizeElement.height - deltaY, 50);
+                    newX = startRight - newWidth;
                     break;
             }
 
             setSizeElement({
-                width: Math.max(newWidth / scale, 50),
-                height: Math.max(newHeight / scale, 50)
+                width: newWidth,
+                height: newHeight
+            });
+
+            setResizePosition({
+                x: newX,
+                y: newY
             });
         }
     };
@@ -44,8 +98,8 @@ const useResize = (
             const currentElement = ref.current.getBoundingClientRect();
             if (selectedSlideId) {
                 setSize({
-                    width: Math.max((currentElement.right - currentElement.left) / scale, 50),
-                    height: Math.max((currentElement.bottom - currentElement.top) / scale, 50)
+                    width: currentElement.right - currentElement.left,
+                    height: currentElement.bottom - currentElement.top
                 });
             }
         }
@@ -74,9 +128,10 @@ const useResize = (
 
     return {
         sizeElement,
-        resizeType,
+        resizePosition,
         handleResizeMouseDown,
         setSizeElement,
+        setResizePosition,
         ref
     };
 };
