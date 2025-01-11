@@ -16,7 +16,7 @@ function SlideList() {
     const { setSelection, setSlidesOrder } = useAppActions();
     const slideListRef = useRef<HTMLDivElement | null>(null);
 
-    const { onMouseDown, onMouseMove, onMouseUp, draggedSlideId, dragOverIndex } = useSlideDragAndDrop(slides, (newSlides) => {
+    const { onMouseDown, onMouseMove, onMouseUp, draggedSlideIds, dragOverIndex, isDragging } = useSlideDragAndDrop(selection, slides, (newSlides) => {
         setSlidesOrder(newSlides);
     });
 
@@ -44,24 +44,28 @@ function SlideList() {
                         <ul
                             key={slide.id}
                             id={slide.id}
-                            onClick={() => onSlideClick(slide.id)}
+                            onClick={() => {
+                                if (!isDragging) {
+                                    onSlideClick(slide.id);
+                                }
+                            }}
                             onMouseDown={() => {
-                                if (slide.id === selection.slideIds?.[0]) {
+                                if (selection.slideIds?.includes(slide.id)) {
                                     onMouseDown(slide.id);
                                 }
                             }}
                             onMouseMove={() => {
-                                if (draggedSlideId === selection.slideIds?.[0]) {
+                                if (draggedSlideIds !== null && draggedSlideIds.length > 0 && selection.slideIds?.some(id => draggedSlideIds.includes(id))) {
                                     onMouseMove(index);
                                 }
                             }}
                             onMouseUp={() => {
-                                if (draggedSlideId === selection.slideIds?.[0]) {
+                                if (draggedSlideIds !== null && draggedSlideIds.length > 0 && selection.slideIds?.some(id => draggedSlideIds.includes(id))) {
                                     onMouseUp();
                                 }
-                            }}
+                            }}                            
                             style={{
-                                opacity: draggedSlideId === slide.id ? 0.5 : 1,
+                                opacity: draggedSlideIds?.includes(slide.id) ? 0.5 : 1,
                                 border: dragOverIndex === index ? '2px dashed blue' : 'none',
                             }}
                         >
