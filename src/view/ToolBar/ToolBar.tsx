@@ -239,7 +239,7 @@ function ToolBar() {
                             <Button className="button" text="Gradient" onClick={() => toggleMenu('gradient')}>
                                 {openMenu === 'gradient' && (
                                     <div className={styles.gradientSubmenu}>
-                                        <Button className="button" text="Цвет 1" onClick={() => {
+                                        <Button className="button" text="Color 1" onClick={() => {
                                             const colorInput = document.createElement('input');
                                             colorInput.type = 'color';
                                             colorInput.value = gradientColor1;
@@ -249,7 +249,7 @@ function ToolBar() {
                                             };
                                             colorInput.click();
                                         }} />
-                                        <Button className="button" text="Цвет 2" onClick={() => {
+                                        <Button className="button" text="Color 2" onClick={() => {
                                             const colorInput = document.createElement('input');
                                             colorInput.type = 'color';
                                             colorInput.value = gradientColor2;
