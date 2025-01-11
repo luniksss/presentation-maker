@@ -5,7 +5,7 @@ import { TextElement } from "./PresentationType";
 function addTextElement(editor: Editor): Editor {
     const newElement : TextElement = {
         id: generateRandomId(),
-        size: {width: 300, height: 200}, 
+        size: {width: 90, height: 50}, 
         position: {x: 10, y: 10}, 
         isSelected: true,
         type: 'text', 

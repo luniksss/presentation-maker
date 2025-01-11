@@ -26,18 +26,26 @@ type ResizeHandle = {
 const ImageObject = ({ image, scale = 1, isSelected, showSelectionBorder, borderIsShown }: ImageProps) => {
     const selection = useAppSelector((editor) => editor.selection)
     const { localPosition, handleMouseDown, setLocalPosition } = useDragAndDrop(image.position, image.id, selection, isSelected);
-    const { sizeElement, resizeType, handleResizeMouseDown, setSizeElement, ref } = useResize(image.size, scale);
+    const { sizeElement, resizePosition, handleResizeMouseDown, setSizeElement, setResizePosition, ref } = useResize(image.size, localPosition);
 
+    useEffect(() => {
+        setLocalPosition(resizePosition);
+    }, [resizePosition]);
+    
     useEffect(() => {
         setLocalPosition(image.position)
         setSizeElement(image.size)
     }, [image]);
 
-
     const resizeHandles: ResizeHandle[] = [
         { type: 'diagonal-right-bottom', style: { bottom: 0, right: 0, cursor: 'nwse-resize' } },
         { type: 'horizontal-right', style: { bottom: '50%', right: 0, cursor: 'ew-resize' } },
         { type: 'vertical-bottom', style: { bottom: 0, right: '50%', cursor: 'ns-resize' } },
+        { type: 'diagonal-left-top', style: { top: 0, left: 0, cursor: 'nwse-resize'} },
+        { type: 'vertical-top', style: { top: 0, left: '50%', cursor: 'ns-resize'} },
+        { type: 'diagonal-right-top', style: { top: 0, right: 0, cursor: 'nwse-resize' } },
+        { type: 'horizontal-left', style: { bottom: '50%', left: 0, cursor: 'ew-resize' } },
+        { type: 'diagonal-left-bottom', style: { bottom: 0, left: 0, cursor: 'nwse-resize' } },
     ];
 
     const imageBlockStyles: CSSProperties = useMemo(() => ({
@@ -53,7 +61,7 @@ const ImageObject = ({ image, scale = 1, isSelected, showSelectionBorder, border
         height: `${sizeElement.height * scale}px`,
         position: "absolute",
         border: (isSelected && showSelectionBorder && borderIsShown) ? '3px solid var(--selection)' : '3px solid transparent',
-    }), [scale, isSelected, sizeElement, borderIsShown, showSelectionBorder, localPosition]);
+    }), [scale, isSelected, sizeElement, borderIsShown, showSelectionBorder]);
 
     const resizeHandleStyles: CSSProperties = {
         width: "10px",
