@@ -3,8 +3,10 @@ import styles from './PlayerView.module.css';
 import { Link } from 'react-router-dom';
 import { Slide } from '../view/Slide/Slide';
 import { useAppSelector } from '../view/hooks/useAppSelector';
+import { useTranslation } from 'react-i18next';
 
 const PlayerView: React.FC = () => {
+    const { t } = useTranslation();
     const presentation = useAppSelector(editor => editor.presentation);
     const slides = presentation.slides;
 
@@ -47,7 +49,7 @@ const PlayerView: React.FC = () => {
 
     return (
         <div className={styles.playerViewPage}>
-            <Link to="/editor" className={styles.exitButton} onClick={exitFullScreen}>↩ Exit</Link>
+            <Link to="/editor" className={styles.exitButton} onClick={exitFullScreen}>↩ {t('exit')}</Link>
             <div className={styles.playerViewSlide}>
                 <Slide
                     slide={slides[currentSlideIndex]}

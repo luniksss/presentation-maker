@@ -2,8 +2,10 @@ import { SlideType } from "../../store/PresentationType"
 import { Slide } from "../Slide/Slide"
 import styles from "./WorkSpace.module.css"
 import { useAppSelector } from '../hooks/useAppSelector';
+import { useTranslation } from 'react-i18next';
 
 function WorkSpace() {
+    const { t } = useTranslation();
     const presentation = useAppSelector((editor => editor.presentation))
     const selection = useAppSelector((editor => editor.selection))
     const slides = presentation.slides
@@ -20,7 +22,7 @@ function WorkSpace() {
                     departurePoint={"WorkSpace"}
                 />
             ) : (
-                <p>Создайте и выберите слайд</p>
+                <p>{t('workspaceSlideNotFound')}</p>
             )}
         </div>
     );

@@ -4,7 +4,6 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  direction: ltr;
 }
 
 .container {
@@ -15,3 +14,6 @@
   overflow: hidden;
 }
 
+body[dir='rtl'].container {
+  direction: rtl;
+}

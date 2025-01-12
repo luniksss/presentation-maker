@@ -5,6 +5,7 @@ import App from './App';
 import { Provider } from 'react-redux';
 import { store } from './store/redux/store';
 import { initHistory } from './utils/history';
+import './components/translation/i18next'
 
 const root = createRoot(document.getElementById('root')!)
 

@@ -1,10 +1,12 @@
 import { Slide } from "../Slide/Slide";
 import styles from './Preview.module.css';
 import { useAppSelector } from '../hooks/useAppSelector';
+import { useTranslation } from 'react-i18next';
 
 const SLIDE_PREVIEW_SCALE = 0.7;
 
 function Preview() {
+    const { t } = useTranslation();
     const presentation = useAppSelector(editor => editor.presentation);
     const selection = useAppSelector(editor => editor.selection);
     const slides = presentation.slides;
@@ -13,7 +15,7 @@ function Preview() {
         <div className={styles.slideContainer}>
             <div className={styles.slideList}>
                 {slides.length === 0 ? (
-                    <p>Нет доступных слайдов</p>
+                    <p>{t('emptySlideList')}</p>
                 ) : (
                     slides.map((slide, index) => (
                         <ul

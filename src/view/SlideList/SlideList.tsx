@@ -4,10 +4,12 @@ import styles from './SlideList.module.css';
 import { useAppActions } from '../hooks/useAppActions';
 import { useAppSelector } from '../hooks/useAppSelector';
 import useSlideDragAndDrop from '../hooks/useSlideDragAndDrop';
+import { useTranslation } from 'react-i18next';
 
 const SLIDE_PREVIEW_SCALE = 0.2;
 
 function SlideList() {
+    const { t } = useTranslation();
     const presentation = useAppSelector(editor => editor.presentation);
     const selection = useAppSelector(editor => editor.selection);
     const slides = presentation.slides;
@@ -38,7 +40,7 @@ function SlideList() {
         <div className={styles.slideContainer} ref={slideListRef}>
             <div className={styles.slideList}>
                 {slides.length === 0 ? (
-                    <p>Нет доступных слайдов</p>
+                    <p>{t('emptySlideList')}</p>
                 ) : (
                     slides.map((slide, index) => (
                         <ul

@@ -1,0 +1,16 @@
+.languagesBlock {
+    position: relative;
+}
+
+.languagesList {
+    position: absolute;
+    top: 20px;
+    left: 5px;
+    width: 100%;
+    padding: 4px;
+    color: var(--text-color);
+    background-color: var(--element-hover);
+    border: 2px solid var(--selection);
+    border-radius: 5px;
+    z-index: 10;
+}

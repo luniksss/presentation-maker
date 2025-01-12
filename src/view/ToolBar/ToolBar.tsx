@@ -7,6 +7,8 @@ import { useAppActions } from '../hooks/useAppActions';
 import { useAppSelector } from '../hooks/useAppSelector';
 import { Link } from 'react-router';
 import { Preview } from '../Preview/Preview';
+import { useTranslation } from 'react-i18next';
+import Translation from '../../components/translation/Translation';
 
 interface UnsplashImage {
     id: string;
@@ -22,6 +24,7 @@ interface UnsplashResponse {
 }
 
 function ToolBar() {
+    const { t } = useTranslation();
     let title = useAppSelector((editor => editor.presentation.title))
     const [inputValue, setInputValue] = React.useState(title);
     const [openMenu, setOpenMenu] = React.useState(null);
@@ -191,27 +194,27 @@ function ToolBar() {
             <div className={styles.toolButtons}>
                 <Button onClick={onUndo} className="undoButton"></Button>
                 <Button onClick={onRedo} className="redoButton"></Button>
-                <button onClick={enterFullScreen} className={styles.slideShowButton}><Link className="slideShow" to="/player">Slideshow</Link></button>
+                <button onClick={enterFullScreen} className={styles.slideShowButton}><Link className="slideShow" to="/player">{t('slideShow')}</Link></button>
 
-                <Button className="button" text="Slide" onClick={() => toggleMenu('slide')}>
+                <Button className="button" text={t('slide')} onClick={() => toggleMenu('slide')}>
                     {openMenu === 'slide' && (
                         <div className={styles.submenu}>
-                            <Button className="button" text="Add Slide" onClick={addSlide} />
-                            <Button className="button" text="Remove Slide" onClick={removeSlide} />
+                            <Button className="button" text={t('addSlide')} onClick={addSlide} />
+                            <Button className="button" text={t('removeSlide')} onClick={removeSlide} />
                         </div>
                     )} </Button>
 
-                <Button className="button" text="Background" onClick={() => toggleMenu('background')}>
+                <Button className="button" text={t('background')} onClick={() => toggleMenu('background')}>
                     {(openMenu === 'background' || openMenu === 'gradient' || openMenu === 'background-unsplash') && (
                         <div className={styles.submenu} id="background-options">
-                            <Button className="button" text="Color" onClick={() => {
+                            <Button className="button" text={t('color')} onClick={() => {
                                 const colorInput = document.createElement('input');
                                 colorInput.type = 'color';
                                 colorInput.defaultValue = "#888888";
                                 colorInput.onchange = (e) => onChangeBackgroundColor((e.target as HTMLInputElement).value);
                                 colorInput.click();
                             }} />
-                            <Button className="button" text="Image from computer" onClick={() => {
+                            <Button className="button" text={t('computerImage')} onClick={() => {
                                 const fileInput = document.createElement('input');
                                 fileInput.type = 'file';
                                 fileInput.accept = "image/*";
@@ -221,12 +224,12 @@ function ToolBar() {
                                 };
                                 fileInput.click();
                             }} />
-                            <Button className="button" text="Image from Unsplash" onClick={() => toggleMenu('background-unsplash')}>
+                            <Button className="button" text={t('unsplashImage')} onClick={() => toggleMenu('background-unsplash')}>
                                 {openMenu === 'background-unsplash' && (
                                     <div className={styles.unsplashMenu}>
                                         <div className={styles.unsplashSearch}>
-                                            <input className={styles.searchInput} type="text" placeholder="Search images..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                                            <Button className='acceptButton' text="Search" onClick={() => fetchImages(searchTerm)} />
+                                            <input className={styles.searchInput} type="text" placeholder={t('imageSearchRequest')} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                                            <Button className='acceptButton' text={t('imageSearch')} onClick={() => fetchImages(searchTerm)} />
                                         </div>
                                         <div className={styles.imageGrid}>
                                             {images.map((image) => (
@@ -235,10 +238,10 @@ function ToolBar() {
                                         </div>
                                     </div>
                                 )} </Button>
-                            <Button className="button" text="Gradient" onClick={() => toggleMenu('gradient')}>
+                            <Button className="button" text={t('gradient')} onClick={() => toggleMenu('gradient')}>
                                 {openMenu === 'gradient' && (
                                     <div className={styles.gradientSubmenu}>
-                                        <Button className="button" text="Color 1" onClick={() => {
+                                        <Button className="button" text={t('color1')} onClick={() => {
                                             const colorInput = document.createElement('input');
                                             colorInput.type = 'color';
                                             colorInput.value = gradientColor1;
@@ -248,7 +251,7 @@ function ToolBar() {
                                             };
                                             colorInput.click();
                                         }} />
-                                        <Button className="button" text="Color 2" onClick={() => {
+                                        <Button className="button" text={t('color2')} onClick={() => {
                                             const colorInput = document.createElement('input');
                                             colorInput.type = 'color';
                                             colorInput.value = gradientColor2;
@@ -258,7 +261,7 @@ function ToolBar() {
                                             };
                                             colorInput.click();
                                         }} />
-                                        <Button className="acceptButton" text="ОК" onClick={() => {
+                                        <Button className="acceptButton" text={t('acceptButton')} onClick={() => {
                                             onChangeBackgroundGradient();
                                         }} />
                                     </div>
@@ -267,17 +270,17 @@ function ToolBar() {
                         </div>
                     )} </Button>
 
-                <Button className="button" text="Text" onClick={() => toggleMenu('text')}>
+                <Button className="button" text={t('text')} onClick={() => toggleMenu('text')}>
                     {openMenu === 'text' && (
                         <div className={styles.submenu}>
-                            <Button className="button" text="Add Text" onClick={addTextElement} />
-                            <Button className="button" text="Remove Text" onClick={removeElement} />
+                            <Button className="button" text={t('addText')} onClick={addTextElement} />
+                            <Button className="button" text={t('removeText')} onClick={removeElement} />
                             <input
                                 className={styles.searchInput}
                                 type="number"
                                 value={fontSize}
                                 onChange={(e) => setFontSize(Number(e.target.value))}
-                                placeholder="font size"
+                                placeholder={t('fontSize')}
                             />
                             <input
                                 className={styles.searchInput}
@@ -287,7 +290,7 @@ function ToolBar() {
                             />
                             <Button
                                 className="acceptButton"
-                                text="Edit Size"
+                                text={t('editText')}
                                 onClick={() => {
                                     if (fontSize) {
                                         onChangeFontSize(fontSize);
@@ -300,10 +303,10 @@ function ToolBar() {
                         </div>
                     )} </Button>
 
-                <Button className="button" text="Image" onClick={() => toggleMenu('image')}>
+                <Button className="button" text={t('image')} onClick={() => toggleMenu('image')}>
                     {(openMenu === 'image' || openMenu === 'unsplash') && (
                         <div className={styles.submenu}>
-                            <Button className="button" text="Add from computer" onClick={() => {
+                            <Button className="button" text={t('computerImage')} onClick={() => {
                                 const fileInput = document.createElement('input');
                                 fileInput.type = 'file';
                                 fileInput.accept = "image/*";
@@ -313,12 +316,12 @@ function ToolBar() {
                                 };
                                 fileInput.click();
                             }} />
-                            <Button className="button" text="Add from Unsplash" onClick={() => toggleMenu('unsplash')}>
+                            <Button className="button" text={t('unsplashImage')} onClick={() => toggleMenu('unsplash')}>
                                 {openMenu === 'unsplash' && (
                                     <div className={styles.unsplashMenu}>
                                         <div className={styles.unsplashSearch}>
-                                            <input className={styles.searchInput} type="text" placeholder="Search images..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-                                            <Button className='acceptButton' text="Search" onClick={() => fetchImages(searchTerm)} />
+                                            <input className={styles.searchInput} type="text" placeholder={t('imageSearchRequest')} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                                            <Button className='acceptButton' text={t('imageSearch')} onClick={() => fetchImages(searchTerm)} />
                                         </div>
                                         <div className={styles.imageGrid}>
                                             {images.map((image) => (
@@ -327,15 +330,15 @@ function ToolBar() {
                                         </div>
                                     </div>
                                 )} </Button>
-                            <Button className="button" text="Remove Image" onClick={removeElement} />
+                            <Button className="button" text={t('removeImage')} onClick={removeElement} />
                         </div>
                     )} </Button>
 
-                <Button className="button" text="Data" onClick={() => toggleMenu('data')}>
+                <Button className="button" text={t('data')} onClick={() => toggleMenu('data')}>
                     {openMenu === 'data' && (
                         <div className={styles.submenu}>
-                            <Button className="button" text="Export Data" onClick={exportData} />
-                            <Button className="button" text="Import Data" onClick={() => {
+                            <Button className="button" text={t('exportData')} onClick={exportData} />
+                            <Button className="button" text={t('importData')} onClick={() => {
                                 const fileInput = document.createElement('input');
                                 fileInput.type = 'file';
                                 fileInput.accept = ".json";
@@ -345,18 +348,19 @@ function ToolBar() {
                                 };
                                 fileInput.click();
                             }} />
-                            <Button className="button" text="Download PDF" onClick={() => toggleMenu('preview')} />
+                            <Button className="button" text={t('downloadPDF')} onClick={() => toggleMenu('preview')} />
                         </div>
                     )}
                 </Button>
                 <Theme></Theme>
+                <Translation></Translation>
             </div>
             {openMenu === 'preview' && (
                 <div className={styles.downloadPreview}>
                     <div className={styles.previewAccept}>
-                        <p>Are you sure you want to download the PDF?</p>
-                        <Button className="button" text="Yes, download" onClick={handleDownloadPDF} />
-                        <Button className="button" text="No, cancel" onClick={() => toggleMenu(null)} />
+                        <p>{t('previewAccept')}</p>
+                        <Button className="button" text={t('acceptDownload')} onClick={handleDownloadPDF} />
+                        <Button className="button" text={t('refuseDownload')} onClick={() => toggleMenu(null)} />
                     </div>
                     <Preview></Preview>
                 </div>
