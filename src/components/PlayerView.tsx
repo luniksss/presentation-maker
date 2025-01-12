@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './PlayerView.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { Slide } from '../view/Slide/Slide';
 import { useAppSelector } from '../view/hooks/useAppSelector';
 import { useTranslation } from 'react-i18next';
@@ -9,8 +9,8 @@ const PlayerView: React.FC = () => {
     const { t } = useTranslation();
     const presentation = useAppSelector(editor => editor.presentation);
     const slides = presentation.slides;
-
     const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+    const navigate = useNavigate(); // Get the navigate function
 
     const goToPreviousSlide = () => {
         if (currentSlideIndex > 0) {
@@ -37,6 +37,8 @@ const PlayerView: React.FC = () => {
             goToNextSlide();
         } else if (event.key === 'ArrowLeft') {
             goToPreviousSlide();
+        } else if (event.key === 'Escape') {
+            navigate('/editor');
         }
     };
 
@@ -45,7 +47,7 @@ const PlayerView: React.FC = () => {
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [currentSlideIndex]);
+    }, [currentSlideIndex, navigate]);
 
     return (
         <div className={styles.playerViewPage}>
