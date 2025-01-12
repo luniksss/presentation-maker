@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Slide } from "../Slide/Slide";
 import styles from './SlideList.module.css';
 import { useAppActions } from '../hooks/useAppActions';
@@ -35,6 +35,32 @@ function SlideList() {
             });
         }
     }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (selection.slideIds !== null && selection.slideIds.length > 0) {
+            const currentIndex = slides.findIndex(slide => slide.id === selection.slideIds?.[0]);
+            if (event.key === "ArrowDown") {
+                if (currentIndex < slides.length - 1) {
+                    const nextSlideId = slides[currentIndex + 1].id;
+                    setSelection({ slideIds: [nextSlideId], elementId: null });
+                }
+                event.preventDefault();
+            } else if (event.key === "ArrowUp") {
+                if (currentIndex > 0) {
+                    const prevSlideId = slides[currentIndex - 1].id;
+                    setSelection({ slideIds: [prevSlideId], elementId: null });
+                }
+                event.preventDefault();
+            }
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("keydown", handleKeyDown);
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [selection.slideIds]);
 
     return (
         <div className={styles.slideContainer} ref={slideListRef}>

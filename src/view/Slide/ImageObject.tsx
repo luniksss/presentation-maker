@@ -3,6 +3,7 @@ import { CSSProperties, useEffect, useMemo } from "react";
 import { useDragAndDrop } from "../hooks/useDragAndDrop";
 import { useResize } from "../hooks/useResize";
 import { useAppSelector } from "../hooks/useAppSelector";
+import { useAppActions } from "../hooks/useAppActions";
 
 type ImageProps = {
     image: ImageElement,
@@ -25,6 +26,7 @@ type ResizeHandle = {
 
 const ImageObject = ({ image, scale = 1, isSelected, showSelectionBorder, borderIsShown }: ImageProps) => {
     const selection = useAppSelector((editor) => editor.selection)
+    const { removeElement } = useAppActions();
     const { localPosition, handleMouseDown, setLocalPosition } = useDragAndDrop(image.position, image.id, selection, isSelected);
     const { sizeElement, resizePosition, handleResizeMouseDown, setSizeElement, setResizePosition, ref } = useResize(image.size, localPosition);
 
@@ -36,6 +38,22 @@ const ImageObject = ({ image, scale = 1, isSelected, showSelectionBorder, border
         setLocalPosition(image.position)
         setSizeElement(image.size)
     }, [image]);
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === "Delete" || event.key === "Backspace") {
+            if (isSelected) {
+                removeElement();
+                event.preventDefault();
+            }
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("keydown", handleKeyDown);
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [isSelected]);
 
     const resizeHandles: ResizeHandle[] = [
         { type: 'diagonal-right-bottom', style: { bottom: 0, right: 0, cursor: 'nwse-resize' } },

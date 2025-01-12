@@ -187,7 +187,6 @@ function ToolBar() {
         }
     };
 
-
     return (
         <div className={styles.toolBar}>
             <input className={styles.title} type="text" value={title} onChange={onTitleChange} />

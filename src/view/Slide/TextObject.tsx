@@ -28,7 +28,7 @@ const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIs
     const selection = useAppSelector((editor) => editor.selection)
     const { localPosition, handleMouseDown, setLocalPosition } = useDragAndDrop(text.position, text.id, selection, isSelected);
     const { sizeElement, resizePosition, handleResizeMouseDown, setSizeElement, setResizePosition, ref } = useResize(text.size, localPosition);
-    const { updateTextContent } = useAppActions();
+    const { updateTextContent, removeElement } = useAppActions();
 
     const [isEditing, setIsEditing] = useState(false);
     const [editableText, setEditableText] = useState(text.content);
@@ -42,6 +42,22 @@ const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIs
         setSizeElement(text.size)
         setEditableText(text.content);
     }, [text]);
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === "Delete" || event.key === "Backspace") {
+            if (isSelected) {
+                removeElement();
+                event.preventDefault();
+            }
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener("keydown", handleKeyDown);
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [isSelected]);
 
     const resizeHandles: ResizeHandle[] = [
         { type: 'diagonal-right-bottom', style: { bottom: 0, right: 0, cursor: 'nwse-resize' } },
