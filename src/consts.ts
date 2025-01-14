@@ -47,8 +47,8 @@ const SLIDE_DOWNLOAD_PREVIEW_SCALE = 0.7
 const RESIZE_SCALE = "resize"
 const MIN_SIZE = 50
 
-const DEFAULT_FONTFAMILY = "Verdana"
-const DEFAULT_FONTSIZE = 14
+const DEFAULT_FONTFAMILY = "Times New Roman"
+const DEFAULT_FONTSIZE = 18
 const DEFAULT_FONTCONTENT = "Your text"
 
 export { 

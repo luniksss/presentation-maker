@@ -102,6 +102,26 @@ a:hover {
     border-radius: 3px;
 }
 
+.fontSelector {
+    width: 100%;
+    margin-left: 10px;
+    padding: 2px 4px;
+    color: var(--text-color);
+    background-color: var(--toolbar-background);
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.fontList {
+    width: 100%;
+    margin: 0 0 5px 10px;
+    padding: 2px 4px;
+    background-color: var(--selection);
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    cursor: pointer;
+}
+
 .imageGrid {
     margin: 5px 10px;
 }

@@ -18,6 +18,7 @@ import { editTextColor } from "../editTextColor"
 import { setPosition } from "../setPosition"
 import { setSize } from "../setSize"
 import { updateTextContent } from "../updateTextContent"
+import { editFontFamily } from "../editFontFamily"
 
 function editorReducer(editor: Editor = startPresentation, action: EditorAction | PresentationAction | TextElementAction): Editor {
     switch (action.type) {
@@ -31,6 +32,8 @@ function editorReducer(editor: Editor = startPresentation, action: EditorAction 
             return editTextFontSize(editor, action.payload)
         case ActionType.EDIT_FONT_COLOR:
             return editTextColor(editor, action.payload)
+        case ActionType.EDIT_FONT_FAMILY:
+            return editFontFamily(editor, action.payload)
         case ActionType.EDIT_TEXT:
             return updateTextContent(editor, action.payload)
         case ActionType.ADD_IMAGE:
@@ -39,13 +42,13 @@ function editorReducer(editor: Editor = startPresentation, action: EditorAction 
             return deleteElement(editor)
         case ActionType.CHANGE_BACKGROUND:
             return changeBackground(editor, action.payload)
-        case ActionType.SET_SELECTION: 
+        case ActionType.SET_SELECTION:
             return setSelection(editor, action)
         case ActionType.SET_POSITION:
             return setPosition(editor, action.payload)
         case ActionType.SET_SIZE:
             return setSize(editor, action.payload)
-        case ActionType.SET_SLIDES_ORDER: 
+        case ActionType.SET_SLIDES_ORDER:
             return setSlides(editor, action.payload)
         case ActionType.SET_EDITOR:
             return action.payload

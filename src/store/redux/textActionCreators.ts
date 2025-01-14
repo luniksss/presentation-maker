@@ -21,8 +21,16 @@ function updateTextContent(newContent: string) {
     }
 }
 
+function editFontFamily(newFontFamily: string) {
+    return {
+        type: ActionType.EDIT_FONT_FAMILY,
+        payload: newFontFamily
+    }
+}
+
 export {
     editTextFontSize,
     editTextColor,
     updateTextContent,
+    editFontFamily,
 }

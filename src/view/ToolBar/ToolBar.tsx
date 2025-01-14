@@ -10,6 +10,7 @@ import { Preview } from '../Preview/Preview'
 import { useTranslation } from 'react-i18next'
 import Translation from '../../components/translation/Translation'
 import { ACCESS_KEY, BLACK_COLOR, NETWORK_RESPONSE, PLAYERVIEW_ROUTE, REQUIRED_PARAMETR, WHITE_COLOR } from '../../consts'
+import { AvailableFonts } from '../../store/PresentationType'
 
 interface UnsplashImage {
     id: string
@@ -33,6 +34,8 @@ function ToolBar() {
     const [searchTerm, setSearchTerm] = useState('')
     const [fontSize, setFontSize] = useState<number | ''>('')
     const [fontColor, setFontColor] = useState<string>(BLACK_COLOR)
+    const [selectedFont, setSelectedFont] = useState(AvailableFonts[0].name)
+    const [showFontList, setShowFontList] = useState(false)
 
     let gradientColor1 = BLACK_COLOR
     let gradientColor2 = WHITE_COLOR
@@ -53,7 +56,8 @@ function ToolBar() {
         importData,
         setEditor,
         editTextFontSize,
-        editTextColor } = useAppActions()
+        editTextColor,
+        editFontFamily } = useAppActions()
     const history = useContext(HistoryContext)
 
     const toggleMenu = (menu: any) => {
@@ -162,6 +166,12 @@ function ToolBar() {
     const onChangeTextColor = (color: string) => {
         editTextColor(color)
     }
+
+    const onChangeFontFamily = (font: string) => {
+        setSelectedFont(font)
+        setShowFontList(false)
+        editFontFamily(font)
+    };
 
     function uploadData(target: HTMLInputElement) {
         if (target.files && target.files[0]) {
@@ -290,6 +300,29 @@ function ToolBar() {
                                 value={fontColor}
                                 onChange={(e) => setFontColor(e.target.value)}
                             />
+                            <div>
+                                <div
+                                    className={styles.fontSelector}
+                                    onClick={() => setShowFontList(!showFontList)}
+                                    style={{ fontFamily: selectedFont }}
+                                >
+                                    {selectedFont.split(',')[0]}
+                                </div>
+                                {showFontList && (
+                                    <div className={styles.fontList}>
+                                        {AvailableFonts.map(font => (
+                                            <div
+                                                key={font.name}
+                                                className={styles.fontItem}
+                                                onClick={() => onChangeFontFamily(font.name)}
+                                                style={{ fontFamily: font.name }}
+                                            >
+                                                {font.name}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
                             <Button
                                 className="acceptButton"
                                 text={t('editText')}

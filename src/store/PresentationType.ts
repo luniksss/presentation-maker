@@ -44,6 +44,15 @@ type TextElement = Elem & {
     color: string
 }
 
+const AvailableFonts = [
+    { name: 'Times New Roman' },
+    { name: 'Poppins' },
+    { name: 'Verdana' },
+    { name: 'Montserrat' },
+    { name: 'Merriweather' },
+    { name: 'Open Sans' },
+];
+
 type ImageElement = Elem & {
     type: 'image'
     src: string
@@ -63,3 +72,4 @@ type Presentation = {
 }
 
 export type { Presentation, SlideType, Component, TextElement, ImageElement, Position, Size, UpdateSize, ResizeHandle }
+export {AvailableFonts}

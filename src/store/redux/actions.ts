@@ -12,6 +12,7 @@ enum ActionType {
     EDIT_FONTSIZE = 'editTextFontSize',
     EDIT_FONT_COLOR = 'editTextColor',
     EDIT_TEXT = 'updateTextContent',
+    EDIT_FONT_FAMILY = 'editFontFamily',
 
     SET_SELECTION = 'setSelection',
     SET_SLIDES_ORDER = 'setSlides',
@@ -51,6 +52,11 @@ type EditTextColor = {
 
 type UpdateTextContent = {
     type: ActionType.EDIT_TEXT,
+    payload: string,
+}
+
+type EditFontFamily = {
+    type: ActionType.EDIT_FONT_FAMILY,
     payload: string,
 }
 
@@ -136,7 +142,8 @@ type PresentationAction = ChangeTitleAction |
 
 type TextElementAction = EditTextFontSize | 
                          EditTextColor | 
-                         UpdateTextContent
+                         UpdateTextContent |
+                         EditFontFamily
 export {
     ActionType,
     type SetSelectionAction,
