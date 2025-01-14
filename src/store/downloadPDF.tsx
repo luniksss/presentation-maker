@@ -1,16 +1,16 @@
 import { jsPDF } from "jspdf"
 import { Editor } from "./EditorType"
 import { SlideType } from "./PresentationType"
-import { SLIDE_HEIGHT, SLIDE_WIDTH } from "../consts";
+import { MIN_SIZE, SLIDE_HEIGHT, SLIDE_WIDTH } from "../consts";
 
 async function exportPresentationToPDF(editor: Editor): Promise<Editor> {
     const width = SLIDE_WIDTH
-    const height = SLIDE_HEIGHT 
+    const height = SLIDE_HEIGHT
     const presentationName = editor.presentation.title
 
     const doc = new jsPDF({
         orientation: "landscape",
-        unit: "px",             
+        unit: "px",
         format: [width, height]
     })
 
@@ -18,12 +18,12 @@ async function exportPresentationToPDF(editor: Editor): Promise<Editor> {
         await addSlideToPDF(doc, slide, width, height, editor)
     }
 
-    presentationName !== '' ? doc.save(`${presentationName}.pdf`) : doc.save("presentation.pdf") 
+    presentationName !== '' ? doc.save(`${presentationName}.pdf`) : doc.save("presentation.pdf")
     return { ...editor }
 }
 
 async function addSlideToPDF(doc: jsPDF, slide: SlideType, width: number, height: number, editor: Editor) {
-    if (slide  !== editor.presentation.slides[0]) doc.addPage()
+    if (slide !== editor.presentation.slides[0]) doc.addPage()
     const background = slide.background
 
     if (background) {
@@ -52,13 +52,12 @@ async function addSlideToPDF(doc: jsPDF, slide: SlideType, width: number, height
 async function addSlideContent(doc: jsPDF, slide: SlideType) {
     for (const element of slide.elements) {
         if (element.type === "text") {
-            console.log(element)
             doc.setFontSize(element.fontSize)
             doc.setTextColor(element.color)
             if (element.fontFamily) {
                 doc.setFont(element.fontFamily)
             }
-            doc.text(element.content, element.position.x, element.position.y)
+            doc.text(element.content, element.position.x, element.position.y + MIN_SIZE)
         } else if (element.type === "image") {
             await new Promise<void>((resolve) => {
                 const img = new Image()
@@ -99,7 +98,7 @@ function createGradientImage(gradientString: string, width: number, height: numb
 function parseGradientColors(gradientString: string) {
     const regex = /linear-gradient\(([^)]+)\)/
     const match = gradientString.match(regex)
-    
+
     if (!match) return []
 
     const colorStopsString = match[1]

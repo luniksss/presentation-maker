@@ -9,7 +9,7 @@ const useResize = (
     initialPosition: Position
 ) => {
     const selectedSlideId = useAppSelector((editor) => editor.selection.slideIds?.[0])
-    const { setSize } = useAppActions()
+    const { setSize, setPosition } = useAppActions()
     const [sizeElement, setSizeElement] = useState(initialSize)
     const [resizePosition, setResizePosition] = useState(initialPosition)
     const [resizeType, setResizeType] = useState<UpdateSize | null>(null)
@@ -80,6 +80,22 @@ const useResize = (
                     newHeight = Math.max(sizeElement.height - deltaY, MIN_SIZE)
                     newX = startRight - newWidth
                     break;
+            }
+
+            if (newX < 0) {
+                const diff = -newX
+                newX = 0
+                if (resizeType.includes('left')) {
+                    newWidth -= diff
+                }
+            }
+
+            if (newY < 0) {
+                const diff = -newY;
+                newY = 0;
+                if (resizeType.includes('top')) {
+                    newHeight -= diff;
+                }
             }
 
             setSizeElement({

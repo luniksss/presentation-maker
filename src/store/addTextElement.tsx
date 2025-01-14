@@ -7,7 +7,7 @@ function addTextElement(editor: Editor): Editor {
     const newElement : TextElement = {
         id: generateRandomId(),
         size: {width: 90, height: 50}, 
-        position: {x: 10, y: 10}, 
+        position: {x: 0, y: 0}, 
         isSelected: true,
         type: 'text', 
         content: DEFAULT_FONTCONTENT, 

@@ -62,7 +62,7 @@ const TextObject = ({ text, scale = DEFAULT_SCALE, isSelected, showSelectionBord
     const textBlockStyles: CSSProperties = useMemo(() => ({
         width: `${sizeElement.width * scale}px`,
         height: `${sizeElement.height * scale}px`,
-        position: "relative",
+        position: "absolute",
         top: `${localPosition.y * scale}px`,
         left: `${localPosition.x * scale}px`,
     }), [scale, localPosition, sizeElement])
