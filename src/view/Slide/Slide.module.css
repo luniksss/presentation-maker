@@ -1,3 +1,21 @@
 .slide {
-    border-radius: 15px;
+    border-radius: 5px;
+}
+
+@media screen and (min-width: 670px) {
+    .slide {
+        border-radius: 8px;
+    }    
+}
+
+@media screen and (min-width: 1000px) {
+    .slide {
+        border-radius: 10px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .slide {
+        border-radius: 12px;
+    }    
 }

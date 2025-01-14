@@ -1,9 +1,10 @@
-import { TextElement, UpdateSize } from "../../store/PresentationType";
-import { CSSProperties, useMemo, useEffect, useState } from "react";
-import { useDragAndDrop } from "../hooks/useDragAndDrop";
-import { useResize } from "../hooks/useResize";
-import { useAppSelector } from "../hooks/useAppSelector";
-import { useAppActions } from "../hooks/useAppActions";
+import { TextElement, ResizeHandle } from "../../store/PresentationType"
+import { CSSProperties, useMemo, useEffect, useState } from "react"
+import { useDragAndDrop } from "../hooks/useDragAndDrop"
+import { useResize } from "../hooks/useResize"
+import { useAppSelector } from "../hooks/useAppSelector"
+import { useAppActions } from "../hooks/useAppActions"
+import { DEFAULT_SCALE, DELETE, KEYDOWN_KEY } from "../../consts"
 
 type TextProps = {
     text: TextElement,
@@ -13,51 +14,39 @@ type TextProps = {
     borderIsShown: boolean,
 }
 
-type ResizeHandle = {
-    type: UpdateSize;
-    style: {
-        bottom?: number | string;
-        right?: number | string;
-        top?: number | string;
-        left?: number | string;
-        cursor: string;
-    };
-}
-
-const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIsShown }: TextProps) => {
+const TextObject = ({ text, scale = DEFAULT_SCALE, isSelected, showSelectionBorder, borderIsShown }: TextProps) => {
     const selection = useAppSelector((editor) => editor.selection)
-    const { localPosition, handleMouseDown, setLocalPosition } = useDragAndDrop(text.position, text.id, selection, isSelected);
-    const { sizeElement, resizePosition, handleResizeMouseDown, setSizeElement, setResizePosition, ref } = useResize(text.size, localPosition);
-    const { updateTextContent, removeElement } = useAppActions();
-
+    const { localPosition, handleMouseDown, setLocalPosition } = useDragAndDrop(text.position, text.id, selection, isSelected)
+    const { sizeElement, resizePosition, handleResizeMouseDown, setSizeElement, setResizePosition, ref } = useResize(text.size, localPosition)
+    const { updateTextContent, removeElement } = useAppActions()
     const [isEditing, setIsEditing] = useState(false);
-    const [editableText, setEditableText] = useState(text.content);
+    const [editableText, setEditableText] = useState(text.content)
 
     useEffect(() => {
-        setLocalPosition(resizePosition);
-    }, [resizePosition]);
+        setLocalPosition(resizePosition)
+    }, [resizePosition])
 
     useEffect(() => {
-        setLocalPosition(text.position);
+        setLocalPosition(text.position)
         setSizeElement(text.size)
-        setEditableText(text.content);
+        setEditableText(text.content)
     }, [text]);
 
     const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === "Delete" || event.key === "Backspace") {
+        if (event.key === DELETE) {
             if (isSelected) {
-                removeElement();
-                event.preventDefault();
+                event.preventDefault()
+                removeElement()
             }
         }
     };
 
     useEffect(() => {
-        window.addEventListener("keydown", handleKeyDown);
+        window.addEventListener(KEYDOWN_KEY, handleKeyDown)
         return () => {
-            window.removeEventListener("keydown", handleKeyDown);
+            window.removeEventListener(KEYDOWN_KEY, handleKeyDown)
         };
-    }, [isSelected]);
+    }, [isSelected])
 
     const resizeHandles: ResizeHandle[] = [
         { type: 'diagonal-right-bottom', style: { bottom: 0, right: 0, cursor: 'nwse-resize' } },
@@ -86,31 +75,31 @@ const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIs
         position: "absolute",
         color: `${text.color}`,
         border: (isSelected && showSelectionBorder && borderIsShown) ? '3px solid var(--selection)' : '3px solid transparent',
-    }), [text, scale, isSelected, borderIsShown, showSelectionBorder, sizeElement]);
+    }), [text, scale, isSelected, borderIsShown, showSelectionBorder, sizeElement])
 
     const resizeHandleStyles: CSSProperties = {
         width: "10px",
         height: "10px",
         backgroundColor: "var(--resize-handle-color, #000)",
         position: "absolute",
-        borderRadius: "50%",
         cursor: "pointer",
-    };
+    }
 
     const handleDoubleClick = () => {
-        setIsEditing(true);
-    };
+        setIsEditing(true)
+    }
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEditableText(e.target.value);
-    };
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEditableText(event.target.value)
+    }
 
     const handleBlur = () => {
         setIsEditing(false);
-        updateTextContent(editableText);
-    };
+        updateTextContent(editableText)
+    }
+
     return (
-        <div ref={ref} onMouseDown={scale === 1 ? handleMouseDown : undefined} style={textBlockStyles} onDoubleClick={handleDoubleClick}>
+        <div ref={ref} onMouseDown={scale === DEFAULT_SCALE ? handleMouseDown : undefined} style={textBlockStyles} onDoubleClick={handleDoubleClick}>
             {isEditing ? (
                 <input
                     value={editableText}
@@ -130,7 +119,7 @@ const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIs
                         right: handle.style.right,
                         top: handle.style.top,
                         left: handle.style.left,
-                    };
+                    }
 
                     return (
                         <div
@@ -142,7 +131,7 @@ const TextObject = ({ text, scale = 1, isSelected, showSelectionBorder, borderIs
                 })}
             </div>
         </div>
-    );
-};
+    )
+}
 
-export { TextObject };
+export { TextObject }

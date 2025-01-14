@@ -109,11 +109,11 @@ a:hover {
 .downloadPreview {
     position: fixed;
     top: 12%;
-    left: 30%;
-    width: 100%;
+    left: 15%;
+    width: 80%;
     max-width: 100vh;
     max-height: 85vh;
-    padding: 15px;
+    padding: 10px;
     background-color: var(--selection);
     border: 2px solid var(--toolbar-background);
     border-radius: 5px;
@@ -128,4 +128,24 @@ a:hover {
     display: flex;
     align-items: center;
     padding: 2px 5px;
+}
+
+@media screen and (min-width: 670px) {
+    .downloadPreview {
+        left: 18%;
+    }  
+}
+
+@media screen and (min-width: 1000px) {
+    .downloadPreview {
+        left: 20%;
+        width: 100%;
+        padding: 15px;
+    }  
+}
+
+@media screen and (min-width: 1200px) {
+    .downloadPreview {
+        left: 30%;
+    }  
 }

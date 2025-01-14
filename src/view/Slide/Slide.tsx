@@ -1,15 +1,11 @@
-import { CSSProperties } from "react";
-import { Component, SlideType } from "../../store/PresentationType";
-import styles from './Slide.module.css';
-import { TextObject } from "./TextObject";
-import { ImageObject } from "./ImageObject";
-import { useAppSelector } from "../hooks/useAppSelector";
-import { useAppActions } from "../hooks/useAppActions";
-
-const SLIDE_WIDTH = 850;
-const SLIDE_HEIGHT = 525;
-const PLAYER_SLIDE_WIDTH = 1112;
-const PLAYER_SLIDE_HEIGHT = 617;
+import { CSSProperties } from "react"
+import { Component, SlideType } from "../../store/PresentationType"
+import styles from './Slide.module.css'
+import { TextObject } from "./TextObject"
+import { ImageObject } from "./ImageObject"
+import { useAppSelector } from "../hooks/useAppSelector"
+import { useAppActions } from "../hooks/useAppActions"
+import { DEFAULT_SCALE, PLAYER_SLIDE_HEIGHT, PLAYER_SLIDE_WIDTH, SLIDE_HEIGHT, SLIDE_WIDTH, UNKNOW_TYPE, WORKSPACE } from "../../consts"
 
 type SlideProps = {
     slide: SlideType,
@@ -20,14 +16,20 @@ type SlideProps = {
     departurePoint: string
 }
 
-function Slide({ slide, scale = 0.9, isSelected, className, showSelectionBorder, departurePoint }: SlideProps) {
-    let borderIsShown = false;
+const Slide = ({ slide, 
+    scale = DEFAULT_SCALE, 
+    isSelected, 
+    className, 
+    showSelectionBorder, 
+    departurePoint }: SlideProps) => {
+
+    let borderIsShown = false
     const selection = useAppSelector((editor => editor.selection))
 
     const { setSelection } = useAppActions()
     function onObjectClick(object: Component): void {
-        object.isSelected = true;
-        const firstSelectedSlideId = selection.slideIds && selection.slideIds.length > 0 ? selection.slideIds[0] : null;
+        object.isSelected = true
+        const firstSelectedSlideId = selection.slideIds && selection.slideIds.length > 0 ? selection.slideIds[0] : null
         if (firstSelectedSlideId !== null) {
             setSelection({
                 slideIds: [firstSelectedSlideId],
@@ -52,9 +54,8 @@ function Slide({ slide, scale = 0.9, isSelected, className, showSelectionBorder,
             ...slideStyles,
             width: `${SLIDE_WIDTH * scale}px`,
             height: `${SLIDE_HEIGHT * scale}px`,
-        };
+        }
     }
-
 
     if (isSelected) {
         slideStyles.border = '3px solid var(--selection)'
@@ -64,8 +65,8 @@ function Slide({ slide, scale = 0.9, isSelected, className, showSelectionBorder,
         slideStyles.border = '3px solid var(--element-hover)'
     }
 
-    if (departurePoint === "WorkSpace") {
-        borderIsShown = true;
+    if (departurePoint === WORKSPACE) {
+        borderIsShown = true
     }
 
     return (
@@ -83,7 +84,7 @@ function Slide({ slide, scale = 0.9, isSelected, className, showSelectionBorder,
                                     borderIsShown={borderIsShown}
                                 />
                             </div>
-                        );
+                        )
                     case "image":
                         return (
                             <div onClick={() => onObjectClick(element)} key={element.id}>
@@ -95,13 +96,13 @@ function Slide({ slide, scale = 0.9, isSelected, className, showSelectionBorder,
                                     borderIsShown={borderIsShown}
                                 />
                             </div>
-                        );
+                        )
                     default:
-                        throw new Error("Unknown type");
+                        throw new Error(UNKNOW_TYPE)
                 }
             })}
         </div>
-    );
+    )
 }
 
 export { Slide }

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import styles from "./MainPage.module.css";
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import styles from "./MainPage.module.css"
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const MainPage: React.FC = () => {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
     return (
         <div className={styles.mainPage}>
             <h1 className={styles.appName}>LUNIKSSS</h1>
@@ -14,7 +13,7 @@ const MainPage: React.FC = () => {
             </div>
             <a className={styles.creatorsLinks} href='https://t.me/+qoBhIkbS_YQ0YjYy'>{t('channelLink')}</a>
         </div>
-    );
-};
+    )
+}
 
-export default MainPage;
+export default MainPage

@@ -1,44 +1,45 @@
-import styles from './ToolBar.module.css';
-import * as React from "react";
-import Theme from "../../components/theme/Theme";
-import { Button } from "../../components/button/Button";
-import { HistoryContext } from '../hooks/historyContext';
-import { useAppActions } from '../hooks/useAppActions';
-import { useAppSelector } from '../hooks/useAppSelector';
-import { Link } from 'react-router';
-import { Preview } from '../Preview/Preview';
-import { useTranslation } from 'react-i18next';
-import Translation from '../../components/translation/Translation';
+import styles from './ToolBar.module.css'
+import { useContext, useEffect, useState } from 'react'
+import Theme from "../../components/theme/Theme"
+import { Button } from "../../components/button/Button"
+import { HistoryContext } from '../hooks/historyContext'
+import { useAppActions } from '../hooks/useAppActions'
+import { useAppSelector } from '../hooks/useAppSelector'
+import { Link } from 'react-router'
+import { Preview } from '../Preview/Preview'
+import { useTranslation } from 'react-i18next'
+import Translation from '../../components/translation/Translation'
+import { ACCESS_KEY, BLACK_COLOR, NETWORK_RESPONSE, PLAYERVIEW_ROUTE, REQUIRED_PARAMETR, WHITE_COLOR } from '../../consts'
 
 interface UnsplashImage {
-    id: string;
+    id: string
     urls: {
-        small: string;
-        full: string;
-    };
-    alt_description: string;
+        small: string
+        full: string
+    }
+    alt_description: string
 }
 
 interface UnsplashResponse {
-    results: UnsplashImage[];
+    results: UnsplashImage[]
 }
 
 function ToolBar() {
-    const { t } = useTranslation();
+    const { t } = useTranslation()
     let title = useAppSelector((editor => editor.presentation.title))
-    const [inputValue, setInputValue] = React.useState(title);
-    const [openMenu, setOpenMenu] = React.useState(null);
-    const [images, setImages] = React.useState<UnsplashImage[]>([]);
-    const [searchTerm, setSearchTerm] = React.useState('');
-    const [fontSize, setFontSize] = React.useState<number | ''>('');
-    const [fontColor, setFontColor] = React.useState<string>('#000000');
+    const [inputValue, setInputValue] = useState(title)
+    const [openMenu, setOpenMenu] = useState(null)
+    const [images, setImages] = useState<UnsplashImage[]>([])
+    const [searchTerm, setSearchTerm] = useState('')
+    const [fontSize, setFontSize] = useState<number | ''>('')
+    const [fontColor, setFontColor] = useState<string>(BLACK_COLOR)
 
-    let gradientColor1 = '#ffffff';
-    let gradientColor2 = '#000000'
+    let gradientColor1 = BLACK_COLOR
+    let gradientColor2 = WHITE_COLOR
 
-    React.useEffect(() => {
-        setInputValue(title);
-    }, [title]);
+    useEffect(() => {
+        setInputValue(title)
+    }, [title])
 
     const { addSlide,
         removeSlide,
@@ -52,12 +53,12 @@ function ToolBar() {
         importData,
         setEditor,
         editTextFontSize,
-        editTextColor } = useAppActions();
-    const history = React.useContext(HistoryContext);
+        editTextColor } = useAppActions()
+    const history = useContext(HistoryContext)
 
     const toggleMenu = (menu: any) => {
-        setOpenMenu(openMenu === menu ? null : menu);
-    };
+        setOpenMenu(openMenu === menu ? null : menu)
+    }
 
     function onUndo() {
         const newEditor = history.undo()
@@ -75,87 +76,87 @@ function ToolBar() {
 
     const onTitleChange: React.ChangeEventHandler = (event) => {
         let newTitle = (event.target as HTMLInputElement).value
-        setInputValue(newTitle);
-        changeTitle(newTitle);
+        setInputValue(newTitle)
+        changeTitle(newTitle)
     }
 
     function onChangeBackgroundColor(selectedColor: string) {
-        changeBackground(selectedColor);
-        hideBackgroundOptions();
+        changeBackground(selectedColor)
+        hideBackgroundOptions()
     }
 
     function onChangeBackgroundImage(event: HTMLInputElement) {
-        const file = event.files?.[0];
+        const file = event.files?.[0]
         if (file) {
-            const reader = new FileReader();
+            const reader = new FileReader()
             reader.onloadend = () => {
                 changeBackground(reader.result as string);
             };
-            reader.readAsDataURL(file);
-            hideBackgroundOptions();
+            reader.readAsDataURL(file)
+            hideBackgroundOptions()
         }
     }
 
     function onChangeBackgroundGradient() {
-        changeBackground(`linear-gradient(${gradientColor1}, ${gradientColor2})`);
-        hideGradientOptions();
-        hideBackgroundOptions();
+        changeBackground(`linear-gradient(${gradientColor1}, ${gradientColor2})`)
+        hideGradientOptions()
+        hideBackgroundOptions()
     }
 
     function hideGradientOptions() {
-        const optionsContainer = document.getElementById('gradient-options');
+        const optionsContainer = document.getElementById('gradient-options')
         if (optionsContainer) {
-            optionsContainer.style.display = 'none';
+            optionsContainer.style.display = 'none'
         }
     }
 
     function hideBackgroundOptions() {
-        const optionsContainer = document.getElementById('background-options');
+        const optionsContainer = document.getElementById('background-options')
         if (optionsContainer) {
-            optionsContainer.style.display = 'none';
+            optionsContainer.style.display = 'none'
         }
     }
 
     function onImageAdd(event: HTMLInputElement) {
-        const file = event.files?.[0];
+        const file = event.files?.[0]
         if (file) {
-            const reader = new FileReader();
+            const reader = new FileReader()
             reader.onloadend = () => {
-                addImageElement(reader.result as string);
+                addImageElement(reader.result as string)
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(file)
         }
     }
 
     const fetchImages = async (query: string) => {
         if (!query) {
-            console.error('Query parameter is required');
-            return;
+            console.error(REQUIRED_PARAMETR)
+            return
         }
 
-        const accessKey = 'J5T8HbG2s9h2Pq050okm_dekP6b0jI_0FdGe3YlHKOU';
-        const response = await fetch(`https://api.unsplash.com/search/photos?query=${query}&client_id=${accessKey}`);
+        const accessKey = ACCESS_KEY;
+        const response = await fetch(`https://api.unsplash.com/search/photos?query=${query}&client_id=${accessKey}`)
 
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error(NETWORK_RESPONSE)
         }
 
-        const data: UnsplashResponse = await response.json();
-        setImages(data.results);
+        const data: UnsplashResponse = await response.json()
+        setImages(data.results)
     };
 
     const handleImageSelect = (url: string) => {
-        addImageElement(url);
-        setOpenMenu(null);
+        addImageElement(url)
+        setOpenMenu(null)
     };
 
     const handleBackgroundImageSelect = (url: string) => {
-        changeBackground(url);
-        setOpenMenu(null);
+        changeBackground(url)
+        setOpenMenu(null)
     };
 
     const onChangeFontSize = (size: number) => {
-        editTextFontSize(size);
+        editTextFontSize(size)
     };
 
     const onChangeTextColor = (color: string) => {
@@ -168,22 +169,22 @@ function ToolBar() {
             const reader = new FileReader();
 
             reader.onload = (e) => {
-                const jsonData = JSON.parse(e.target?.result as string);
-                importData(jsonData);
-            };
+                const jsonData = JSON.parse(e.target?.result as string)
+                importData(jsonData)
+            }
 
-            reader.readAsText(file);
+            reader.readAsText(file)
         }
     }
 
     const handleDownloadPDF = () => {
-        downloadPDF();
+        downloadPDF()
     };
 
     const enterFullScreen = () => {
-        const element = document.documentElement;
+        const element = document.documentElement
         if (element.requestFullscreen) {
-            element.requestFullscreen();
+            element.requestFullscreen()
         }
     };
 
@@ -193,7 +194,9 @@ function ToolBar() {
             <div className={styles.toolButtons}>
                 <Button onClick={onUndo} className="undoButton"></Button>
                 <Button onClick={onRedo} className="redoButton"></Button>
-                <button onClick={enterFullScreen} className={styles.slideShowButton}><Link className="slideShow" to="/player">{t('slideShow')}</Link></button>
+                <button onClick={enterFullScreen} className={styles.slideShowButton}>
+                    <Link className="slideShow" to={PLAYERVIEW_ROUTE}>{t('slideShow')}</Link>
+                </button>
 
                 <Button className="button" text={t('slide')} onClick={() => toggleMenu('slide')}>
                     {openMenu === 'slide' && (
@@ -207,21 +210,21 @@ function ToolBar() {
                     {(openMenu === 'background' || openMenu === 'gradient' || openMenu === 'background-unsplash') && (
                         <div className={styles.submenu} id="background-options">
                             <Button className="button" text={t('color')} onClick={() => {
-                                const colorInput = document.createElement('input');
-                                colorInput.type = 'color';
-                                colorInput.defaultValue = "#888888";
-                                colorInput.onchange = (e) => onChangeBackgroundColor((e.target as HTMLInputElement).value);
-                                colorInput.click();
+                                const colorInput = document.createElement('input')
+                                colorInput.type = 'color'
+                                colorInput.defaultValue = "#888888"
+                                colorInput.onchange = (e) => onChangeBackgroundColor((e.target as HTMLInputElement).value)
+                                colorInput.click()
                             }} />
                             <Button className="button" text={t('computerImage')} onClick={() => {
-                                const fileInput = document.createElement('input');
-                                fileInput.type = 'file';
-                                fileInput.accept = "image/*";
+                                const fileInput = document.createElement('input')
+                                fileInput.type = 'file'
+                                fileInput.accept = "image/*"
                                 fileInput.onchange = (event: Event) => {
-                                    const target = event.target as HTMLInputElement;
-                                    onChangeBackgroundImage(target);
-                                };
-                                fileInput.click();
+                                    const target = event.target as HTMLInputElement
+                                    onChangeBackgroundImage(target)
+                                }
+                                fileInput.click()
                             }} />
                             <Button className="button" text={t('unsplashImage')} onClick={() => toggleMenu('background-unsplash')}>
                                 {openMenu === 'background-unsplash' && (
@@ -241,27 +244,27 @@ function ToolBar() {
                                 {openMenu === 'gradient' && (
                                     <div className={styles.gradientSubmenu}>
                                         <Button className="button" text={t('color1')} onClick={() => {
-                                            const colorInput = document.createElement('input');
-                                            colorInput.type = 'color';
-                                            colorInput.value = gradientColor1;
+                                            const colorInput = document.createElement('input')
+                                            colorInput.type = 'color'
+                                            colorInput.value = gradientColor1
                                             colorInput.onchange = (e) => {
-                                                const selectedColor = (e.target as HTMLInputElement).value;
-                                                gradientColor1 = selectedColor;
-                                            };
-                                            colorInput.click();
+                                                const selectedColor = (e.target as HTMLInputElement).value
+                                                gradientColor1 = selectedColor
+                                            }
+                                            colorInput.click()
                                         }} />
                                         <Button className="button" text={t('color2')} onClick={() => {
-                                            const colorInput = document.createElement('input');
-                                            colorInput.type = 'color';
-                                            colorInput.value = gradientColor2;
+                                            const colorInput = document.createElement('input')
+                                            colorInput.type = 'color'
+                                            colorInput.value = gradientColor2
                                             colorInput.onchange = (e) => {
-                                                const selectedColor = (e.target as HTMLInputElement).value;
-                                                gradientColor2 = selectedColor;
+                                                const selectedColor = (e.target as HTMLInputElement).value
+                                                gradientColor2 = selectedColor
                                             };
-                                            colorInput.click();
+                                            colorInput.click()
                                         }} />
                                         <Button className="acceptButton" text={t('acceptButton')} onClick={() => {
-                                            onChangeBackgroundGradient();
+                                            onChangeBackgroundGradient()
                                         }} />
                                     </div>
                                 )}
@@ -306,14 +309,14 @@ function ToolBar() {
                     {(openMenu === 'image' || openMenu === 'unsplash') && (
                         <div className={styles.submenu}>
                             <Button className="button" text={t('computerImage')} onClick={() => {
-                                const fileInput = document.createElement('input');
-                                fileInput.type = 'file';
-                                fileInput.accept = "image/*";
+                                const fileInput = document.createElement('input')
+                                fileInput.type = 'file'
+                                fileInput.accept = "image/*"
                                 fileInput.onchange = (event: Event) => {
                                     const target = event.target as HTMLInputElement;
-                                    onImageAdd(target);
+                                    onImageAdd(target)
                                 };
-                                fileInput.click();
+                                fileInput.click()
                             }} />
                             <Button className="button" text={t('unsplashImage')} onClick={() => toggleMenu('unsplash')}>
                                 {openMenu === 'unsplash' && (
@@ -338,14 +341,14 @@ function ToolBar() {
                         <div className={styles.submenu}>
                             <Button className="button" text={t('exportData')} onClick={exportData} />
                             <Button className="button" text={t('importData')} onClick={() => {
-                                const fileInput = document.createElement('input');
-                                fileInput.type = 'file';
-                                fileInput.accept = ".json";
+                                const fileInput = document.createElement('input')
+                                fileInput.type = 'file'
+                                fileInput.accept = ".json"
                                 fileInput.onchange = (event: Event) => {
                                     const target = event.target as HTMLInputElement;
-                                    uploadData(target);
+                                    uploadData(target)
                                 };
-                                fileInput.click();
+                                fileInput.click()
                             }} />
                             <Button className="button" text={t('downloadPDF')} onClick={() => toggleMenu('preview')} />
                         </div>
@@ -365,7 +368,7 @@ function ToolBar() {
                 </div>
             )}
         </div>
-    );
-};
+    )
+}
 
-export { ToolBar };
+export { ToolBar }
