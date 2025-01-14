@@ -1,4 +1,4 @@
-import style from './Button.module.css';
+import style from './Button.module.css'
 
 type ButtonProps = {
     text?: string,
@@ -7,7 +7,7 @@ type ButtonProps = {
     children?: React.ReactNode,
 }
 
-function Button({ text, onClick, className, children }: ButtonProps) {
+const Button = ({ text, onClick, className, children }: ButtonProps) => {
     return (
         <div className={style.toolBarBlock}>
             <button className={style[className]} onClick={onClick}>
@@ -15,7 +15,7 @@ function Button({ text, onClick, className, children }: ButtonProps) {
             </button>
             {children}
         </div>
-    );
+    )
 }
 
-export { Button };
+export { Button }

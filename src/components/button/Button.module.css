@@ -8,10 +8,10 @@
 
 .button {
     position: relative;
-    margin: 0 5px;
+    margin: 0 3px;
     padding: 0 5px;
     font-family: Rubik;
-    font-size: 14px;
+    font-size: 10px;
     color: var(--text-color);
     background: none;
     border: none;
@@ -35,16 +35,16 @@
 }
 
 .undoButton {
-    width: 25px;
-    height: 25px;
+    width: 15px;
+    height: 15px;
     border-radius: 15%;
     background-image: url('/public/assets/undo.svg');
     background-size: cover;
 }
 
 .redoButton {
-    width: 25px;
-    height: 25px;
+    width: 15px;
+    height: 15px;
     border-radius: 15%;
     background-image: url('/public/assets/redo.svg');
     background-size: cover;
@@ -52,10 +52,10 @@
 
 .acceptButton {
     position: relative;
-    margin: 0 10px;
+    margin: 0 5px;
     padding: 0 5px;
     font-family: Rubik;
-    font-size: 14px;
+    font-size: 10px;
     color: var(--text-color);
     background-color: darkolivegreen;
     border: none;
@@ -65,4 +65,38 @@
 .acceptButton:hover {
     background-color: chartreuse;
     color: black;
+}
+
+@media screen and (min-width: 820px) {
+    .button {
+        margin: 0 5px;
+        padding: 0 5px;
+        font-size: 14px;
+        border-radius: 3px;
+    }
+
+    .additionalButton {
+        padding: 0 5px;
+        font-size: 14px;
+        border-radius: 3px;
+    }
+    
+    .undoButton {
+        width: 25px;
+        height: 25px;
+        border-radius: 15%;
+    }
+    
+    .redoButton {
+        width: 25px;
+        height: 25px;
+        border-radius: 15%;
+    }
+    
+    .acceptButton {
+        margin: 0 10px;
+        padding: 0 5px;
+        font-size: 14px;
+        border-radius: 3px;
+    }
 }

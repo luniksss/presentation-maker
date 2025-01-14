@@ -4,7 +4,7 @@ import { useDragAndDrop } from "../hooks/useDragAndDrop"
 import { useResize } from "../hooks/useResize"
 import { useAppSelector } from "../hooks/useAppSelector"
 import { useAppActions } from "../hooks/useAppActions"
-import { DEFAULT_SCALE, DELETE, KEYDOWN_KEY } from "../../consts"
+import { DEFAULT_SCALE, DELETE, KEYDOWN_KEY, MIN_WIDTH_SCALE } from "../../consts"
 
 type TextProps = {
     text: TextElement,
@@ -99,7 +99,7 @@ const TextObject = ({ text, scale = DEFAULT_SCALE, isSelected, showSelectionBord
     }
 
     return (
-        <div ref={ref} onMouseDown={scale === DEFAULT_SCALE ? handleMouseDown : undefined} style={textBlockStyles} onDoubleClick={handleDoubleClick}>
+        <div ref={ref} onMouseDown={scale >= MIN_WIDTH_SCALE ? handleMouseDown : undefined} style={textBlockStyles} onDoubleClick={handleDoubleClick}>
             {isEditing ? (
                 <input
                     value={editableText}

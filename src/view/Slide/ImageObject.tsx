@@ -4,7 +4,7 @@ import { useDragAndDrop } from "../hooks/useDragAndDrop"
 import { useResize } from "../hooks/useResize"
 import { useAppSelector } from "../hooks/useAppSelector"
 import { useAppActions } from "../hooks/useAppActions"
-import { DEFAULT_SCALE, DELETE, KEYDOWN_KEY } from "../../consts"
+import { DEFAULT_SCALE, DELETE, KEYDOWN_KEY, MIN_WIDTH_SCALE } from "../../consts"
 
 type ImageProps = {
     image: ImageElement,
@@ -80,8 +80,8 @@ const ImageObject = ({ image, scale = DEFAULT_SCALE, isSelected, showSelectionBo
     }
 
     return (
-        <div ref={ref} onMouseDown={scale === DEFAULT_SCALE ? handleMouseDown : undefined} style={imageBlockStyles}>
-            <img style={imageStyles} key={image.id} src={image.src} alt="slide picture" draggable="true"></img>
+        <div ref={ref} onMouseDown={scale >= MIN_WIDTH_SCALE ? handleMouseDown : undefined} style={imageBlockStyles}>
+            <img style={imageStyles} key={image.id} src={image.src} alt="picture" draggable="true"></img>
             <div>
                 {isSelected && borderIsShown && resizeHandles.map(handle => {
                     const handleStyle: CSSProperties = {

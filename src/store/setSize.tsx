@@ -1,13 +1,13 @@
-import { Editor } from "./EditorType";
-import { Size } from "./PresentationType";
+import { Editor } from "./EditorType"
+import { Size } from "./PresentationType"
 
 const setSize = (editor: Editor, newSize: Size): Editor => {
     if (!editor.selection) {
-        return editor;        
+        return editor     
     }
     
-    const slideId = editor.selection.slideIds?.[0];
-    const elementId = editor.selection.elementId;
+    const slideId = editor.selection.slideIds?.[0]
+    const elementId = editor.selection.elementId
 
     const newSlides = editor.presentation.slides.map(slide => {
         if (slide.id === slideId) {
@@ -20,12 +20,12 @@ const setSize = (editor: Editor, newSize: Size): Editor => {
                             size: newSize
                         };
                     }
-                    return element;
+                    return element
                 }),
-            };
+            }
         }
-        return slide;
-    });
+        return slide
+    })
 
     return {
         ...editor,

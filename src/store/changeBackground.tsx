@@ -1,9 +1,9 @@
-import { Editor } from "./EditorType";
+import { Editor } from "./EditorType"
 
 function changeBackground(editor: Editor, newBackground: string): Editor {
-    const selectedSlideId = editor.selection.slideIds?.[0];
+    const selectedSlideId = editor.selection.slideIds?.[0]
     if (!selectedSlideId) {
-        return editor;
+        return editor
     }
     const selectedSlideIndex = editor.presentation.slides.findIndex(slide => slide.id === selectedSlideId)    
     const updatedSlides = editor.presentation.slides.map((slide, index) => {
@@ -11,9 +11,9 @@ function changeBackground(editor: Editor, newBackground: string): Editor {
             return {
                 ...slide,
                 background: newBackground
-            };
+            }
         }
-        return slide;
+        return slide
     });
 
     return {
@@ -22,7 +22,7 @@ function changeBackground(editor: Editor, newBackground: string): Editor {
             ...editor.presentation,
             slides: updatedSlides
         }
-    };
+    }
 }
  
 export { changeBackground }

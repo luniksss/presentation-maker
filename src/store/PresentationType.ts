@@ -62,4 +62,4 @@ type Presentation = {
     slides: SlideType[]
 }
 
-export type { Presentation, SlideType, Component, TextElement, ImageElement, Position, Size, UpdateSize, ResizeHandle };
+export type { Presentation, SlideType, Component, TextElement, ImageElement, Position, Size, UpdateSize, ResizeHandle }

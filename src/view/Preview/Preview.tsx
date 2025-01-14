@@ -31,14 +31,19 @@ const Preview = () => {
                     <p>{t('emptySlideList')}</p>
                 ) : (
                     slides.map((slide, index) => (
-                        <Slide
-                            slide={slide}
-                            scale={scale}
-                            isSelected={slide.id === selection.slideIds?.[0]}
-                            className={styles.slideListItem}
-                            showSelectionBorder={false}
-                            departurePoint={SLIDELIST}
-                        />
+                        <ul
+                            key={slide.id}
+                            id={slide.id}
+                        >
+                            <Slide
+                                slide={slide}
+                                scale={scale}
+                                isSelected={slide.id === selection.slideIds?.[0]}
+                                className={styles.slideListItem}
+                                showSelectionBorder={false}
+                                departurePoint={SLIDELIST}
+                            />
+                        </ul>
                     ))
                 )}
             </div>

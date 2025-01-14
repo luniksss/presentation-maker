@@ -1,5 +1,5 @@
 import { Editor } from "./EditorType"
-import { SlideType } from "./PresentationType";
+import { SlideType } from "./PresentationType"
 
 function setSlides(editor: Editor, newSlides: SlideType[]): Editor {
     return {
@@ -8,7 +8,7 @@ function setSlides(editor: Editor, newSlides: SlideType[]): Editor {
             ...editor.presentation,
             slides: newSlides
         },
-    };
+    }
 }
 
 export { setSlides }

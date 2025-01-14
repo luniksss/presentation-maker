@@ -1,6 +1,7 @@
-import { generateRandomId } from "./data";
-import { Editor } from "./EditorType";
-import { ImageElement } from "./PresentationType";
+import { DEFAULT_SCALE } from "../consts"
+import { generateRandomId } from "./data"
+import { Editor } from "./EditorType"
+import { ImageElement } from "./PresentationType"
 
 function addImageElement(editor: Editor, newImage: string): Editor {
     const newElement: ImageElement = {
@@ -12,9 +13,9 @@ function addImageElement(editor: Editor, newImage: string): Editor {
         src: newImage
     }
 
-    const selectedSlideId = editor.selection.slideIds?.[0];
+    const selectedSlideId = editor.selection.slideIds?.[0]
     if (!selectedSlideId) {
-        return editor;
+        return editor
     }
 
     const selectedSlideIndex = editor.presentation.slides.findIndex(slide => slide.id === selectedSlideId)
@@ -28,7 +29,7 @@ function addImageElement(editor: Editor, newImage: string): Editor {
             slides: [
                 ...editor.presentation.slides.slice(0, selectedSlideIndex),
                 { ...currentSlide, elements: newElements },
-                ...editor.presentation.slides.slice(selectedSlideIndex + 1)
+                ...editor.presentation.slides.slice(selectedSlideIndex + DEFAULT_SCALE)
             ]
         },
         selection: {

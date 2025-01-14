@@ -1,12 +1,12 @@
-import { Editor } from "./EditorType";
+import { Editor } from "./EditorType"
 
 const updateTextContent = (editor: Editor, newContent: string): Editor => {
     if (!editor.selection) {
-        return editor;        
+        return editor     
     }
     
-    const slideId = editor.selection.slideIds?.[0];
-    const elementId = editor.selection.elementId;
+    const slideId = editor.selection.slideIds?.[0]
+    const elementId = editor.selection.elementId
 
     const newSlides = editor.presentation.slides.map(slide => {
         if (slide.id === slideId) {
@@ -19,12 +19,12 @@ const updateTextContent = (editor: Editor, newContent: string): Editor => {
                             content: newContent
                         };
                     }
-                    return element;
+                    return element
                 }),
-            };
+            }
         }
-        return slide;
-    });
+        return slide
+    })
 
     return {
         ...editor,

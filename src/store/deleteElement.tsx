@@ -1,20 +1,20 @@
-import { Editor } from "./EditorType";
+import { Editor } from "./EditorType"
 
 function deleteElement(editor: Editor): Editor {
     if (!editor.selection) {
         return editor        
     }
 
-    const selectedSlideId = editor.selection.slideIds?.[0];
+    const selectedSlideId = editor.selection.slideIds?.[0]
     if (!selectedSlideId) {
-        return editor;
+        return editor
     }
 
-    const removedObjectId = editor.selection.elementId;
-    const selectedSlide = editor.presentation.slides.find(slide => slide.id === selectedSlideId);
+    const removedObjectId = editor.selection.elementId
+    const selectedSlide = editor.presentation.slides.find(slide => slide.id === selectedSlideId)
 
     const newElements = selectedSlide?.elements.filter(slide => slide.id !== removedObjectId) || []
-    let newSelectedObjectId = null;
+    let newSelectedObjectId = null
 
     return {
         ...editor,
@@ -31,7 +31,7 @@ function deleteElement(editor: Editor): Editor {
             slideIds: [selectedSlideId],
             elementId: newSelectedObjectId
         },
-    };
+    }
 }
 
 export { deleteElement }

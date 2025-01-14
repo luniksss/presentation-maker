@@ -1,17 +1,17 @@
-import { Editor } from "./EditorType";
-import { Presentation, SlideType } from "./PresentationType";
-import LZString from "lz-string";
+import { Editor } from "./EditorType"
+import { Presentation, SlideType } from "./PresentationType"
+import LZString from "lz-string"
 
 function generateRandomId(length: number = 8): string { 
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'; 
-    let result = ''; 
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    let result = ''
  
     for (let i = 0; i < length; i++) { 
-        const randomIndex = Math.floor(Math.random() * characters.length); 
-        result += characters[randomIndex]; 
+        const randomIndex = Math.floor(Math.random() * characters.length) 
+        result += characters[randomIndex]
     } 
  
-    return result; 
+    return result
 }
 
 let startSlide: SlideType = {
@@ -25,7 +25,7 @@ const defaultPresentation: Presentation = {
     slides: [
         startSlide,
     ]
-};
+}
 
 const schema = {
     type: "object",
@@ -96,30 +96,30 @@ const schema = {
     },
     required: ["presentation", "selection"],
     additionalProperties: false
-};
-
-function loadFromLocalStorage(): Editor | null {
-    const savedData = localStorage.getItem('presentationData');
-    if (savedData) {
-        const decompressedData = LZString.decompress(savedData);
-        return JSON.parse(decompressedData);
-    }
-    return null;
 }
 
-const savedEditorData = loadFromLocalStorage();
+function loadFromLocalStorage(): Editor | null {
+    const savedData = localStorage.getItem('presentationData')
+    if (savedData) {
+        const decompressedData = LZString.decompress(savedData)
+        return JSON.parse(decompressedData)
+    }
+    return null
+}
+
+const savedEditorData = loadFromLocalStorage()
 let startPresentation: Editor = {
     presentation: defaultPresentation,
     selection: {
         slideIds: [defaultPresentation.slides[0].id],
         elementId: null
     }
-};
+}
 if (savedEditorData !== null) {
-    startPresentation = savedEditorData;
+    startPresentation = savedEditorData
 }
 
-const editor = { editorData: startPresentation };
+const editor = { editorData: startPresentation }
 const handler = {}
 
 export { editor, handler, schema, defaultPresentation, startPresentation, startSlide, generateRandomId }

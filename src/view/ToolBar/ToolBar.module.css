@@ -114,7 +114,7 @@ a:hover {
     max-width: 100vh;
     max-height: 85vh;
     padding: 10px;
-    background-color: var(--selection);
+    background-color: var(--element-hover);
     border: 2px solid var(--toolbar-background);
     border-radius: 5px;
     overflow: auto;

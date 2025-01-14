@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Button } from '../button/Button';
-import { useTranslation } from 'react-i18next';
+import { useState } from 'react'
+import { Button } from '../button/Button'
+import { useTranslation } from 'react-i18next'
 import styles from "./Translation.module.css"
 
 const Translation: React.FC = () => {
-    const { t, i18n } = useTranslation();
-    const [isOpen, setIsOpen] = useState(false);
+    const { t, i18n } = useTranslation()
+    const [isOpen, setIsOpen] = useState(false)
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -13,12 +13,12 @@ const Translation: React.FC = () => {
 
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
-        setIsOpen(false);
+        setIsOpen(false)
 
         if (lng === 'ar') {
-            document.body.setAttribute('dir', 'rtl');
+            document.body.setAttribute('dir', 'rtl')
         } else {
-            document.body.setAttribute('dir', 'ltr');
+            document.body.setAttribute('dir', 'ltr')
         }
     };
 
@@ -34,7 +34,7 @@ const Translation: React.FC = () => {
                 </div>
             )}
         </div>
-    );
-};
+    )
+}
 
-export default Translation;
+export default Translation

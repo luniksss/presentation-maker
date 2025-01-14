@@ -1,5 +1,5 @@
-import { Editor } from "./EditorType";
-import { parsingEditor } from "./parsingEditor";
+import { Editor } from "./EditorType"
+import { parsingEditor } from "./parsingEditor"
 
 function importPresentationData(editor: Editor, inputEditor: object): Editor
 {

@@ -1,4 +1,4 @@
-import { ActionType } from "./actions";
+import { ActionType } from "./actions"
 
 function editTextFontSize(newSize: number) {
     return {

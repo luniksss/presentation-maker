@@ -1,5 +1,5 @@
-import { Editor } from "../EditorType";
-import { ActionType } from "./actions";
+import { Editor } from "../EditorType"
+import { ActionType } from "./actions"
 
 function setEditor(newEditor: Editor) {
     return {
@@ -14,7 +14,7 @@ function updateEditor(newEditor: Editor)
         type: ActionType.UPDATE_EDITOR,
         payload: newEditor,
     };
-};
+}
 
 export {
     setEditor, updateEditor

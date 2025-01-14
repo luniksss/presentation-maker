@@ -1,23 +1,23 @@
-import { Editor } from "../EditorType";
-import { setSelection } from "../setSelection";
-import { ActionType, EditorAction, PresentationAction, TextElementAction } from "./actions";
-import { startPresentation } from "../data";
-import { removeSlide } from "../removeSlide";
-import { addSlide } from "../addSlide";
-import { addTextElement } from "../addTextElement";
-import { addImageElement } from "../addImageElement";
-import { renamePresentation } from "../renamePresentation";
-import { deleteElement } from "../deleteElement";
-import { changeBackground } from "../changeBackground";
-import { exportPresentationData } from "../exportPresentationData";
-import { importPresentationData } from "../importPresentationData";
-import { exportPresentation } from "../downloadPDF";
-import { setSlides } from "../setSlides";
-import { editTextFontSize } from "../editTextFontSize";
-import { editTextColor } from "../editTextColor";
-import { setPosition } from "../setPosition";
-import { setSize } from "../setSize";
-import { updateTextContent } from "../updateTextContent";
+import { Editor } from "../EditorType"
+import { setSelection } from "../setSelection"
+import { ActionType, EditorAction, PresentationAction, TextElementAction } from "./actions"
+import { startPresentation } from "../data"
+import { removeSlide } from "../removeSlide"
+import { addSlide } from "../addSlide"
+import { addTextElement } from "../addTextElement"
+import { addImageElement } from "../addImageElement"
+import { renamePresentation } from "../renamePresentation"
+import { deleteElement } from "../deleteElement"
+import { changeBackground } from "../changeBackground"
+import { exportPresentationData } from "../exportPresentationData"
+import { importPresentationData } from "../importPresentationData"
+import { exportPresentation } from "../downloadPDF"
+import { setSlides } from "../setSlides"
+import { editTextFontSize } from "../editTextFontSize"
+import { editTextColor } from "../editTextColor"
+import { setPosition } from "../setPosition"
+import { setSize } from "../setSize"
+import { updateTextContent } from "../updateTextContent"
 
 function editorReducer(editor: Editor = startPresentation, action: EditorAction | PresentationAction | TextElementAction): Editor {
     switch (action.type) {

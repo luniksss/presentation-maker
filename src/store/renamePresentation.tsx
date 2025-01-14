@@ -1,4 +1,4 @@
-import { Editor } from "./EditorType";
+import { Editor } from "./EditorType"
 
 function renamePresentation(editor: Editor, newTitle: string): Editor {
     return {
@@ -10,4 +10,4 @@ function renamePresentation(editor: Editor, newTitle: string): Editor {
     }
 }
 
-export { renamePresentation, }
+export { renamePresentation }

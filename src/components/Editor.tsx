@@ -1,8 +1,8 @@
-import React from 'react';
-import styles from '../App.module.css';
-import { ToolBar } from '../view/ToolBar/ToolBar';
-import { SlideList } from '../view/SlideList/SlideList';
-import { WorkSpace } from '../view/WorkSpace/WorkSpace';
+import React from 'react'
+import styles from '../App.module.css'
+import { ToolBar } from '../view/ToolBar/ToolBar'
+import { SlideList } from '../view/SlideList/SlideList'
+import { WorkSpace } from '../view/WorkSpace/WorkSpace'
 
 const EditorView: React.FC = () => {
     return (
@@ -14,6 +14,6 @@ const EditorView: React.FC = () => {
             </div>
         </>
     );
-};
+}
 
-export default EditorView;
+export default EditorView

@@ -1,6 +1,7 @@
-import { Editor } from "./EditorType";
-import { generateRandomId } from "./data";
-import { TextElement } from "./PresentationType";
+import { Editor } from "./EditorType"
+import { generateRandomId } from "./data"
+import { TextElement } from "./PresentationType"
+import { BLACK_COLOR, DEFAULT_FONTCONTENT, DEFAULT_FONTFAMILY, DEFAULT_FONTSIZE, DEFAULT_SCALE } from "../consts";
 
 function addTextElement(editor: Editor): Editor {
     const newElement : TextElement = {
@@ -9,15 +10,15 @@ function addTextElement(editor: Editor): Editor {
         position: {x: 10, y: 10}, 
         isSelected: true,
         type: 'text', 
-        content: "Your text", 
-        fontSize: 14, 
-        fontFamily: "Times New Roman",
-        color: "#000000"
+        content: DEFAULT_FONTCONTENT, 
+        fontSize: DEFAULT_FONTSIZE, 
+        fontFamily: DEFAULT_FONTFAMILY,
+        color: BLACK_COLOR
     }
 
-    const selectedSlideId = editor.selection.slideIds?.[0];
+    const selectedSlideId = editor.selection.slideIds?.[0]
     if (!selectedSlideId) {
-        return editor;
+        return editor
     }
 
     const selectedSlideIndex = editor.presentation.slides.findIndex(slide => slide.id === selectedSlideId)
@@ -31,7 +32,7 @@ function addTextElement(editor: Editor): Editor {
             slides: [
                 ...editor.presentation.slides.slice(0, selectedSlideIndex),
                 { ...currentSlide, elements: newElements },
-                ...editor.presentation.slides.slice(selectedSlideIndex + 1)
+                ...editor.presentation.slides.slice(selectedSlideIndex + DEFAULT_SCALE)
             ]
         },
         selection: {

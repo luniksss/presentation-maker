@@ -1,6 +1,6 @@
-import { Selection } from "../EditorType";
-import { Position, Size } from "../PresentationType";
-import { ActionType } from "./actions";
+import { Selection } from "../EditorType"
+import { Position, Size } from "../PresentationType"
+import { ActionType } from "./actions"
 
 function setSelection(newSelection: Selection) {
     return {

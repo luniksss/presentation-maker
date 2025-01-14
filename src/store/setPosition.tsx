@@ -1,13 +1,13 @@
-import { Editor } from "./EditorType";
-import { Position } from "./PresentationType";
+import { Editor } from "./EditorType"
+import { Position } from "./PresentationType"
 
 function setPosition(editor: Editor, newPosition: Position) {
     if (!editor.selection) {
-        return editor;        
+        return editor        
     }
     
-    const slideId = editor.selection.slideIds?.[0];
-    const elementId = editor.selection.elementId;
+    const slideId = editor.selection.slideIds?.[0]
+    const elementId = editor.selection.elementId
 
     const newSlides = editor.presentation.slides.map(slide => {
         if (slide.id === slideId) {
@@ -15,13 +15,13 @@ function setPosition(editor: Editor, newPosition: Position) {
                 ...slide,
                 elements: slide.elements.map(element => {
                     if (element.id === elementId) {
-                        return { ...element, position: newPosition };
+                        return { ...element, position: newPosition }
                     }
-                    return element;
+                    return element
                 })
-            };
+            }
         }
-        return slide;
+        return slide
     })
 
     return {
@@ -30,7 +30,7 @@ function setPosition(editor: Editor, newPosition: Position) {
             ...editor.presentation,
             slides: newSlides,
         }
-    };
+    }
 }
 
-export { setPosition };
+export { setPosition }
