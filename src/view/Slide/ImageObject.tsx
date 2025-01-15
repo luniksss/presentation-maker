@@ -59,7 +59,7 @@ const ImageObject = ({ image, scale = DEFAULT_SCALE, isSelected, showSelectionBo
     const imageBlockStyles: CSSProperties = useMemo(() => ({
         width: `${sizeElement.width * scale}px`,
         height: `${sizeElement.height * scale}px`,
-        position: "relative",
+        position: "absolute",
         top: `${localPosition.y * scale}px`,
         left: `${localPosition.x * scale}px`,
     }), [scale, localPosition, sizeElement])
