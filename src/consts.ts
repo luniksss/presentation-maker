@@ -48,7 +48,7 @@ const RESIZE_SCALE = "resize"
 const MIN_SIZE = 50
 
 const DEFAULT_FONTFAMILY = "Times New Roman"
-const DEFAULT_FONTSIZE = 18
+const DEFAULT_FONTSIZE = 20
 const DEFAULT_FONTCONTENT = "Your text"
 
 export { 

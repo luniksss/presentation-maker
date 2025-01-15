@@ -1,3 +1,4 @@
+import { WHITE_COLOR } from "../consts"
 import { Editor } from "./EditorType"
 import { Presentation, SlideType } from "./PresentationType"
 import LZString from "lz-string"
@@ -16,7 +17,7 @@ function generateRandomId(length: number = 8): string {
 
 let startSlide: SlideType = {
     id: generateRandomId(),
-    background: "#fff",
+    background: WHITE_COLOR,
     elements: [ ]
 }
 
