@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Slide } from '../view/Slide/Slide'
 import { useAppSelector } from '../view/hooks/useAppSelector'
 import { useTranslation } from 'react-i18next'
-import { ARROW_LEFT_KEY, ARROW_RIGHT_KEY, DEFAULT_SCALE, EDITOR_ROUTE, ESCAPE_KEY, KEYDOWN_KEY, SLIDELIST } from '../consts'
+import { ARROW_LEFT_KEY, ARROW_RIGHT_KEY, DEFAULT_SCALE, EDITOR_ROUTE, ESCAPE_KEY, FULLSCREEN, KEYDOWN_KEY, SLIDELIST } from '../consts'
 
 const PlayerView: React.FC = () => {
     const { t } = useTranslation()
@@ -28,7 +28,7 @@ const PlayerView: React.FC = () => {
     const exitFullScreen = () => {
         if (document.fullscreenElement) {
             document.exitFullscreen().catch(err => {
-                console.error("Error exiting full screen:", err);
+                console.error(err);
             })
         }
     }
@@ -49,10 +49,10 @@ const PlayerView: React.FC = () => {
 
     useEffect(() => {
         window.addEventListener(KEYDOWN_KEY, handleKeyDown)
-        document.addEventListener('fullscreenchange', handleFullScreenChange)
+        document.addEventListener(FULLSCREEN, handleFullScreenChange)
         return () => {
             window.removeEventListener(KEYDOWN_KEY, handleKeyDown)
-            document.removeEventListener('fullscreenchange', handleFullScreenChange)
+            document.removeEventListener(FULLSCREEN, handleFullScreenChange)
         }
     }, [currentSlideIndex, navigate])
 
