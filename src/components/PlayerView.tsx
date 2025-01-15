@@ -38,15 +38,21 @@ const PlayerView: React.FC = () => {
             goToNextSlide();
         } else if (event.key === ARROW_LEFT_KEY) {
             goToPreviousSlide();
-        } else if (event.key === ESCAPE_KEY) {
-            navigate(EDITOR_ROUTE);
         }
     }
 
+    const handleFullScreenChange = () => {
+        if (!document.fullscreenElement) {
+            navigate(EDITOR_ROUTE);
+        }
+    };
+
     useEffect(() => {
         window.addEventListener(KEYDOWN_KEY, handleKeyDown)
+        document.addEventListener('fullscreenchange', handleFullScreenChange)
         return () => {
             window.removeEventListener(KEYDOWN_KEY, handleKeyDown)
+            document.removeEventListener('fullscreenchange', handleFullScreenChange)
         }
     }, [currentSlideIndex, navigate])
 

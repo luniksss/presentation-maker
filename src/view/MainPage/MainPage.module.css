@@ -23,6 +23,7 @@
 }
 
 .appName {
+    margin-top: 40px;
     font-family: "Unbounded";
     font-size: 64px;
     background: linear-gradient(90deg, var(--selection), var(--text-color), var(--selection));
@@ -34,9 +35,28 @@
     transform: translate3d(0, 0, 0);
 }
 
+.appDescription {
+    margin-bottom: 40px;
+    font-family: "Unbounded";
+    font-size: 24px;
+    background: linear-gradient(90deg, var(--selection), var(--text-color), var(--selection));
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: wave 5s ease infinite;
+    transform: translate3d(0, 0, 0);
+    opacity: 0.5;
+}
+
 .appOptions {
     display: flex;
     margin: 40px;
+}
+
+.appLinks {
+    font-family: "Unbounded";
+    font-size: 20px;
 }
 
 .creatorsLinks {

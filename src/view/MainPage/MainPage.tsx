@@ -7,9 +7,10 @@ const MainPage: React.FC = () => {
     return (
         <div className={styles.mainPage}>
             <h1 className={styles.appName}>LUNIKSSS</h1>
+            <p className={styles.appDescription}>presentation maker</p>
             <div className={styles.appOptions}>
-                <Link to="/editor">{t('createNewPresentation')}</Link>
-                <Link to="/editor">{t('continueRecentPresentation')}</Link>
+                <Link className={styles.appLinks} to="/editor">{t('createNewPresentation')}</Link>
+                <Link className={styles.appLinks} to="/editor">{t('continueRecentPresentation')}</Link>
             </div>
             <a className={styles.creatorsLinks} href='https://t.me/+qoBhIkbS_YQ0YjYy'>{t('channelLink')}</a>
         </div>
